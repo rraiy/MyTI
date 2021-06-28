@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import LOGO from '../../../images/team_logo/LGDM.png';
+import LOGO from '../../../images/team_logo/LGD.png';
 import Elephant from '../../../images/team_logo/Elephant_M.png'
 
 const Wrap = styled.div`
     width:100%;
     color:#fff;
     margin-top:100px;
+    margin-bottom: 100px;
     font-size:24px;
 `
 
@@ -18,6 +19,7 @@ const BattleDiv = styled.div`
     justify-content:space-around;
     align-items:center;
     margin-bottom:100px;
+    
 
 `
 const TeamDiv = styled.div`

@@ -26,11 +26,11 @@ module.exports = {
                 }
             },
             {
-            test: /\.(jpg|JPG|jpeg|png|gif|mp3|svg|ttf|woff2|woff|eot)$/gi,
+            test: /\.(gif|svg|jpg|png)$/,
             use:{
                     loader: 'url-loader',
                     options: {
-                        // limit: 25000,
+                        limit:false,
                     },
                 },
             
