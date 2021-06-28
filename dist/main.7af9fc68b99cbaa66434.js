@@ -24451,9 +24451,9 @@ var App = function App() {
 
 /***/ }),
 
-/***/ "./src/database/firestore.js":
+/***/ "./src/firebase/firestore.js":
 /*!***********************************!*\
-  !*** ./src/database/firestore.js ***!
+  !*** ./src/firebase/firestore.js ***!
   \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -24644,51 +24644,106 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
-Object(function webpackMissingModule() { var e = new Error("Cannot find module '../../../images/icon/send/.png'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+/* harmony import */ var _images_icon_send_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../images/icon/send.png */ "./src/images/icon/send.png");
+/* harmony import */ var _firebase_firestore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../firebase/firestore */ "./src/firebase/firestore.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var LiveChatWrap = styled_components__WEBPACK_IMPORTED_MODULE_2__.default.div.withConfig({
+
+
+var LiveChatWrap = styled_components__WEBPACK_IMPORTED_MODULE_3__.default.div.withConfig({
   displayName: "LiveChat__LiveChatWrap",
   componentId: "r1dnap-0"
 })(["display:flex;width:1200px;height:460px;justify-content:space-around;color:#fff;"]);
-var StreamDiv = styled_components__WEBPACK_IMPORTED_MODULE_2__.default.div.withConfig({
+var StreamDiv = styled_components__WEBPACK_IMPORTED_MODULE_3__.default.div.withConfig({
   displayName: "LiveChat__StreamDiv",
   componentId: "r1dnap-1"
 })(["width:840px;border:1px solid yellow;"]);
-var ChatDiv = styled_components__WEBPACK_IMPORTED_MODULE_2__.default.div.withConfig({
+var ChatDiv = styled_components__WEBPACK_IMPORTED_MODULE_3__.default.div.withConfig({
   displayName: "LiveChat__ChatDiv",
   componentId: "r1dnap-2"
 })(["width:340px;border:4px solid #5C2088;"]);
-var ChatTitle = styled_components__WEBPACK_IMPORTED_MODULE_2__.default.div.withConfig({
+var ChatTitle = styled_components__WEBPACK_IMPORTED_MODULE_3__.default.div.withConfig({
   displayName: "LiveChat__ChatTitle",
   componentId: "r1dnap-3"
 })(["background:#5c2088;height:48px;text-align:center;vertical-align:middle;line-height:48px;color:rgb(173,173,173)"]);
-var ChatSpace = styled_components__WEBPACK_IMPORTED_MODULE_2__.default.div.withConfig({
+var ChatSpace = styled_components__WEBPACK_IMPORTED_MODULE_3__.default.div.withConfig({
   displayName: "LiveChat__ChatSpace",
   componentId: "r1dnap-4"
 })(["background:rgb(38,4,64);height:320px;border-bottom:4px solid #5C2088;padding:8px;"]);
-var ChatType = styled_components__WEBPACK_IMPORTED_MODULE_2__.default.div.withConfig({
+var ChatType = styled_components__WEBPACK_IMPORTED_MODULE_3__.default.div.withConfig({
   displayName: "LiveChat__ChatType",
   componentId: "r1dnap-5"
-})(["padding:8px;p{margin-bottom:8px;}"]); // const TeamLogo = styled.img`
+})(["padding:8px;p{margin-bottom:8px;};img{width:20px;}"]); // const TeamLogo = styled.img`
 //     width:40px;
 //     margin-right:8px;
 // `
 
-var ChatInput = styled_components__WEBPACK_IMPORTED_MODULE_2__.default.input.withConfig({
+var ChatInput = styled_components__WEBPACK_IMPORTED_MODULE_3__.default.input.withConfig({
   displayName: "LiveChat__ChatInput",
   componentId: "r1dnap-6"
-})(["width:250px;height:40px;outline:0;border-width:0 0 2px;background:rgba(1,1,1,0);color:#fff;:focus{border:1px solid #A849ED;}"]);
+})(["width:250px;height:40px;margin-right:20px;outline:0;border-width:0 0 2px;background:rgba(1,1,1,0);color:#fff;:focus{border:1px solid #A849ED;}"]);
 
 var LiveChat = function LiveChat() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(LiveChatWrap, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(StreamDiv, null, "Stream"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ChatDiv, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ChatTitle, null, "Chat room"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ChatSpace, null, "messssss"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ChatType, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Username"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ChatInput, {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      allMessages = _useState2[0],
+      setAllMessages = _useState2[1];
+  /* allMessage = {
+      text:'',
+      username:'',
+      key:timestamp+uid
+      team:''
+  } */
+
+
+  var chat_user = document.getElementById('chat_user');
+  var chat_input = document.getElementById('chat_input');
+  var send_btn = document.getElementById('send_btn');
+  var board = document.getElementById('showMessage'); // show first entry message board
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var texts = [];
+    _firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.default.collection('chat_room/WePlay_0614_PSGLGD/messages').get().then(function (res) {
+      res.forEach(function (message) {
+        texts.push({
+          username: message.data().username,
+          text: message.data().text,
+          key: message.data().timestamp + message.data().uid,
+          team: message.data().user_team
+        });
+      });
+      setAllMessages(texts);
+    });
+  }, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(LiveChatWrap, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(StreamDiv, null, "Stream"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ChatDiv, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ChatTitle, null, "Chat room"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ChatSpace, {
+    id: "showMessage"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", null, allMessages ? allMessages.map(function (list) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
+      key: list.key
+    }, list.username, ":", list.text);
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u6210\u70BA\u7B2C\u4E00\u500B\u7559\u8A00\u8005\uFF01"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ChatType, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+    id: "chat_user"
+  }, "Username"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ChatInput, {
+    id: "chat_input",
     type: "text",
     placeholder: "Write a message..."
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-    src: send,
-    alt: ""
+    id: "send_btn",
+    src: _images_icon_send_png__WEBPACK_IMPORTED_MODULE_1__.default,
+    alt: "send"
   }))));
 };
 
@@ -62741,6 +62796,21 @@ function __classPrivateFieldSet(receiver, state, value, kind, f) {
 
 /***/ }),
 
+/***/ "./src/images/icon/send.png":
+/*!**********************************!*\
+  !*** ./src/images/icon/send.png ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "4eb5584e33235af4c7f421e3cceb081f.png");
+
+/***/ }),
+
 /***/ "./src/images/team_logo/Elephant_M.png":
 /*!*********************************************!*\
   !*** ./src/images/team_logo/Elephant_M.png ***!
@@ -64899,17 +64969,15 @@ var __webpack_exports__ = {};
   !*** ./src/index.js ***!
   \**********************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _database_firestore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./database/firestore */ "./src/database/firestore.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app */ "./src/app.js");
-
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app */ "./src/app.js");
 
 
 
 
 console.log('123');
-react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_app__WEBPACK_IMPORTED_MODULE_3__.default, null), document.getElementById('root'));
+react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_app__WEBPACK_IMPORTED_MODULE_2__.default, null), document.getElementById('root'));
 })();
 
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
@@ -65099,4 +65167,4 @@ socket(socketUrl, onSocketMessage);
 
 /******/ })()
 ;
-//# sourceMappingURL=main.29c2456571b059446a58.js.map
+//# sourceMappingURL=main.7af9fc68b99cbaa66434.js.map

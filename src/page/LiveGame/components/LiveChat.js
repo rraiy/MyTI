@@ -82,34 +82,35 @@ const ChatInput = styled.input`
 const LiveChat = () => {
 
     const [allMessages, setAllMessages] = useState([])
+    /* allMessage = {
+        text:'',
+        username:'',
+        key:timestamp+uid
+        team:''
+    } */
 
     const chat_user = document.getElementById('chat_user');
     const chat_input = document.getElementById('chat_input');
     const send_btn = document.getElementById('send_btn');
     const board = document.getElementById('showMessage');
 
-    
-
     // show first entry message board
     useEffect(()=>{
         const texts = []
         db.collection('chat_room/WePlay_0614_PSGLGD/messages').get().then(res => {
             res.forEach(message => {
-                console.log(message.data())
-                texts.push('<li>'+message.data().username+'  '+message.data().text+'</li>')
+                
+                texts.push({
+                    username: message.data().username,
+                    text: message.data().text,
+                    key:message.data().timestamp+message.data().uid,
+                    team:message.data().user_team
+                })
             })
             setAllMessages(texts)
         })
-
-        const renderTexts = () => {
-            
-        }
-
     }
     ,[])
-
-
-
 
 
     return (
@@ -124,7 +125,14 @@ const LiveChat = () => {
                 <ChatTitle>Chat room</ChatTitle>
                 <ChatSpace id="showMessage" >
                     <ul>
-
+                        {
+                            allMessages ?
+                            allMessages.map(list => 
+                                (
+                                    <li key={list.key}>{list.username}:{list.text}</li>
+                                )
+                            ) : <li>成為第一個留言者！</li>
+                        }
                     </ul>
                 </ChatSpace>
                 <ChatType>
