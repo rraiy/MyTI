@@ -2,22 +2,23 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import iconSend from '../../../images/icon/send.png';
 import db from '../../../firebase/firestore';
+import {primary, fontGrey, fontWhite, fontWaring} from '../../../public_component/globalStyle';
 
 const LiveChatWrap = styled.div`
     display:flex;
-    width:1200px;
+    min-width:100%;
     height:460px;
     justify-content:space-around;
     color:#fff;
 `
 
 const StreamDiv = styled.div`
-    width:840px;
+    width:800px;
     border:1px solid yellow;
 `
 
 const ChatDiv = styled.div`
-    width:340px;
+    width:380px;
     border:4px solid #5C2088;
 
 
@@ -25,10 +26,10 @@ const ChatDiv = styled.div`
 
 const ChatTitle = styled.div`
     background:#5c2088;
-    height:48px;
+    height:40px;
     text-align:center;
     vertical-align:middle;
-    line-height:48px;
+    line-height:40px;
     color:rgb(173,173,173)
 `
 
@@ -40,12 +41,16 @@ const ChatSpace = styled.div`
     overflow:scroll;
     overflow-x:hidden;
     word-wrap:normal;
+
+    -webkit-scrollbar-thumb{  //need fix not working
+        -webkit-box-shadow:inset 0 0 6px ${primary}
+    }
 `
 
 const ChatType = styled.form`
-
-    padding:8px;
-
+    display:flex;
+    padding:8px 16px;
+    
     p{
         margin-bottom:8px;
     };
@@ -62,22 +67,25 @@ const ChatType = styled.form`
 // `
 
 const Li = styled.li`
-    color:rgb(173,173,173);
+    color:${fontGrey};
     margin-bottom:8px;
     line-height:1.3em;
+`
+const LeftDiv = styled.div`
+    margin-right:24px;
 `
 
 const ChatInput = styled.input`
     // opacity:1;
     // border:none;
     // border-bottom:1px solid #ccc;
-    width:250px;
-    height:40px;
-    margin-right:20px;
+    width:300px;
+    height:30px;
     outline:0;
     border-width:0 0 2px;
     background:rgba(1,1,1,0);
     color:#fff;
+    margin-bottom:8px;
 
 
     :focus{
@@ -85,7 +93,18 @@ const ChatInput = styled.input`
         
     }
 
-    
+`
+
+const LimitP = styled.p`
+    font-size:8px;
+    color:${props => props.color || fontGrey};
+`
+
+const SendBtn = styled.button`
+
+    :hover{
+        transform:scale(1.3)
+    }
 `
 
 const LiveChat = () => {
@@ -98,7 +117,7 @@ const LiveChat = () => {
         team:'',
         timestamp:''  //Date.now()
     })
-
+    const [wordLimitColor, setWordLimitColor] = useState('')
 
     const chat_user = document.getElementById('chat_user');
     const chat_input = document.getElementById('chat_input');
@@ -121,13 +140,20 @@ const LiveChat = () => {
             })
             setAllMessages(texts)
         })
-
-        // send_btn.addEventListener('click', function(e) {})
     }
     ,[])
 
     // listen new message
     const onTypeEvent = e => { 
+
+        if(e.target.value.length > 5){
+            setWordLimitColor(fontWaring)
+            // console.log(limitColor)
+            return
+        };
+
+        setWordLimitColor('');
+
         setNewMessage({
             username: 'Raiybow', // need fix
             text: e.target.value,
@@ -138,6 +164,8 @@ const LiveChat = () => {
 
     }
 
+
+    // send new message
     const onSendNew = e => {
         e.preventDefault()
         if(!newMessage.text) {return alert('空白個屁')}
@@ -184,14 +212,18 @@ const LiveChat = () => {
                 </ChatSpace>
 
                 <ChatType onSubmit={onSendNew}>
-                    <p id="chat_user">Username</p>
-                    <ChatInput 
-                        id="chat_input" 
-                        onChange={e => onTypeEvent(e)}
-                        value={newMessage.text}
-                        type="text" 
-                        placeholder="Write a message..." />
-                    <button type="submit"><img id="send_btn"  src={iconSend} alt="send" /></button>
+                    <LeftDiv>
+                        <p id="chat_user">Username</p>
+                    
+                        <ChatInput 
+                            id="chat_input" 
+                            onChange={e => onTypeEvent(e)}
+                            value={newMessage.text}
+                            type="text" 
+                            placeholder="Write a message..." />
+                        <LimitP color={wordLimitColor}>( limit 100 words )</LimitP>
+                    </LeftDiv>
+                    <SendBtn type="submit"><img id="send_btn"  src={iconSend} alt="send" /></SendBtn>
                 </ChatType>
 
             </ChatDiv>
