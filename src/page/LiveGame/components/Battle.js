@@ -10,6 +10,9 @@ const Wrap = styled.div`
     color:#fff;
     margin-bottom: 152px;
     font-size:24px;
+    position:relative;
+    background:#A849ED19;
+    padding:20px;
 `
 
 const BattleDiv = styled.div`
@@ -20,9 +23,18 @@ const BattleDiv = styled.div`
     justify-content:space-around;
     align-items:center;
     margin-bottom:100px;
-    
 
 `
+
+const BattleBG = styled.div`
+    // position:absolute;
+    // background:#A849ED19;
+    // width:100%;
+    // height:368px;
+    // top:-30px;
+    
+`
+
 const TeamDiv = styled.div`
     width:240px;
     height:300px;
@@ -52,7 +64,6 @@ const TeamLogo = styled.img`
     object-fit:contain;
 `
 
-
 const IntroDiv = styled.div`
     width:200px;
     // text-align:center;
@@ -63,6 +74,8 @@ const IntroUl = styled.ul`
     display:flex;
     flex-direction:column;
     align-items:center;
+    height:300px;
+    justify-content:flex-end;
 
     li{
         margin-bottom:28px;
@@ -149,60 +162,82 @@ const VoteRateT2 = styled.span`
 `
 
 const Battle = () => {
-    const [team1Rate,setTeam1Rate] = useState('50%');
-    const [team2Rate,setTeam2Rate] = useState('50%');
+    const [team1Rate,setTeam1Rate] = useState({
+        rate:'50%',
+        count:0
+    });
+    const [team2Rate,setTeam2Rate] = useState({
+        rate:'50%',
+        count:0
+    });
 
-    const dbVoteRatePath = 'live_game/WePlay_0614_PSGLGD';
+    const getTeamVoteCount = ()=> {
+        db.collection('live_game').doc('WePlay_0614_PSGLGD').get()
+        .then(res => {
+            let team1Count = res.data().fans_rate.team_1_count;
+            let team2Count = res.data().fans_rate.team_2_count;
+            if(team1Count && team2Count){
+                let team1Rating = Math.round((team1Count/(team1Count+team2Count))*10000)/100
+                let team2Rating= Math.round((100-team1Rating)*100)/100
+                console.log(team1Rating)
+                setTeam1Rate({rate:team1Rating+'%', count:team1Count});
+                setTeam2Rate({rate:team2Rating+'%', count:team2Count})
+            }
+        })
+    }
+    
 
-
-    const countingRate = (team1, team2) => {
-        let team1Rating = Math.round((team1/(team1+team2))*10000)/100
-        setTeam1Rate(team1Rating+'%')
-        setTeam2Rate((100-team1Rating)+'%')
+    const onVoteTeam1 = (e) => {
+        e.preventDefault();
+        db.collection('live_game').doc('WePlay_0614_PSGLGD')
+        .update(
+            {
+                'fans_rate.team_1_count':team1Rate.count+1
+            }
+        )
     }
 
-    const getTeamVote = ()=> {
-            let team1Count=0;
-            let team2Count=0;
-            db.collection('live_game').doc('WePlay_0614_PSGLGD').get()
-            .then(res => {
-                team1Count = res.data().fans_rate.team_1_count;
-                team2Count = res.data().fans_rate.team_2_count;
-                team1Count && team2Count ? countingRate(team1Count, team2Count):null
-            })
+    const onVoteTeam2 = e => {
+        e.preventDefault();
+        db.collection('live_game').doc('WePlay_0614_PSGLGD')
+        .update(
+            {
+                'fans_rate.team_2_count':team2Rate.count+1
+            }
+        )
     }
 
     // first render then run
     useEffect(
         ()=>{
-            
-            getTeamVote();
+
+            getTeamVoteCount();
     
-            const listenVote =  db.collection('live_game').where('title_en','==','WePlay AniMajor')
+            const listenVoteDB =  db.collection('live_game').where('title_en','==','WePlay AniMajor')
             .onSnapshot(res=>{
                 res.docChanges().forEach(change=> {
                     if(change.type === 'modified'){
-                        getTeamVote();
+                        getTeamVoteCount();
                     }
                 })
             })
 
             return () => {
-                listenVote.unsubscribe()
+                listenVoteDB.unsubscribe()
             }
-
     },[])
 
 
     return(
         <Wrap>
+            <BattleBG></BattleBG>
             <BattleDiv>
                 <TeamDiv team='team_1'>
                     <h3>PSG.LGD</h3>
                     <TeamLogoDiv>
                         <TeamLogo src={LOGO} alt="" />
                     </TeamLogoDiv>
-                    <VoteBtn team='team_1'>Voting !</VoteBtn>
+                    <VoteBtn onClick={onVoteTeam1} team='team_1'>Voting !</VoteBtn>
                 </TeamDiv>
                 <IntroDiv>
                     <IntroUl>
@@ -217,15 +252,16 @@ const Battle = () => {
                     <TeamLogoDiv>
                         <TeamLogo src={Elephant} alt="" />
                     </TeamLogoDiv>
-                    <VoteBtn team='team_2'>Voting !</VoteBtn>
+                    <VoteBtn onClick={onVoteTeam2}  team='team_2'>Voting !</VoteBtn>
                 </TeamDiv>
+                
             </BattleDiv>
 
             <RateDiv>
                 <p>Fans Vote</p>
                 <VoteRateDiv>
-                    <VoteRateT1 rate={team1Rate}>{team1Rate}</VoteRateT1>
-                    <VoteRateT2 rate={team2Rate}>{team2Rate}</VoteRateT2>
+                    <VoteRateT1 rate={team1Rate.rate}>{team1Rate.rate}</VoteRateT1>
+                    <VoteRateT2 rate={team2Rate.rate}>{team2Rate.rate}</VoteRateT2>
                 </VoteRateDiv>
             </RateDiv>
         </Wrap>
