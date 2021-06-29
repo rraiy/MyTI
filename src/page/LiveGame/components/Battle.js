@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import LOGO from '../../../images/team_logo/LGD.png';
+import LOGO from '../../../images/team_logo/LGDM.png';
 import Elephant from '../../../images/team_logo/Elephant_M.png'
+import {primary, fontGrey, fontWhite, fontWaring} from '../../../public_component/globalStyle';
 
 const Wrap = styled.div`
     width:100%;
     color:#fff;
-    margin-top:100px;
-    margin-bottom: 100px;
+    margin-bottom: 152px;
     font-size:24px;
 `
 
@@ -23,24 +23,31 @@ const BattleDiv = styled.div`
 
 `
 const TeamDiv = styled.div`
-    width:200px;
+    width:240px;
     height:300px;
-    background:rgba(0, 39, 255, 0.13);
+    
+    background:${props=>props.team === 'team_1' ? '#0027FF22':'#BC459334' }
+    
+    ;
     display:flex;
     flex-direction:column;
     align-items:center;
     padding:20px;
+
+    h3{
+        color:${fontGrey}
+    }
     
 `
 
-const LogoDiv = styled.div`
-    width:140px;
+const TeamLogoDiv = styled.div`
     height:198px;
-    
+    line-height:198px;
 `
 
 const TeamLogo = styled.img`
-    width:100px;
+    width:150px;
+    vertical-align:middle;
     object-fit:contain;
 `
 
@@ -57,7 +64,7 @@ const IntroUl = styled.ul`
     align-items:center;
 
     li{
-        margin-bottom:20px;
+        margin-bottom:28px;
     }
 
     .live{
@@ -79,8 +86,24 @@ const IntroUl = styled.ul`
         background-color:red;
         margin-right:8px;
     }
-
     
+`
+
+const VoteBtn = styled.button`
+    width:80px;
+    padding:4px 8px;
+    color:${props=>props.team === 'team_1' ? '#2445FF':'#BC4593' };
+    border:1px solid ${props=>props.team === 'team_1' ? '#2445FF':'#BC4593' };
+    border-radius:16px;
+    cursor:pointer;
+
+    :hover{
+        color:#fff;
+        background:${props=>props.team === 'team_1' ? '#2445FF':'#BC4593' };
+        border:1px solid ${props=>props.team === 'team_1' ? '#2445FF':'#BC4593' };
+        transform:scale(1.2);
+        
+    }
 `
 
 const RateDiv = styled.div`
@@ -91,6 +114,7 @@ const RateDiv = styled.div`
     align-items:center;
     color:rgba(173, 173, 173, 1);
     p{
+        font-size:20px;
         margin-bottom:16px
     }
 `
@@ -106,12 +130,12 @@ const Battle = () => {
     return(
         <Wrap>
             <BattleDiv>
-                <TeamDiv>
+                <TeamDiv team='team_1'>
                     <h3>PSG.LGD</h3>
-                    <LogoDiv>
+                    <TeamLogoDiv>
                         <TeamLogo src={LOGO} alt="" />
-                    </LogoDiv>
-                    <button>支持他</button>
+                    </TeamLogoDiv>
+                    <VoteBtn team='team_1'>Voting !</VoteBtn>
                 </TeamDiv>
                 <IntroDiv>
                     <IntroUl>
@@ -121,17 +145,17 @@ const Battle = () => {
                         <li className="live">LIVE</li>
                     </IntroUl>
                 </IntroDiv>
-                <TeamDiv>
+                <TeamDiv team='team_2'>
                     <h3>ELEPHANT</h3>
-                    <LogoDiv>
+                    <TeamLogoDiv>
                         <TeamLogo src={Elephant} alt="" />
-                    </LogoDiv>
-                    <button>支持他</button>
+                    </TeamLogoDiv>
+                    <VoteBtn team='team_2'>Voting !</VoteBtn>
                 </TeamDiv>
             </BattleDiv>
 
             <RateDiv>
-                <p>支持度</p>
+                <p>Fans Vote</p>
                 <Rec>123</Rec>
             </RateDiv>
         </Wrap>

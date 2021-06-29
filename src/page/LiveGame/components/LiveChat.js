@@ -14,7 +14,7 @@ const LiveChatWrap = styled.div`
 
 const StreamDiv = styled.div`
     width:800px;
-    border:1px solid yellow;
+   
 `
 
 const ChatDiv = styled.div`
@@ -102,22 +102,31 @@ const LimitP = styled.p`
 
 const SendBtn = styled.button`
 
-    :hover{
-        transform:scale(1.3)
+    img{
+        
     }
+    // &:hover{
+    //     transform:scale(1.3)
+    // }
 `
+
+const SendImg = styled.img`
+    opacity:${props => props.disabled ? '0.2':'1'}
+`
+
 
 const LiveChat = () => {
 
-    const [allMessages, setAllMessages] = useState([])
+    const [allMessages, setAllMessages] = useState([]);
     const [newMessage, setNewMessage] = useState({
         text:'',
         username:'',
         key:'',
         team:'',
         timestamp:''  //Date.now()
-    })
-    const [wordLimitColor, setWordLimitColor] = useState('')
+    });
+    const [wordLimitColor, setWordLimitColor] = useState('');
+    const [sendIconDisabled, setSendIconDisabled] = useState(true);
 
     const chat_user = document.getElementById('chat_user');
     const chat_input = document.getElementById('chat_input');
@@ -146,12 +155,11 @@ const LiveChat = () => {
     // listen new message
     const onTypeEvent = e => { 
 
-        if(e.target.value.length > 5){
+        if(e.target.value.length > 100){
             setWordLimitColor(fontWaring)
             // console.log(limitColor)
             return
-        };
-
+        }
         setWordLimitColor('');
 
         setNewMessage({
@@ -162,6 +170,10 @@ const LiveChat = () => {
             timestamp:Date.now()
         })
 
+        setSendIconDisabled(false)
+        // if(!newMessage){
+        //     setSendIconDisabled(true)
+        // }
     }
 
 
@@ -191,12 +203,14 @@ const LiveChat = () => {
         <LiveChatWrap>
 
             <StreamDiv>
-                Stream
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/RFHj_vjVxqM" >
+                    
+                </iframe>
             </StreamDiv>
 
             <ChatDiv>
                 
-                <ChatTitle>Chat room</ChatTitle>
+                <ChatTitle>Chat Room</ChatTitle>
 
                 <ChatSpace id="showMessage" >
                     <ul>
@@ -223,7 +237,9 @@ const LiveChat = () => {
                             placeholder="Write a message..." />
                         <LimitP color={wordLimitColor}>( limit 100 words )</LimitP>
                     </LeftDiv>
-                    <SendBtn type="submit"><img id="send_btn"  src={iconSend} alt="send" /></SendBtn>
+                    <SendBtn type="submit" >
+                        <SendImg id="send_btn" disabled={sendIconDisabled} src={iconSend}  alt="send" />
+                    </SendBtn>
                 </ChatType>
 
             </ChatDiv>

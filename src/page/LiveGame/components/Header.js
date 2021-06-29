@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import dotaLogo from '../../../images/dota2_logo.png';
+import tourIcon from '../../../images/icon/tour.png';
 
 const Wrap = styled.div`
     margin-top:20px;
-    display:flex;
-    
-    align-items:flex-end;
+    position:relative;
+    margin-bottom:152px;
 `
 
 const TitleDiv = styled.div`
@@ -25,6 +26,7 @@ const P = styled.p`
 
 const Logo = styled.img`
     width:20px;
+    margin-right:8px;
 `
 
 const H1 = styled.h1`
@@ -35,11 +37,22 @@ const H1 = styled.h1`
 const TourButton = styled.button`
     width:180px;
     height:48px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
     margin-right:100px;
     border-radius:5px;
     background:#FFFFFF24;
     color:#C7C7C7;
     font-size:16px;
+    position:absolute;
+    right:-500px;
+    bottom:0px;
+
+`
+const TourI = styled.img`
+    width:24px;
+    margin-right:8px;
 `
 
 const Header = () =>{
@@ -47,11 +60,12 @@ const Header = () =>{
     return (
         <Wrap>
             <TitleDiv>
-                <P><Logo src="" />DOTA2</P>
+                <P><Logo src={dotaLogo} />DOTA2</P>
                 <H1>WePlay AniMajor</H1>
             </TitleDiv>
             <TourButton>
-                Tournaments
+                <TourI src={tourIcon} alt="" />
+                <p>Tournaments</p>
             </TourButton>
         </Wrap>
     )
