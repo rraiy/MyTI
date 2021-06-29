@@ -1,9 +1,9 @@
 import React from 'react';
-import ReactDom from 'react-dom';
-import styled from 'styled-components';
 import Header from './components/Header';
+import styled from 'styled-components';
 import Battle from './components/Battle';
 import LiveChat from './components/LiveChat';
+import db from '../../firebase/firestore'
 
 const Wrap = styled.div`
     min-width:1200px;
@@ -17,6 +17,15 @@ const Wrap = styled.div`
 
 
 const LiveGame = () => {
+
+    console.log('555')
+
+    
+
+
+    
+
+
     return(
         <Wrap>
             <Header/>

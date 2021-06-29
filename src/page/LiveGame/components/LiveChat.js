@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import iconSend from '../../../images/icon/send.png';
 import db from '../../../firebase/firestore';
+import logo from '../../../images/team_logo/LGD.png'
 import {primary, fontGrey, fontWhite, fontWaring} from '../../../public_component/globalStyle';
 
 const LiveChatWrap = styled.div`
@@ -14,7 +15,6 @@ const LiveChatWrap = styled.div`
 
 const StreamDiv = styled.div`
     width:800px;
-   
 `
 
 const ChatDiv = styled.div`
@@ -122,8 +122,8 @@ const LiveChat = () => {
         text:'',
         username:'',
         key:'',
-        team:'',
-        timestamp:''  //Date.now()
+        team:logo,
+        timestamp:0  //Date.now()
     });
     const [wordLimitColor, setWordLimitColor] = useState('');
     const [sendIconDisabled, setSendIconDisabled] = useState(true);
@@ -132,11 +132,11 @@ const LiveChat = () => {
     const chat_input = document.getElementById('chat_input');
     const send_btn = document.getElementById('send_btn');
     const board = document.getElementById('showMessage');
+    const dbChatRoomPath = 'chat_room/WePlay_0614_PSGLGD/messages';
 
-    // show first entry message board & listener send
-    useEffect(()=>{
+    const updateChatMes = () =>{
         const texts = []
-        db.collection('chat_room/WePlay_0614_PSGLGD/messages').orderBy('timestamp','asc').get().then(res => {
+        db.collection(dbChatRoomPath).orderBy('timestamp','asc').get().then(res => {
             res.forEach(message => {
                 if(message.data().text){
                     texts.push({
@@ -147,14 +147,33 @@ const LiveChat = () => {
                     })
                 }
             })
+            
             setAllMessages(texts)
         })
+
+
     }
-    ,[])
+
+    // show first entry message board & listener send
+    useEffect(()=>{
+        
+        updateChatMes();
+
+        const listenMessage = db.collection(dbChatRoomPath)
+        .onSnapshot(snapshot => {
+                snapshot.docChanges().forEach(item => {
+                if (item.type === "added"){
+                    updateChatMes();
+                }
+            })
+        })
+
+        
+        return () => listenMessage.unsubscribe()
+    },[])
 
     // listen new message
     const onTypeEvent = e => { 
-
         if(e.target.value.length > 100){
             setWordLimitColor(fontWaring)
             // console.log(limitColor)
@@ -167,15 +186,10 @@ const LiveChat = () => {
             text: e.target.value,
             key:Date.now(), // need fix uid
             team:'', // need fix
-            timestamp:Date.now()
+            timestamp:parseInt(Date.now())
         })
-
-        setSendIconDisabled(false)
-        // if(!newMessage){
-        //     setSendIconDisabled(true)
-        // }
+        setSendIconDisabled(false)   
     }
-
 
     // send new message
     const onSendNew = e => {
@@ -197,15 +211,16 @@ const LiveChat = () => {
         .catch(err => console.error(err))
     }
 
-
+    console.log(allMessages.team)
 
     return (
         <LiveChatWrap>
 
             <StreamDiv>
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/RFHj_vjVxqM" >
+                {/* <iframe width="100%" height="100%" src="https://www.youtube.com/embed/RFHj_vjVxqM" >
                     
-                </iframe>
+                </iframe> */}
+                {/* <iframe src="https://player.twitch.tv/?channel=moonstudio_en" frameborder="0" allowfullscreen="true" allow="autoplay; fullscreen" scrolling="no" width="100%" height="100%"></iframe> */}
             </StreamDiv>
 
             <ChatDiv>
@@ -218,7 +233,9 @@ const LiveChat = () => {
                             allMessages ?
                             allMessages.map(list => 
                                 (
-                                    <Li key={list.key}>{list.username}：{list.text}</Li>
+                                    <Li key={list.key}>
+                                        <img src={list.team} alt="" />
+                                        {list.username}：{list.text}{list.team}</Li>
                                 )
                             ) : <li>還沒有人發言呢！趕緊成為第一個留言者！</li>
                         }
