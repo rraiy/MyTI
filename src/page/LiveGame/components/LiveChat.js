@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import iconSend from '../../../images/icon/send.png';
 import db from '../../../firebase/firestore';
-import logo from '../../../images/team_logo/LGD.png'
+import logo from '../../../images/team_logo/LGD.png';
+import minimize from '../../../images/icon/minimize.png';
 import {primary, fontGrey, fontWhite, fontWaring} from '../../../public_component/globalStyle';
 
 const LiveChatWrap = styled.div`
@@ -15,32 +16,47 @@ const LiveChatWrap = styled.div`
 
 const StreamDiv = styled.div`
     width:800px;
+    border:1px solid yellow;
 `
 
 const ChatDiv = styled.div`
     width:380px;
-    border:4px solid #5C2088;
-
 
 `
 
 const ChatTitle = styled.div`
+    position:relative;
     background:#5c2088;
     height:40px;
     text-align:center;
     vertical-align:middle;
     line-height:40px;
-    color:rgb(173,173,173)
+    color:${fontGrey};
+    font-size:18px;
+`
+
+const MiniI = styled.img`
+    width:20px;
+    height:20px;
+    position:absolute;
+    top:10px;
+    right:16px;
+
+    :hover{
+        background:#fff;
+    }
 `
 
 const ChatSpace = styled.div`
     background:rgb(38,4,64);
     height:320px;
-    border-bottom:4px solid #5C2088;
+    border:4px solid #5C2088;
+    border-top:none;
     padding:16px;
     overflow:scroll;
     overflow-x:hidden;
     word-wrap:normal;
+    display:${props=>props.hide};
 
     -webkit-scrollbar-thumb{  //need fix not working
         -webkit-box-shadow:inset 0 0 6px ${primary}
@@ -48,9 +64,10 @@ const ChatSpace = styled.div`
 `
 
 const ChatType = styled.form`
-    display:flex;
+    display:${props=>props.hide};
     padding:8px 16px;
-    
+    border:4px solid #5C2088;
+    border-top:none;
     p{
         margin-bottom:8px;
     };
@@ -127,6 +144,7 @@ const LiveChat = () => {
     });
     const [wordLimitColor, setWordLimitColor] = useState('');
     const [sendIconDisabled, setSendIconDisabled] = useState(true);
+    const [chatHide, setChatHide] = useState('flex');
 
     const chat_user = document.getElementById('chat_user');
     const chat_input = document.getElementById('chat_input');
@@ -152,6 +170,10 @@ const LiveChat = () => {
         })
 
 
+    }
+
+    const onMinimize = () => {
+        chatHide === 'flex' ? setChatHide('none'):setChatHide('flex')
     }
 
     // show first entry message board & listener send
@@ -225,9 +247,12 @@ const LiveChat = () => {
 
             <ChatDiv>
                 
-                <ChatTitle>Chat Room</ChatTitle>
+                <ChatTitle>
+                    <p>Chat Room</p> 
+                    <MiniI src={minimize} alt="minimize" onClick={onMinimize} />
+                </ChatTitle>
 
-                <ChatSpace id="showMessage" >
+                <ChatSpace id="showMessage" hide={chatHide} >
                     <ul>
                         {
                             allMessages ?
@@ -242,7 +267,7 @@ const LiveChat = () => {
                     </ul>
                 </ChatSpace>
 
-                <ChatType onSubmit={onSendNew}>
+                <ChatType onSubmit={onSendNew} hide={chatHide}>
                     <LeftDiv>
                         <p id="chat_user">Username</p>
                     
