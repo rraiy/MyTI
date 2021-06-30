@@ -8,20 +8,79 @@ import {primary, fontGrey, fontWhite, fontWaring} from '../../../public_componen
 
 const LiveChatWrap = styled.div`
     display:flex;
+    flex-direction:column;
     min-width:100%;
-    height:460px;
     justify-content:space-around;
     color:#fff;
+
+    @media (max-width:1199px) and (min-width:700px){
+        height:auto;
+    }
+`
+const StreamSelectDiv = styled.div`
+    :first-child{
+        margin-left:100px;
+    }
+
+    .block{
+        color:#fff;
+        background:${primary};
+        transform:none;
+    }
+`
+
+const StreamSelectBtn = styled.button`
+    width:120px;
+    height:48px;
+    font-size:16px;
+    margin-bottom:20px;
+    margin-right:20px;
+    border:1px solid ${primary};
+    border-radius:5px;
+    color:${primary};
+    cursor:pointer;
+
+    :hover{
+        transform:scale(1.1);
+    }
+
+    :focus{
+        color:#fff;
+        background:${primary};
+        transform:none;
+    }
+
+    
+`
+
+const StreamChatWrap = styled.div`
+    display:flex;
+    justify-content:space-around;
+
+    @media (max-width:1199px) and (min-width:700px){
+        flex-direction:column;
+        align-items:center;
+    }
 `
 
 const StreamDiv = styled.div`
     width:800px;
+    height:468px;
     border:1px solid yellow;
+
+    @media (max-width:1199px) and (min-width:700px){
+        width:680px;
+        height:360px;
+        margin-bottom:20px;
+    }
+`
+
+const Iframe = styled.iframe`
+    // display:none;
 `
 
 const ChatDiv = styled.div`
     width:380px;
-
 `
 
 const ChatTitle = styled.div`
@@ -45,6 +104,7 @@ const MiniI = styled.img`
     :hover{
         background:#fff;
     }
+
 `
 
 const ChatSpace = styled.div`
@@ -52,7 +112,7 @@ const ChatSpace = styled.div`
     height:320px;
     border:4px solid #5C2088;
     border-top:none;
-    padding:16px;
+    padding:8px 20px;
     overflow:scroll;
     overflow-x:hidden;
     word-wrap:normal;
@@ -131,7 +191,6 @@ const SendImg = styled.img`
     opacity:${props => props.disabled ? '0.2':'1'}
 `
 
-
 const LiveChat = () => {
 
     const [allMessages, setAllMessages] = useState([]);
@@ -145,6 +204,13 @@ const LiveChat = () => {
     const [wordLimitColor, setWordLimitColor] = useState('');
     const [sendIconDisabled, setSendIconDisabled] = useState(true);
     const [chatHide, setChatHide] = useState('flex');
+    const [showStream, setShowStream] = useState(
+        {
+            youtube:'none',
+            twitch:'block',
+            huya:'none'
+        }
+    ) 
 
     const chat_user = document.getElementById('chat_user');
     const chat_input = document.getElementById('chat_input');
@@ -152,7 +218,21 @@ const LiveChat = () => {
     const board = document.getElementById('showMessage');
     const dbChatRoomPath = 'chat_room/WePlay_0614_PSGLGD/messages';
 
-    const updateChatMes = () =>{
+    const onChangeStream = (e) => {
+
+        switch(e.target.id){
+            case 'twitch':
+                setShowStream({youtube:'none',twitch:'block',huya:'none'});
+                break;
+            case 'huya':
+                setShowStream({youtube:'none',twitch:'none',huya:'block'});
+                break;
+            case 'youtube':
+                setShowStream({youtube:'block',twitch:'none',huya:'none'});
+                break;    
+        }
+    }
+    const updateChatMes = () => {
         const texts = []
         db.collection(dbChatRoomPath).orderBy('timestamp','asc').get().then(res => {
             res.forEach(message => {
@@ -233,59 +313,75 @@ const LiveChat = () => {
         .catch(err => console.error(err))
     }
 
-    console.log(allMessages.team)
-
     return (
         <LiveChatWrap>
 
-            <StreamDiv>
-                {/* <iframe width="100%" height="100%" src="https://www.youtube.com/embed/RFHj_vjVxqM" >
+            <StreamSelectDiv onClick={e=>onChangeStream(e)}>
+                <StreamSelectBtn id="twitch" className={showStream.twitch} selected={showStream.twitch}>English
+                </StreamSelectBtn>
+                <StreamSelectBtn id="huya" className={showStream.huya} selected={showStream.huya}>Chinese
+                </StreamSelectBtn>
+            </StreamSelectDiv>
+
+            <StreamChatWrap>
+                <StreamDiv>
+                    {/* youtube */}
+                    {/* <iframe width="100%" height="100%"  display={showStream.youtube}
+                    src="https://www.youtube.com/embed/RFHj_vjVxqM" allowfullscreen="true" allow="fullscreen" >
+                    </iframe> */}
+
+                    {/* twitch */}
+                    <iframe  style={{display:`${showStream.twitch}`}}
+                    frameborder="0"  allow="fullscreen" scrolling="no" width="100%" height="100%" 
+                    src="https://player.twitch.tv/?channel=beyondthesummit&amp;parent=localhost&amp;autoplay=false"></iframe>
+
+                    {/* huya */}
+                    {/* <Iframe width="100%" height="100%"  frameborder="0" scrolling="no" style={{
+                        display:`${showStream.huya}`}}
+                    src="http://liveshare.huya.com/iframe/825801"></Iframe> */}
+                </StreamDiv>
+
+                <ChatDiv>
                     
-                </iframe> */}
-                {/* <iframe src="https://player.twitch.tv/?channel=moonstudio_en" frameborder="0" allowfullscreen="true" allow="autoplay; fullscreen" scrolling="no" width="100%" height="100%"></iframe> */}
-            </StreamDiv>
+                    <ChatTitle>
+                        <p>Chat Room</p> 
+                        <MiniI src={minimize} alt="minimize" onClick={onMinimize} />
+                    </ChatTitle>
 
-            <ChatDiv>
-                
-                <ChatTitle>
-                    <p>Chat Room</p> 
-                    <MiniI src={minimize} alt="minimize" onClick={onMinimize} />
-                </ChatTitle>
+                    <ChatSpace id="showMessage" hide={chatHide} >
+                        <ul>
+                            {
+                                allMessages ?
+                                allMessages.map(list => 
+                                    (
+                                        <Li key={list.key}>
+                                            <img src={list.team} alt="" />
+                                            {list.username}：{list.text}{list.team}</Li>
+                                    )
+                                ) : <li>還沒有人發言呢！趕緊成為第一個留言者！</li>
+                            }
+                        </ul>
+                    </ChatSpace>
 
-                <ChatSpace id="showMessage" hide={chatHide} >
-                    <ul>
-                        {
-                            allMessages ?
-                            allMessages.map(list => 
-                                (
-                                    <Li key={list.key}>
-                                        <img src={list.team} alt="" />
-                                        {list.username}：{list.text}{list.team}</Li>
-                                )
-                            ) : <li>還沒有人發言呢！趕緊成為第一個留言者！</li>
-                        }
-                    </ul>
-                </ChatSpace>
+                    <ChatType onSubmit={onSendNew} hide={chatHide}>
+                        <LeftDiv>
+                            <p id="chat_user">Username</p>
+                        
+                            <ChatInput 
+                                id="chat_input" 
+                                onChange={e => onTypeEvent(e)}
+                                value={newMessage.text}
+                                type="text" 
+                                placeholder="Write a message..." />
+                            <LimitP color={wordLimitColor}>( limit 100 words )</LimitP>
+                        </LeftDiv>
+                        <SendBtn type="submit" >
+                            <SendImg id="send_btn" disabled={sendIconDisabled} src={iconSend}  alt="send" />
+                        </SendBtn>
+                    </ChatType>
 
-                <ChatType onSubmit={onSendNew} hide={chatHide}>
-                    <LeftDiv>
-                        <p id="chat_user">Username</p>
-                    
-                        <ChatInput 
-                            id="chat_input" 
-                            onChange={e => onTypeEvent(e)}
-                            value={newMessage.text}
-                            type="text" 
-                            placeholder="Write a message..." />
-                        <LimitP color={wordLimitColor}>( limit 100 words )</LimitP>
-                    </LeftDiv>
-                    <SendBtn type="submit" >
-                        <SendImg id="send_btn" disabled={sendIconDisabled} src={iconSend}  alt="send" />
-                    </SendBtn>
-                </ChatType>
-
-            </ChatDiv>
-
+                </ChatDiv>
+            </StreamChatWrap>               
         </LiveChatWrap>
     )
 }

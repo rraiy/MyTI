@@ -13,6 +13,18 @@ const Wrap = styled.div`
     position:relative;
     background:#A849ED19;
     padding:20px;
+
+    @media (max-width:1199px) and (min-width:700px){
+        min-width:700px;
+        margin-bottom:150px;
+        
+    }
+
+    @media (max-width:699px) and (min-width:360px){
+        height:100px;
+        margin-bottom:30px;
+
+    }
 `
 
 const BattleDiv = styled.div`
@@ -24,6 +36,15 @@ const BattleDiv = styled.div`
     align-items:center;
     margin-bottom:100px;
 
+    @media (max-width:1199px) {
+        width:95%;
+    }
+
+    @media (max-width:699px) and (min-width:360px){
+        width:98%;
+
+    }
+
 `
 
 const BattleBG = styled.div`
@@ -32,16 +53,13 @@ const BattleBG = styled.div`
     // width:100%;
     // height:368px;
     // top:-30px;
-    
 `
 
 const TeamDiv = styled.div`
     width:240px;
     height:300px;
     
-    background:${props=>props.team === 'team_1' ? '#0027FF22':'#BC459334' }
-    
-    ;
+    background:${props=>props.team === 'team_1' ? '#0027FF22':'#BC459334' };
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -51,22 +69,50 @@ const TeamDiv = styled.div`
         color:${fontGrey}
     }
     
+    @media (max-width:1199px) and (min-width:700px){
+        width:200px;
+    }
+
+    @media (max-width:699px) and (min-width:360px){
+        width:100px;
+        height:28px;
+        flex-flow:row wrap;
+        h3{
+            font-size:10px;
+            
+        }
+
+    }
 `
 
 const TeamLogoDiv = styled.div`
     height:198px;
     line-height:198px;
+    @media (max-width:699px) and (min-width:360px){
+        height:auto;
+        line-height:0;
+
+    }
 `
 
 const TeamLogo = styled.img`
     width:150px;
     vertical-align:middle;
     object-fit:contain;
+
+    @media (max-width:699px) and (min-width:360px){
+        width:20px;
+
+    }
 `
 
 const IntroDiv = styled.div`
     width:200px;
-    // text-align:center;
+    
+    @media (max-width:699px) and (min-width:360px){
+        width:92px;
+        height:44px;
+    }
 `
 
 const IntroUl = styled.ul`
@@ -100,6 +146,21 @@ const IntroUl = styled.ul`
         background-color:red;
         margin-right:8px;
     }
+
+    @media (max-width:699px) and (min-width:360px){
+        width:100%;
+        justify-content:flex-start;
+        height:100%;
+        
+        li{
+            font-size:10px;
+            margin-bottom:8px;
+        }
+
+        li:last-child{
+            display:none;
+        }
+    }
     
 `
 
@@ -118,6 +179,13 @@ const VoteBtn = styled.button`
         transform:scale(1.2);
         
     }
+
+    @media (max-width:699px) and (min-width:360px){
+        width:40px;
+        height:20px;
+        font-size:8px;
+
+    }
 `
 
 const RateDiv = styled.div`
@@ -131,12 +199,27 @@ const RateDiv = styled.div`
         font-size:20px;
         margin-bottom:16px
     }
+
+    @media (max-width:1199px){
+        width:600px;
+    }
+
+    @media (max-width:699px) {
+        width:98%;
+
+    }
 `
 
 const VoteRateDiv = styled.div`
-    width:700px;
+    width:600px;
     height:30px;
     position:relative;
+
+    @media (max-width:699px) {
+        width:100%;
+        height:20px
+        
+    }
 `
 
 const VoteRateT1 = styled.span`
@@ -148,6 +231,9 @@ const VoteRateT1 = styled.span`
     text-align:right;
     left:0;
     border-radius:16px 0 0 16px;
+    @media (max-width:699px) {
+        font-size:12px;
+    }
 `
 
 const VoteRateT2 = styled.span`
@@ -159,6 +245,9 @@ const VoteRateT2 = styled.span`
     text-align:left;
     right:0;
     border-radius:0 16px 16px 0;
+    @media (max-width:699px) {
+        font-size:12px;
+    }
 `
 
 const Battle = () => {
