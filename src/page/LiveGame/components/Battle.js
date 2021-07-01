@@ -21,7 +21,7 @@ const Wrap = styled.div`
     }
 
     @media (max-width:699px) and (min-width:360px){
-        height:100px;
+        // height:100px;
         margin-bottom:30px;
 
     }
@@ -42,7 +42,7 @@ const BattleDiv = styled.div`
 
     @media (max-width:699px) and (min-width:360px){
         width:98%;
-
+        margin-bottom:20px;
     }
 
 `
@@ -75,10 +75,13 @@ const TeamDiv = styled.div`
 
     @media (max-width:699px) and (min-width:360px){
         width:100px;
-        height:28px;
+        height:60px;
+        padding:8px;
+        text-align:center;
+        justify-content:center;
         flex-flow:row wrap;
         h3{
-            font-size:10px;
+            font-size:14px;
             
         }
 
@@ -89,6 +92,7 @@ const TeamLogoDiv = styled.div`
     height:198px;
     line-height:198px;
     @media (max-width:699px) and (min-width:360px){
+        display:none;
         height:auto;
         line-height:0;
 
@@ -181,7 +185,7 @@ const VoteBtn = styled.button`
     }
 
     @media (max-width:699px) and (min-width:360px){
-        width:40px;
+        width:60px;
         height:20px;
         font-size:8px;
 
@@ -206,6 +210,9 @@ const RateDiv = styled.div`
 
     @media (max-width:699px) {
         width:98%;
+        p{
+            font-size:14px;
+        }
 
     }
 `

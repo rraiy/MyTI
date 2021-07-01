@@ -13,8 +13,12 @@ const LiveChatWrap = styled.div`
     justify-content:space-around;
     color:#fff;
 
-    @media (max-width:1199px) and (min-width:700px){
+    @media (max-width:1199px){
         height:auto;
+    }
+
+    @media (max-width:699px) and (min-width:360px){
+        margin-bottom:20px;
     }
 `
 const StreamSelectDiv = styled.div`
@@ -26,6 +30,13 @@ const StreamSelectDiv = styled.div`
         color:#fff;
         background:${primary};
         transform:none;
+    }
+
+    @media (max-width:699px){
+        :first-child{
+            margin-left:30%;
+        }
+
     }
 `
 
@@ -50,16 +61,25 @@ const StreamSelectBtn = styled.button`
         transform:none;
     }
 
-    
+    @media (max-width:699px){
+        width:60px;
+        height:36px;
+        font-size:12px;
+    }
 `
 
 const StreamChatWrap = styled.div`
     display:flex;
     justify-content:space-around;
 
-    @media (max-width:1199px) and (min-width:700px){
+    @media (max-width:1199px) {
         flex-direction:column;
         align-items:center;
+    }
+
+    @media (max-width:699px) and (min-width:360px){
+        width:98%;
+
     }
 `
 
@@ -73,6 +93,12 @@ const StreamDiv = styled.div`
         height:360px;
         margin-bottom:20px;
     }
+
+    @media (max-width:699px) and (min-width:360px){
+        width:360px;
+        height:240px;
+        margin-bottom:20px;
+    }
 `
 
 const Iframe = styled.iframe`
@@ -81,6 +107,10 @@ const Iframe = styled.iframe`
 
 const ChatDiv = styled.div`
     width:380px;
+
+    @media (max-width:699px){
+        width:95%;
+    }
 `
 
 const ChatTitle = styled.div`
@@ -92,6 +122,10 @@ const ChatTitle = styled.div`
     line-height:40px;
     color:${fontGrey};
     font-size:18px;
+
+    @media (max-width:699px){
+        font-size:14px;
+    }
 `
 
 const MiniI = styled.img`
@@ -103,6 +137,11 @@ const MiniI = styled.img`
 
     :hover{
         background:#fff;
+    }
+
+    @media (max-width:699px){
+        width:16px;
+        height:16px;
     }
 
 `
@@ -147,6 +186,10 @@ const Li = styled.li`
     color:${fontGrey};
     margin-bottom:8px;
     line-height:1.3em;
+
+    @media (max-width:699px){
+        font-size:12px;
+    }
 `
 const LeftDiv = styled.div`
     margin-right:24px;
@@ -178,7 +221,6 @@ const LimitP = styled.p`
 `
 
 const SendBtn = styled.button`
-
     img{
         
     }
@@ -190,6 +232,7 @@ const SendBtn = styled.button`
 const SendImg = styled.img`
     opacity:${props => props.disabled ? '0.2':'1'}
 `
+
 
 const LiveChat = () => {
 
@@ -212,10 +255,6 @@ const LiveChat = () => {
         }
     ) 
 
-    const chat_user = document.getElementById('chat_user');
-    const chat_input = document.getElementById('chat_input');
-    const send_btn = document.getElementById('send_btn');
-    const board = document.getElementById('showMessage');
     const dbChatRoomPath = 'chat_room/WePlay_0614_PSGLGD/messages';
 
     const onChangeStream = (e) => {

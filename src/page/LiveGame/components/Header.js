@@ -18,7 +18,7 @@ const Wrap = styled.div`
     }
 
     @media (max-width:699px){
-        width:700px;
+        width:100%;
         position:static;
         display:flex;
         flex-direction:column;
@@ -46,11 +46,11 @@ const P = styled.p`
     font-size:20px;
     
     @media (max-width:699px) and (min-width:360px){
+        display:none;
         font-size:14px;
         margin-right:8px;
         margin-bottom:0;
         text-align:center;
-
     }
 `
 
@@ -94,6 +94,10 @@ const TourButton = styled.button`
         margin-top:40px;
         margin-right:0;
         padding:8px;
+    }
+
+    @media (max-width:699px){
+        display:none;
     }
     
 `
