@@ -144,7 +144,7 @@ const IntroUl = styled.ul`
 
     .live:before{
         content:'';
-        display:'inline-block';
+        display:'inline-block'; // need debug why use ''
         width:15px;
         border-radius:7.5px;
         background-color:red;

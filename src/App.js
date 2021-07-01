@@ -14,8 +14,8 @@ const App = () =>{
         <React.Fragment>
             <ResetStyle />
             <GlobalStyle />
-            {/* <AllTours/> */}
-            <LiveGame/>
+            <AllTours/>
+            {/* <LiveGame/> */}
         </React.Fragment>
     )
 }
