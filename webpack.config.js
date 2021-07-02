@@ -9,13 +9,14 @@ module.exports = {
     entry:'./src/index.js',
     output:{
         path: path.resolve(__dirname, 'dist'),
-        filename:'main.[hash].js'
+        filename:'main.[hash].js',
+        assetModuleFilename:'images/[hash][ext][query]'
     },
     devtool:(mode_env === 'development') ? 'source-map':false,
     devServer:{
         contentBase: path.join(__dirname, 'dist'),
         writeToDisk: true,
-        historyApiFallback: true,
+        // historyApiFallback: true,
         port:5000,
     },
     module:{
@@ -34,6 +35,7 @@ module.exports = {
                         limit:false,
                     },
                 },
+            type:'asset/resource'
             
         }]
     },
