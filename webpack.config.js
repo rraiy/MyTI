@@ -10,7 +10,7 @@ module.exports = {
     output:{
         path: path.resolve(__dirname, 'dist'),
         filename:'main.[hash].js',
-        assetModuleFilename:'images/[hash][ext][query]'
+        // assetModuleFilename:'images/[hash]'
     },
     devtool:(mode_env === 'development') ? 'source-map':false,
     devServer:{
@@ -35,7 +35,7 @@ module.exports = {
                         limit:false,
                     },
                 },
-            type:'asset/resource'
+            // type:'asset/resource'
             
         }]
     },

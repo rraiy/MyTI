@@ -1,8 +1,14 @@
 import React,{useState, useEffect} from 'react';
 import styled from 'styled-components';
 
+const CalUL = styled.div`
+    border:2px solid yellow;
+    border-radius: 5px;
+    width:700px;
+`
+
 const Calendar = () =>{
-    const [current, setCurrent] = useState(new Date()); // 7.2 看起來並不需要使用state 因為沒必要change
+    const [current, setCurrent] = useState(new Date());
     const [cal, setCal] = useState([]); 
 
     const yearMonth = current.getFullYear()+'年 '+ (current.getMonth()+1) +'月';
@@ -52,19 +58,33 @@ const Calendar = () =>{
     const getNextMonth = () => {
         setCurrent(new Date(current.getFullYear(), current.getMonth() + 1));
     }
+
+    // 從這開始
+    const renderCal = () => {
+
+        let preMonthDays = cal[0];
+        let monthDays = cal[1];
+        let nextMonthDays = cal[2];
+
+        preMonthDays.map(days => {
+            return(
+                <li className="grey">{days}</li>
+            )
+        })
+
+    }
+
     
     useEffect(()=>{
         calData();
-
+        renderCal()
     },[current])
-
-    
     
 
     return(
         <div>
             <h3>{yearMonth}</h3>
-            <div>{cal}</div>
+            <CalUL>123</CalUL>
             <button onClick={getPreMonth}>上個月</button>
             <button onClick={getNextMonth}>下個月</button>
         </div>
