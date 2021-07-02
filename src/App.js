@@ -1,6 +1,7 @@
 import React from 'react';
 import LiveGame from '../src/page/LiveGame/LiveGame';
 import AllTours from '../src/page/AllTours/AllTournaments';
+import Member from '../src/page/Member/Member';
 import {ResetStyle, GlobalStyle} from '../src/public_component/globalStyle';
 // import allTour from '../datas/2021_tour/tournaments'
 
@@ -14,8 +15,9 @@ const App = () =>{
         <React.Fragment>
             <ResetStyle />
             <GlobalStyle />
-            <AllTours/>
+            {/* <AllTours/> */}
             {/* <LiveGame/> */}
+            <Member/>
         </React.Fragment>
     )
 }
