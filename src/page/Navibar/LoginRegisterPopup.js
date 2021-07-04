@@ -1,13 +1,14 @@
 import React from 'react';
 import { Blur, LRPopupWrap,SignInBtn, RegisterForm, Label, Input, RegisterBtn,SeparateDiv,RegisterGoogleBtn } from './LoginRegisterPopupSty';
 
-const LoginRegisterPopup = () => {
+const LoginRegisterPopup = ({clickBlur}) => {
+
 
 
     
     return(
         <>
-        <Blur>
+        <Blur onClick={clickBlur} ></Blur>
             <LRPopupWrap>
 
                 <SignInBtn>Sign In</SignInBtn>
@@ -32,9 +33,9 @@ const LoginRegisterPopup = () => {
                 <RegisterGoogleBtn>
                     Sign up with Google
                 </RegisterGoogleBtn>
-                
+
             </LRPopupWrap>
-        </Blur>
+        
 
         </>
     )

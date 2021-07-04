@@ -4,7 +4,7 @@ import {primary, secondary, fontGrey, fontWhite, fontWaring, fontYellow} from '.
 
 export const Blur = styled.div`
     display:flex;
-    width:1200px;
+    width:100%;
     height:1200px;
     background:rgba(0,0,0,0.73);
     position:fixed;
@@ -18,7 +18,10 @@ export const LRPopupWrap = styled.div`
     padding:16px 32px;
     width:336px;
     border-radius:10px;
-    position:relative;
+    position:fixed;
+    z-index:5;
+    top:80px;
+    right:36%;
 `
 
 export const SignInBtn = styled.button`

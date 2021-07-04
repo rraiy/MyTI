@@ -21,6 +21,10 @@ const App = () =>{
         setPopup(true)
     }
 
+    const clickBlur = () => {
+        setPopup(false)
+    }
+
     console.log('App.js')
 
     return (
@@ -29,18 +33,18 @@ const App = () =>{
             <ResetStyle />
             <GlobalStyle />
             <Navibar showPopup={showPopup}/>
-            
-            
-            {/* <AllTours/> */}
-            {/* <LiveGame/> */}
-            {/* <Member/> */}
             {
                 popup ?
                 <>
-                    <LoginRegisterPopup/>
+                    <LoginRegisterPopup clickBlur={clickBlur}/>
                 </>
                 :null
             }
+        
+            {/* <AllTours/> */}
+            <LiveGame/>
+            {/* <Member/> */}
+            
             
         </React.Fragment>
     )

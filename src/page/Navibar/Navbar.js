@@ -84,10 +84,7 @@ const Button = styled.button`
 `
 
 const Navibar = ({showPopup}) => {
-
-    const openLoginOrRegister = () => {
-        showPopup();
-    }
+  
 
     return (
         <NavibarWrap>
@@ -107,7 +104,7 @@ const Navibar = ({showPopup}) => {
             <SearchRegisterWrap>
                 <img src={dotaLogo} alt="" />
                 <SearchInput type="text" placeholder="Tournaments..."/>
-                <Button onClick={openLoginOrRegister}>註冊/登入</Button>
+                <Button onClick={showPopup}>註冊/登入</Button>
             </SearchRegisterWrap>
             {/* </Blur> */}
         </NavibarWrap>
