@@ -1,6 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 export const primary = 'rgb(168,73,237)';
+export const secondary = 'rgb(34,14,49)';
 export const fontGrey = 'rgb(173,173,173)';
 export const fontWhite = '#fff';
 export const fontWaring = 'red';
@@ -76,6 +77,7 @@ export const ResetStyle = createGlobalStyle`
     padding: 0;
     border: none;
     background: none;
+    cursor:pointer;
     }
 `;
 

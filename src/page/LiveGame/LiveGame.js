@@ -13,6 +13,7 @@ const Wrap = styled.div`
     display:flex;
     flex-direction:column;
     align-items:center;
+    padding-top:120px;
 
     @media (max-width:1199px) and (min-width:700px){
         min-width:700px;

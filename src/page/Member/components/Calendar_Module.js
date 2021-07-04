@@ -5,6 +5,10 @@ const CalUL = styled.div`
     border:2px solid yellow;
     border-radius: 5px;
     width:700px;
+
+    .grey{
+        color:grey;
+    }
 `
 
 const Calendar = () =>{
@@ -49,6 +53,7 @@ const Calendar = () =>{
         allDates.push(nextDays);
 
         setCal(allDates);
+        
     }
 
     const getPreMonth = () => {
@@ -59,32 +64,33 @@ const Calendar = () =>{
         setCurrent(new Date(current.getFullYear(), current.getMonth() + 1));
     }
 
+    let preMonthDays = cal[0];
+    let monthDays = cal[1];
+    let nextMonthDays = cal[2];
+
     // 從這開始
-    const renderCal = () => {
+    
 
-        let preMonthDays = cal[0];
-        let monthDays = cal[1];
-        let nextMonthDays = cal[2];
-
-        preMonthDays.map(days => {
-            return(
-                <li className="grey">{days}</li>
-            )
-        })
-
-    }
+    
 
     
     useEffect(()=>{
         calData();
-        renderCal()
+        console.log(cal[0])
     },[current])
     
 
     return(
         <div>
             <h3>{yearMonth}</h3>
-            <CalUL>123</CalUL>
+            <CalUL>
+                {
+                    (cal === undefined)  ? preMonthDays.map(days => 
+                        (
+                            <li className="grey">{days}</li>
+                        )):<li>no</li> 
+                }
+            </CalUL>
             <button onClick={getPreMonth}>上個月</button>
             <button onClick={getNextMonth}>下個月</button>
         </div>
