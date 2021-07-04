@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect}from 'react';
 import styled from 'styled-components';
 import Navibar from '../src/page/Navibar/Navbar';
 import LoginRegisterPopup from '../src/page/Navibar/LoginRegisterPopup';
@@ -15,20 +15,33 @@ const Blur = styled.div`
 `
 
 const App = () =>{
+    const [popup, setPopup] = useState(false);
 
-    console.log('5566')
+    const showPopup = () => {
+        setPopup(true)
+    }
+
+    console.log('App.js')
 
     return (
         
         <React.Fragment>
             <ResetStyle />
             <GlobalStyle />
-            {/* <Navibar/> */}
+            <Navibar showPopup={showPopup}/>
             
-            <LoginRegisterPopup/>
+            
             {/* <AllTours/> */}
             {/* <LiveGame/> */}
             {/* <Member/> */}
+            {
+                popup ?
+                <>
+                    <LoginRegisterPopup/>
+                </>
+                :null
+            }
+            
         </React.Fragment>
     )
 }

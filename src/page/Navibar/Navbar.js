@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 // import LoginRegisterPopup from './LoginRegisterPopup'
 import {primary, fontGrey, fontWhite, fontWaring} from '../../public_component/globalStyle';
@@ -83,10 +83,10 @@ const Button = styled.button`
     }
 `
 
-const Navibar = () => {
+const Navibar = ({showPopup}) => {
 
     const openLoginOrRegister = () => {
-        alert('123')
+        showPopup();
     }
 
     return (
