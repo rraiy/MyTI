@@ -27,8 +27,6 @@ const Wrap = styled.div`
 
 const LiveGame = () => {
 
-    console.log('555')
-
 
     return(
         <Wrap>

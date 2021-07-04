@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {primary, secondary, fontGrey, fontWhite, fontWaring, fontYellow} from '../../public_component/globalStyle';
+import {primary, secondary, fontGrey, fontWhite, fontWaring, fontYellow} from '../../../public_component/globalStyle';
 
 
 export const Blur = styled.div`
@@ -21,7 +21,7 @@ export const LRPopupWrap = styled.div`
     position:fixed;
     z-index:5;
     top:80px;
-    right:36%;
+    right:34%;
 `
 
 export const SignInBtn = styled.button`
