@@ -117,7 +117,7 @@ const LiveChat = ({isSigned, user}) => {
             setAllMessages(allTexts)
             setNewMessage({
                 text:'',
-                username:'',
+                username:user,
                 key:'',
                 team:'',
                 timestamp:''
@@ -179,13 +179,16 @@ const LiveChat = ({isSigned, user}) => {
                     <ChatType onSubmit={onSendNew} hide={chatHide}>
                         <LeftDiv>
                             <p id="chat_user">{user}</p>
-                        
-                            <ChatInput 
+                            
+                            { !isSigned ? <ChatInput placeholder="Please sign in to chat."  style={{cursor:'not-allowed'}} disabled/>
+                            :<ChatInput 
                                 id="chat_input" 
                                 onChange={e => onTypeEvent(e)}
                                 value={newMessage.text}
                                 type="text" 
-                                placeholder="Write a message..." />
+                                placeholder="Write a message..." 
+                                />
+                            }
                             <LimitP color={wordLimitColor}>( limit 100 words )</LimitP>
                         </LeftDiv>
                         <SendBtn type="submit" >

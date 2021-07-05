@@ -29,8 +29,8 @@ const LiveGame = ({isSigned,user}) => {
 
     return(
         <Wrap>
-            <Header/>
-            <Battle />
+            <Header isSigned={isSigned} user={user}/>
+            <Battle  isSigned={isSigned} user={user}/>
             <LiveChat isSigned={isSigned} user={user}/>
         </Wrap>
     )
