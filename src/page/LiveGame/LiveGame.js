@@ -25,14 +25,14 @@ const Wrap = styled.div`
 `
 
 
-const LiveGame = () => {
+const LiveGame = ({isSigned,user}) => {
 
 
     return(
         <Wrap>
             <Header/>
-            <Battle/>
-            <LiveChat/>
+            <Battle />
+            <LiveChat isSigned={isSigned} user={user}/>
         </Wrap>
     )
 }

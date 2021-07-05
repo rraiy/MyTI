@@ -7,12 +7,12 @@ import{LiveChatWrap,StreamSelectDiv,StreamSelectBtn,StreamChatWrap,StreamDiv,Ifr
 
 
 
-const LiveChat = () => {
-
+const LiveChat = ({isSigned, user}) => {
+    
     const [allMessages, setAllMessages] = useState([]);
     const [newMessage, setNewMessage] = useState({
         text:'',
-        username:'',
+        username:user,
         key:'',
         team:logo,
         timestamp:0  //Date.now()
@@ -90,15 +90,14 @@ const LiveChat = () => {
     const onTypeEvent = e => { 
         if(e.target.value.length > 100){
             setWordLimitColor(fontWaring)
-            // console.log(limitColor)
             return
         }
         setWordLimitColor('');
 
         setNewMessage({
-            username: 'Raiybow', // need fix
+            username: user, 
             text: e.target.value,
-            key:Date.now(), // need fix uid
+            key:user+Date.now(),
             team:'', // need fix
             timestamp:parseInt(Date.now())
         })
@@ -177,7 +176,7 @@ const LiveChat = () => {
 
                     <ChatType onSubmit={onSendNew} hide={chatHide}>
                         <LeftDiv>
-                            <p id="chat_user">Username</p>
+                            <p id="chat_user">{user}</p>
                         
                             <ChatInput 
                                 id="chat_input" 
