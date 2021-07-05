@@ -82,7 +82,7 @@ export const StreamChatWrap = styled.div`
 export const StreamDiv = styled.div`
     width:800px;
     height:468px;
-    border:1px solid yellow;
+    border:1px solid ${primary};
 
     @media (max-width:1199px) and (min-width:700px){
         width:680px;
@@ -91,7 +91,7 @@ export const StreamDiv = styled.div`
     }
 
     @media (max-width:699px) and (min-width:360px){
-        width:360px;
+        width:90%;
         height:240px;
         margin-bottom:20px;
     }
@@ -105,7 +105,7 @@ export const ChatDiv = styled.div`
     width:380px;
 
     @media (max-width:699px){
-        width:95%;
+        width:90%;
     }
 `
 
