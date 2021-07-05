@@ -3,7 +3,6 @@ import Header from './components/Header';
 import styled from 'styled-components';
 import Battle from './components/Battle';
 import LiveChat from './components/LiveChat';
-import db from '../../firebase/firestore'
 
 const Wrap = styled.div`
     min-width:1200px;

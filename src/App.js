@@ -1,8 +1,9 @@
 import React, {useState, useEffect}from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import db from './firebase/firestore';
-import styled from 'styled-components';
+import {db, storage} from './firebase/firestore';
+import HomePage from './page/HomePage/HomePage';
 import Navibar from '../src/page/Navibar/Navbar';
 import RegisterPopup from '../src/page/Navibar/RegisterPopup';
 import LoginPopup from '../src/page/Navibar/LoginPopup';
@@ -11,24 +12,33 @@ import AllTours from '../src/page/AllTours/AllTournaments';
 import Member from '../src/page/Member/Member';
 import {ResetStyle, GlobalStyle} from '../src/public_component/globalStyle';
 
-const Blur = styled.div`
-    width:1200px;
-    height:1200px;
-    background:rgba(0,0,0,0.73);
-    position:fixed;
-`
+
 
 const App = () =>{
     const [isSigned, setIsSigned] = useState(false);
     const [user, setUser] = useState(null);
-    const [popup, setPopup] = useState(false);
+    const [loginPopup, setLoginPopup] = useState(false);
+    const [registerPopup, setRegisterPopup] = useState(false);
 
-    const showPopup = () => {
-        setPopup(true)
+    const showLoginPopup = () => {
+        setLoginPopup(true)
+    }
+
+
+    const switchPopup = (popup) => {
+        if(popup === 'login'){
+            setLoginPopup(true)
+            setRegisterPopup(false)
+        } else{
+            setLoginPopup(false)
+            setRegisterPopup(true)
+        }
+        
     }
 
     const clickBlur = () => {
-        setPopup(false)
+        setLoginPopup(false)
+        setRegisterPopup(false)
     }
 
     const checkLogin = (uid, username) => {
@@ -59,22 +69,41 @@ const App = () =>{
 
     return (
         
-        <React.Fragment>
+        <Router>
             <ResetStyle />
             <GlobalStyle />
-            <Navibar showPopup={showPopup} isSigned={isSigned} user={user}/>
-            {
-                popup ?
-                <LoginPopup clickBlur={clickBlur} checkLogin={checkLogin} signOut={signOut}/>
-                :null
-            }
-        
-            {/* <AllTours isSigned={isSigned} user={user}/> */}
-            <LiveGame isSigned={isSigned} user={user}/>
-            {/* <Member isSigned={isSigned} user={user}/> */}
+
+            <Navibar showLoginPopup={showLoginPopup} isSigned={isSigned} user={user}/>
+                {
+                    loginPopup ?
+                    <LoginPopup clickBlur={clickBlur} checkLogin={checkLogin} signOut={signOut} switchPopup={switchPopup}/>
+                    :null
+                }
+                {
+                    registerPopup ?
+                    <RegisterPopup clickBlur={clickBlur} checkLogin={checkLogin} signOut={signOut} switchPopup={switchPopup}/>
+                    :null
+                }
+            <Switch>
+                
+                <Route path="/" exact>
+                    <HomePage />
+                </Route>
+
+                <Route path="/tournaments" >
+                    <AllTours isSigned={isSigned} user={user}/>
+                </Route>
+
+                <Route path="/stream">
+                    <LiveGame isSigned={isSigned} user={user}/>
+                </Route>
+                
+                <Route path="/member">
+                    <Member isSigned={isSigned} user={user}/>
+                </Route>
+            </Switch>
             
-            
-        </React.Fragment>
+        </Router>
     )
 }
 

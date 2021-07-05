@@ -20,9 +20,9 @@ const Wrap = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    position:relative;
+    padding-top:120px;
 
-    @media (max-width: 1199px) and (min-width: 700px) {
+    @media (max-width: 1199px) {
         min-width: 700px;
     }
 
@@ -173,12 +173,15 @@ const TourLi = styled.li`
 `
 
 const AllTours = () => {
+
+    console.log(123)
+
     return (
         <Wrap>
             <StateUL>
-                <StateLi className="pick">進行中</StateLi>
-                <StateLi className="noPick">即將開始</StateLi>
-                <StateLi className="noPick">已結束</StateLi>
+                <StateLi className="pick">Ongoing</StateLi>
+                <StateLi className="noPick">Upcoming</StateLi>
+                <StateLi className="noPick">Finish</StateLi>
             </StateUL>
 
             <OngoingWrap>
@@ -244,4 +247,4 @@ const AllTours = () => {
     )
 }
 
-export default AllTours
+export default AllTours;

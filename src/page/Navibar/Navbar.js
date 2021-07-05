@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 // import LoginRegisterPopup from './LoginRegisterPopup'
 import {primary, fontGrey, fontWhite, fontWaring} from '../../public_component/globalStyle';
@@ -76,6 +77,9 @@ const PageUL = styled.ul`
     display:flex;
     justify-content:space-around;
     font-size:16px;
+    li{
+        color:${fontGrey}
+    }
 
     @media (max-width: 800px) {
         // order:-1;
@@ -139,7 +143,7 @@ const Button = styled.button`
     }
 `
 
-const Navibar = ({showPopup, isSigned, user}) => {
+const Navibar = ({showLoginPopup, isSigned, user}) => {
     return (
         <NavibarWrap>
             {/* <Blur> */}
@@ -151,15 +155,21 @@ const Navibar = ({showPopup, isSigned, user}) => {
 
             
             <PageUL>
-                <li>Home</li>
-                <li>Tournaments</li>
-                <li>Stream</li>
+                <Link to='/'>
+                    <li>Home</li>
+                </Link>
+                <Link to='/tournaments'>
+                    <li>Tournaments</li>
+                </Link>
+                <Link to='/stream'>
+                    <li>Stream</li>
+                </Link>
             </PageUL>
 
             <SearchRegisterWrap>
                 <img src={searchI} alt="" />
                 <SearchInput type="text" placeholder="Tournaments..."/>
-                <Button onClick={showPopup}>
+                <Button onClick={showLoginPopup}>
                     {
                         isSigned ? user :'Sign in'
                     }

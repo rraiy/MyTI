@@ -1,14 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import db from '../../firebase/firestore';
+import {db} from '../../firebase/firestore';
 import { Blur, LRPopupWrap,SignInBtn, RegisterForm, Label, Input, RegisterBtn,SeparateDiv,RegisterGoogleBtn } from './css/RegisterPopupSty';
 
-const RegisterPopup = ({clickBlur}) => {
+const RegisterPopup = ({clickBlur, checkLogin, signOut, switchPopup}) => {
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [regSuccess, setRegSuccess] = useState(false);
 
     const insertToMember = (uid) => {
         db.collection('member').doc(uid).set({
@@ -22,7 +23,6 @@ const RegisterPopup = ({clickBlur}) => {
                 user_tour:[]
             }
         },{merge:true}).then(()=>{
-            alert('註冊成功')
         })
         .catch(err=>console.log(err));
     }
@@ -33,6 +33,15 @@ const RegisterPopup = ({clickBlur}) => {
         .then((userCredential)=>{
             const user = userCredential.user;
             insertToMember(user.uid)
+            firebase.auth().onAuthStateChanged(user=>{
+                if(user){
+                    db.collection('member').doc(user.uid).get()
+                    .then(member => {
+                        checkLogin(user.uid, member.data().username)
+                        setRegSuccess(true)
+                    })
+                }
+            })
         })
         .catch(err=>console.log(err));
     }
@@ -46,57 +55,60 @@ const RegisterPopup = ({clickBlur}) => {
             const user = res.user; // uid here
 
             insertToMember(user.uid)
-
-            console.log(user)
-            console.log(credential)
-            console.log(token)
-
         })
         .catch(err=>console.log(err));
     }
 
-
+    const onSignOut = () => {
+        firebase.auth().signOut().then(()=>{
+            console.log('登出惹')
+            signOut()
+        })
+    }
     
     return(
         <>
         <Blur onClick={clickBlur} ></Blur>
-            <LRPopupWrap>
+            {   regSuccess ? <LRPopupWrap success='#fff'> <p>註冊並登入成功 請等待稍後跳轉</p> </LRPopupWrap>
+                : <LRPopupWrap>
 
-                <SignInBtn>Sign In</SignInBtn>
+                    <SignInBtn onClick={() =>switchPopup('login')}>Sign In</SignInBtn>
 
-                <RegisterForm onSubmit={onRegister}>
-                    <h2>Sign Up</h2>
-                    <Label htmlFor="username">Username</Label>
-                    <Input 
-                    id="username" type="text" 
-                    onChange={e=>setUsername(e.target.value)} 
-                    value={username}/>
+                    <RegisterForm onSubmit={onRegister}>
+                        <h2>Sign Up</h2>
+                        <Label htmlFor="username">Username</Label>
+                        <Input 
+                        id="username" type="text" 
+                        onChange={e=>setUsername(e.target.value)} 
+                        value={username}/>
 
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="mail" 
-                    onChange={e=>setEmail(e.target.value)} 
-                    value={email}/>
+                        <Label htmlFor="email">Email</Label>
+                        <Input id="email" type="mail" 
+                        onChange={e=>setEmail(e.target.value)} 
+                        value={email}/>
 
-                    <Label htmlFor="password">Password</Label>
-                    <Input id="password" type="text" 
-                    onChange={e=>setPassword(e.target.value)} 
-                    value={password}/>
+                        <Label htmlFor="password">Password</Label>
+                        <Input id="password" type="text" 
+                        onChange={e=>setPassword(e.target.value)} 
+                        value={password}/>
+                        
+                        <RegisterBtn type="submit">Sign Up</RegisterBtn>
+                    </RegisterForm>
+
+                    <SeparateDiv>
+                        <hr />
+                        <p>or</p>
+                        <hr />
+                    </SeparateDiv>
                     
-                    <RegisterBtn type="submit">Sign Up</RegisterBtn>
-                </RegisterForm>
+                    <RegisterGoogleBtn onClick={onRegisterWithGoogle}>
+                        Sign up with Google
+                    </RegisterGoogleBtn>
 
-                <SeparateDiv>
-                    <hr />
-                    <p>or</p>
-                    <hr />
-                </SeparateDiv>
-                
-                <RegisterGoogleBtn onClick={onRegisterWithGoogle}>
-                    Sign up with Google
-                </RegisterGoogleBtn>
+                    <button onClick={onSignOut} style={{marginTop:'20px',color:'#fff'}}>暫時登出鈕</button>
 
-            </LRPopupWrap>
-        
+                </LRPopupWrap>
+            }
 
         </>
     )

@@ -103,6 +103,7 @@ export const Iframe = styled.iframe`
 
 export const ChatDiv = styled.div`
     width:380px;
+    height:468px;
 
     @media (max-width:699px){
         width:90%;

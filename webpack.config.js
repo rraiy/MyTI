@@ -10,13 +10,14 @@ module.exports = {
     output:{
         path: path.resolve(__dirname, 'dist'),
         filename:'main.[hash].js',
+        // publicPath:'/'
         // assetModuleFilename:'images/[hash]'
     },
     devtool:(mode_env === 'development') ? 'source-map':false,
     devServer:{
         contentBase: path.join(__dirname, 'dist'),
         writeToDisk: true,
-        // historyApiFallback: true,
+        historyApiFallback: true,
         port:5000,
     },
     module:{

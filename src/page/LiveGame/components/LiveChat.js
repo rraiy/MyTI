@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import iconSend from '../../../images/icon/send.png';
-import db from '../../../firebase/firestore';
+import {db} from '../../../firebase/firestore';
 import logo from '../../../images/team_logo/LGD.png';
 import minimize from '../../../images/icon/minimize.png';
 import{LiveChatWrap,StreamSelectDiv,StreamSelectBtn,StreamChatWrap,StreamDiv,Iframe,ChatDiv,ChatTitle,MiniI,ChatSpace,ChatType,Li,LeftDiv,ChatInput,LimitP,SendBtn,SendImg} from './css/LiveChatSty'
@@ -73,7 +73,7 @@ const LiveChat = ({isSigned, user}) => {
         
         updateChatMes();
 
-        const listenMessage = db.collection(dbChatRoomPath)
+        const unsubscribe = db.collection(dbChatRoomPath)
         .onSnapshot(snapshot => {
                 snapshot.docChanges().forEach(item => {
                 if (item.type === "added"){
@@ -83,7 +83,9 @@ const LiveChat = ({isSigned, user}) => {
         })
 
         
-        return () => listenMessage.unsubscribe()
+        return () => {
+            unsubscribe()
+        }
     },[])
 
     // listen new message

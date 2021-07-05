@@ -11,17 +11,25 @@ export const Blur = styled.div`
     z-index:2;
 `
 
-export const LRPopupWrap = styled.div`
+export const LRPopupWrap = styled.div.attrs(props => (
+    {
+        color:props.success || fontGrey,
+    }
+))`
     display:flex;
     flex-direction:column;
     background:${secondary};
+    color:${props=>props.color};
     padding:16px 32px;
     width:336px;
+    height:519px;
     border-radius:10px;
     position:fixed;
     z-index:5;
     top:80px;
     right:34%;
+
+
 `
 
 export const SignInBtn = styled.button`

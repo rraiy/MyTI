@@ -112,7 +112,7 @@ const Header = () =>{
         <Wrap>
             <TitleDiv>
                 <P><Logo src={dotaLogo} />DOTA2</P>
-                <H1>WePlay AniMajor</H1>
+                <H1>2021 WePlay AniMajor</H1>
             </TitleDiv>
             <TourButton>
                 <TourI src={tourIcon} alt="" />
