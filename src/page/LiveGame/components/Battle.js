@@ -275,7 +275,6 @@ const Battle = () => {
             if(team1Count && team2Count){
                 let team1Rating = Math.round((team1Count/(team1Count+team2Count))*10000)/100
                 let team2Rating= Math.round((100-team1Rating)*100)/100
-                console.log(team1Rating)
                 setTeam1Rate({rate:team1Rating+'%', count:team1Count});
                 setTeam2Rate({rate:team2Rating+'%', count:team2Count})
             }

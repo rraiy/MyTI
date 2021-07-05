@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import db from '../../firebase/firestore';
-import { Blur, LRPopupWrap,SignInBtn, RegisterForm, Label, Input, RegisterBtn,SeparateDiv,RegisterGoogleBtn } from './css/LoginRegisterPopupSty';
+import { Blur, LRPopupWrap,SignInBtn, RegisterForm, Label, Input, RegisterBtn,SeparateDiv,RegisterGoogleBtn } from './css/RegisterPopupSty';
 
-const LoginRegisterPopup = ({clickBlur}) => {
+const RegisterPopup = ({clickBlur}) => {
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -102,4 +102,4 @@ const LoginRegisterPopup = ({clickBlur}) => {
     )
 }
 
-export default LoginRegisterPopup;
+export default RegisterPopup;

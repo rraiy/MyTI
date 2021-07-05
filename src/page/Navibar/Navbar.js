@@ -139,8 +139,7 @@ const Button = styled.button`
     }
 `
 
-const Navibar = ({showPopup}) => {
-
+const Navibar = ({showPopup, isSigned, user}) => {
     return (
         <NavibarWrap>
             {/* <Blur> */}
@@ -160,7 +159,11 @@ const Navibar = ({showPopup}) => {
             <SearchRegisterWrap>
                 <img src={searchI} alt="" />
                 <SearchInput type="text" placeholder="Tournaments..."/>
-                <Button onClick={showPopup}>Sign in</Button>
+                <Button onClick={showPopup}>
+                    {
+                        isSigned ? user :'Sign in'
+                    }
+                </Button>
             </SearchRegisterWrap>
             {/* </Blur> */}
         </NavibarWrap>
