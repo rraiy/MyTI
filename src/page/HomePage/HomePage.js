@@ -33,10 +33,6 @@ const HomePage = () => {
     
     
 
-
-
-    console.log(storageRef)
-
     return (
         <Wrap>
         <div>HP</div>

@@ -5,7 +5,7 @@ import logo from '../../../images/team_logo/LGD.png';
 import minimize from '../../../images/icon/minimize.png';
 import{LiveChatWrap,StreamSelectDiv,StreamSelectBtn,StreamChatWrap,StreamDiv,Iframe,ChatDiv,ChatTitle,MiniI,ChatSpace,ChatType,Li,LeftDiv,ChatInput,LimitP,SendBtn,SendImg} from './css/LiveChatSty'
 
-
+const dbChatRoomPath = 'chat_room/WePlay_0614_PSGLGD/messages';
 
 const LiveChat = ({isSigned, user}) => {
     
@@ -28,7 +28,6 @@ const LiveChat = ({isSigned, user}) => {
         }
     ) 
 
-    const dbChatRoomPath = 'chat_room/WePlay_0614_PSGLGD/messages';
 
     const onChangeStream = (e) => {
 
@@ -180,7 +179,7 @@ const LiveChat = ({isSigned, user}) => {
                         <LeftDiv>
                             <p id="chat_user">{user}</p>
                             
-                            { !isSigned ? <ChatInput placeholder="Please sign in to chat."  style={{cursor:'not-allowed'}} disabled/>
+                            { isSigned === false ? <ChatInput placeholder="Please sign in to chat."  style={{cursor:'not-allowed'}} disabled/>
                             :<ChatInput 
                                 id="chat_input" 
                                 onChange={e => onTypeEvent(e)}

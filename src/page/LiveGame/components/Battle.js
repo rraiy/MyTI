@@ -5,7 +5,7 @@ import {db} from '../../../firebase/firestore';
 import {Wrap,BattleDiv,BattleBG,TeamDiv,TeamLogoDiv,TeamLogo,IntroDiv,IntroUl,VoteBtn,RateDiv,VoteRateDiv,VoteRateT1,VoteRateT2} from './css/BattleSty';
 
 
-const Battle = (isSigned, user) => {
+const Battle = ({isSigned, user}) => {
     const [team1Rate,setTeam1Rate] = useState({
         rate:'50%',
         count:0
@@ -15,7 +15,6 @@ const Battle = (isSigned, user) => {
         count:0
     });
 
-    console.log(isSigned)
 
     const getTeamVoteCount = ()=> {
         db.collection('live_game').doc('WePlay_0614_PSGLGD').get()
@@ -81,7 +80,7 @@ const Battle = (isSigned, user) => {
                         <TeamLogo src={LOGO} alt="" />
                     </TeamLogoDiv>
                     {
-                        isSigned === false ? // bug
+                        isSigned === false ? 
                         <VoteBtn disabled>Sign in first</VoteBtn>
                         : <VoteBtn onClick={onVoteTeam1} team='team_1'>Voting !</VoteBtn>
                     }
