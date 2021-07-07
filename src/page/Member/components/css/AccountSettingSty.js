@@ -22,6 +22,15 @@ export const Li = styled.li`
         width:20px;
         position:absolute;
         right:80px;
+        cursor:pointer;
+    }
+
+    .edit{
+        display:none;
+    }
+
+    .active{
+        display:block;
     }
 `
 
@@ -32,7 +41,7 @@ export const H1 = styled.h1`
     text-align:center;
     line-height:60px;
     border-radius:5px 5px 0 0;
-    margin-bottom:20px;
+    margin-bottom:30px;
 `
 
 export const TitleDiv = styled.div`
@@ -40,13 +49,13 @@ export const TitleDiv = styled.div`
     h3{
         font-size:16px;
         color:${primary};
-        margin-bottom:12px;
+        margin-bottom:20px;
     }
 
     p{
         font-size:20px;
         color:#DCACFF;
-        margin-bottom:12px;
+        margin-bottom:20px;
     }
     
 `
@@ -56,13 +65,13 @@ export const EditDiv = styled.div`
 
     p{  
         font-size:14px;
-        margin-bottom:12px;
+        margin-bottom:20px;
     }
 `
 
 export const Input = styled.input`
     height:28px;
-    margin-right:16px;
+    margin-right:20px;
 `
 
 export const Button = styled.button`

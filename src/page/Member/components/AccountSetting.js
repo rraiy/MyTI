@@ -10,6 +10,8 @@ const AccountSetting = ({user, userToken}) => {
     const [password, setPassword] = useState(null);
     const [birthday, setBirthday] =useState('2020-01-01');
 
+    const [activeItem, setActiveItem] = useState([]);
+
     const AccountSettingItems = [
         {
             title:'Username',
@@ -29,15 +31,25 @@ const AccountSetting = ({user, userToken}) => {
         },
     ]
 
+    const openEdit = (item) => {
+        if(activeItem.includes(item)){
+            const hideItem = activeItem.filter(active=> active !== item);
+            setActiveItem(hideItem);
+        }else{
+            setActiveItem([...activeItem, item]);
+        }
+    }
 
-    const renderItem =AccountSettingItems.map(item=>{
-        return(<Li key={item.title}>
-            <img src={MiniI} alt="edit" />
+
+    const renderItem = AccountSettingItems.map((item,index)=>{
+        const active = activeItem.includes(item.title) ? 'active':'';
+        return(<Li key={item.title} >
+            <img src={MiniI} alt="edit" onClick={()=>openEdit(item.title)}/>
             <TitleDiv>
                 <h3>{item.title}</h3>
                 <p>{item.value}</p>
             </TitleDiv>
-            <EditDiv>
+            <EditDiv className={`edit ${active}`}>
                 <p>Update your {item.title}:</p>
                 <Input type="text" id={item.title} />
                 <Button className='save'>Save</Button>
