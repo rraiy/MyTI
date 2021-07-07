@@ -14,7 +14,7 @@ const Wrap = styled.div`
     align-items:center;
     padding-top:120px;
 
-    @media (max-width:1199px) and (min-width:700px){
+    @media (max-width:1199px) {
         min-width:700px;
     }
 

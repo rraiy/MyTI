@@ -164,6 +164,11 @@ const Navibar = ({showLoginPopup, isSigned, user}) => {
                 <Link to='/stream'>
                     <li>Stream</li>
                 </Link>
+                {
+                    isSigned === true ?
+                    <Link to='/member'><li>Member</li></Link>
+                    : null
+                }
             </PageUL>
 
             <SearchRegisterWrap>

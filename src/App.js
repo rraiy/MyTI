@@ -19,6 +19,7 @@ const App = () =>{
     const [user, setUser] = useState(null);
     const [loginPopup, setLoginPopup] = useState(false);
     const [registerPopup, setRegisterPopup] = useState(false);
+    const [userToken, setUserToken] = useState(null);
 
     const showLoginPopup = () => {
         setLoginPopup(true)
@@ -42,10 +43,13 @@ const App = () =>{
     }
 
     const checkLogin = (uid, username) => {
+        
         if(uid){
             setIsSigned(true);
             setUser(username);
+            setUserToken(uid)
             // window.location.reload();
+            
         }
     }
 
@@ -61,6 +65,7 @@ const App = () =>{
                 .then(member => {
                     setIsSigned(true);
                     setUser(member.data().username);
+                    setUserToken(member.data().uid)
                 })
             }
         })
@@ -99,7 +104,7 @@ const App = () =>{
                 </Route>
                 
                 <Route path="/member">
-                    <Member isSigned={isSigned} user={user}/>
+                    <Member isSigned={isSigned} user={user} userToken={userToken}/>
                 </Route>
             </Switch>
             
