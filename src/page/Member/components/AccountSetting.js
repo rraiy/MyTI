@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from 'react';
+import firebase from 'firebase';
 import {db} from '../../../firebase/firestore';
 import {AccountWrap, H1, TitleDiv, Li, UL, EditDiv, Input, Button} from './css/AccountSettingSty';
-import MiniI from '../../../images/icon/minimize.png'
+import MiniI from '../../../images/icon/minimize.png';
+
 
 
 
 const AccountSetting = ({user, userToken}) => {
     console.log('AS最頂')
-    const [username, setUsername] = useState('ye');
+    const [username, setUsername] = useState(user);
     const [email, setEmail] = useState('raiy@gmail');
     const [password, setPassword] = useState('5566');
     const [birthday, setBirthday] =useState('2020-01-01');
@@ -21,7 +23,7 @@ const AccountSetting = ({user, userToken}) => {
     const AccountSettingItems = [
         {
             title:'Username',
-            value:username
+            value:user
         },
         {
             title:'Email Address',
@@ -46,6 +48,7 @@ const AccountSetting = ({user, userToken}) => {
         }
     }
 
+    
 
     const renderItem = AccountSettingItems.map((item,index)=>{
         console.log('AS內容')
@@ -118,7 +121,7 @@ const AccountSetting = ({user, userToken}) => {
         <AccountWrap>{console.log('AS return')}
             <H1>Account Settings</H1>
             <UL>
-                {
+                {   
                     renderItem
                 }
             </UL>

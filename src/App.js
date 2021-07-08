@@ -4,7 +4,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import {db, storage} from './firebase/firestore';
 import HomePage from './page/HomePage/HomePage';
-import Navibar from '../src/page/Navibar/Navbar';
+import Navibar from '../src/page/Navibar/Navibar';
 import RegisterPopup from '../src/page/Navibar/RegisterPopup';
 import LoginPopup from '../src/page/Navibar/LoginPopup';
 import LiveGame from '../src/page/LiveGame/LiveGame';
@@ -15,17 +15,22 @@ import {ResetStyle, GlobalStyle} from '../src/public_component/globalStyle';
 
 
 const App = () =>{
-    console.log('App最頂')
+    // console.log('App最頂')
     const [isSigned, setIsSigned] = useState(false);
     const [user, setUser] = useState(null);
+    const [userToken, setUserToken] = useState(null);
+    const [userEmail, setUserEmail] = useState(null);
+    const [userPassword, setUserPassword] = useState(null);
+    const [userTeam, setUserTeam] = useState(null);
+    const [userTour, setUserTour] = useState(null);
+    const [userBirth, setUserBirth] = useState(null);
+
     const [loginPopup, setLoginPopup] = useState(false);
     const [registerPopup, setRegisterPopup] = useState(false);
-    const [userToken, setUserToken] = useState(null);
-
+    
     const showLoginPopup = () => {
         setLoginPopup(true)
     }
-
 
     const switchPopup = (popup) => {
         if(popup === 'login'){
@@ -35,7 +40,6 @@ const App = () =>{
             setLoginPopup(false)
             setRegisterPopup(true)
         }
-        
     }
 
     const clickBlur = () => {
@@ -44,7 +48,6 @@ const App = () =>{
     }
 
     const checkLogin = (uid, username) => {
-        
         if(uid){
             setIsSigned(true);
             setUser(username);
@@ -66,7 +69,11 @@ const App = () =>{
                 .then(member => {
                     setIsSigned(true);
                     setUser(member.data().username);
-                    setUserToken(member.data().uid)
+                    setUserToken(member.data().uid);
+                    setUserEmail(member.data().email);
+                    setUserTeam(member.data().user_team);
+                    setUserTour(member.data().user_tour);
+                    setUserBirth(member.data().user_birth)
                 })
             }
         })
@@ -83,7 +90,7 @@ const App = () =>{
                 {
                     loginPopup ?
                     <LoginPopup clickBlur={clickBlur} checkLogin={checkLogin} signOut={signOut} switchPopup={switchPopup}/>
-                    :console.log('App return')
+                    :null
                 }
                 {
                     registerPopup ?
@@ -93,19 +100,19 @@ const App = () =>{
             <Switch>
                 
                 <Route path="/" exact>
-                    <HomePage />
+                    <HomePage isSigned={isSigned} user={user}/>
                 </Route>
 
                 <Route path="/tournaments" >
-                    <AllTours isSigned={isSigned} user={user}/>
+                    <AllTours isSigned={isSigned} user={user} userTour={userTour}/>
                 </Route>
 
                 <Route path="/stream">
-                    <LiveGame isSigned={isSigned} user={user}/>
+                    <LiveGame isSigned={isSigned} user={user} />
                 </Route>
                 
                 <Route path="/member">
-                    <Member isSigned={isSigned} user={user} userToken={userToken}/>
+                    <Member isSigned={isSigned} user={user} userToken={userToken} userEmail={userEmail} userTeam={userTeam} userTour={userTour} userBirth={userBirth}/>
                 </Route>
             </Switch>
             

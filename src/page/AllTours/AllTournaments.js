@@ -174,6 +174,17 @@ const TourLi = styled.li`
 
 const AllTours = () => {
 
+    // const text = () => {
+    //     db.collection('member').doc(userToken)
+    //     .update({
+    //         user_tour:firebase.firestore.FieldValue.arrayUnion({
+    //             tourTitle:'DPC GAMES',
+    //             tourStart:'2021-07-09',
+    //             tourEnd:'2021-07-16'
+    //         })
+    //     })
+    // }
+
     console.log(123)
 
     return (

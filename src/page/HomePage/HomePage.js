@@ -35,9 +35,9 @@ const HomePage = () => {
 
     return (
         <Wrap>
-        <div>HP</div>
-        <video  src={main} autoPlay="true" preload="auto" loop  style={{width:'100%'}}>
-        </video>
+            <div>HP</div>
+            <video  src={main} autoPlay="true" preload="auto" loop  style={{width:'100%'}}>
+            </video>
         </Wrap>
     )
 }

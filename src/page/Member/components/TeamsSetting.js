@@ -1,3 +1,5 @@
+// TeamsSetting.js
+
 import React, {useState, useEffect} from 'react';
 import {TeamsSettingWrap, FavoriteWrap, StarI, IconWrap, MemberTeamLogo, AllTeamUL, TeamItemWrapLi, SearchTeamInput,SelectTeamWrap} from './css/TeamsSettingSty'
 import starI from '../../../images/icon/star.png';

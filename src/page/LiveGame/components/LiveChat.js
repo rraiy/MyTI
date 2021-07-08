@@ -143,9 +143,9 @@ const LiveChat = ({isSigned, user}) => {
                     </iframe> */}
 
                     {/* twitch */}
-                    {/* <iframe  style={{display:`${showStream.twitch}`}}
+                    <iframe  style={{display:`${showStream.twitch}`}}
                     frameborder="0"  allow="fullscreen" scrolling="no" width="100%" height="100%" 
-                    src="https://player.twitch.tv/?channel=beyondthesummit&amp;parent=localhost&amp;autoplay=false"></iframe> */}
+                    src="https://player.twitch.tv/?channel=beyondthesummit&amp;parent=localhost&amp;autoplay=false"></iframe>
 
                     {/* huya */}
                     {/* <Iframe width="100%" height="100%"  frameborder="0" scrolling="no" style={{
