@@ -6,7 +6,6 @@ import MiniI from '../../../images/icon/minimize.png';
 
 
 
-
 const AccountSetting = ({user, userToken, userEmail, userBirth}) => {
     
     // const [username, setUsername] = useState(user);
@@ -83,10 +82,22 @@ const AccountSetting = ({user, userToken, userEmail, userBirth}) => {
             break;
             case 'Birthday': setNewBirthday(newValue);
         }
-        console.log(newUsername)
     }
 
     const onSaveValue = (title) => {
+        if(title === 'Username'){
+            db.collection('member').doc(userToken).update({username:newUsername}).then(
+                ()=> setNewUsername('')
+            )
+            .catch(err => console.log(err))
+        }else if(title === 'Birthday'){
+            db.collection('member').doc(userToken).update({user_birth:newBirthday}).then(
+                ()=> setNewBirthday('')
+            )
+            .catch(err => console.log(err))
+        }
+
+
         switch(title){
             case 'Username': setNewUsername(newUsername);
             break;
@@ -106,15 +117,7 @@ const AccountSetting = ({user, userToken, userEmail, userBirth}) => {
         }
     }
 
-    useEffect(()=>{ 
-        if(userToken !== null){
-            db.collection('member').doc(userToken).get()
-            .then(res=>{
-                console.log(res.data())
-            })
-        }
-        
-    },[])
+    
 
     return(
         <AccountWrap>
