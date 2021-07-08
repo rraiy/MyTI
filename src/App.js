@@ -16,7 +16,8 @@ import {ResetStyle, GlobalStyle} from '../src/public_component/globalStyle';
 
 const App = () =>{
     // console.log('App最頂')
-    const [isSigned, setIsSigned] = useState(false);
+    const [isChecking, setChecking] = useState(true);
+    const [isSigned, setIsSigned] = useState(true);
     const [user, setUser] = useState(null);
     const [userToken, setUserToken] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
@@ -109,6 +110,7 @@ const App = () =>{
                 db.collection('member').doc(user.uid).get()
                 .then(member => fetchUserData(member.data()))
                 .then((uid)=>{
+                    setChecking(false)
                     db.collection('member').doc(uid).onSnapshot(update=>{
                         fetchUserData(update.data())
                     })
@@ -118,6 +120,10 @@ const App = () =>{
         })
 
     },[])
+
+    if(isChecking){
+        return <div> Loading...</div>
+    }
 
 
     return (

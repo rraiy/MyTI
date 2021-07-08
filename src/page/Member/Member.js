@@ -1,9 +1,8 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
-import Calendar from './components/Calendar_Module';
 import AccountSetting from './components/AccountSetting';
 import TeamsSetting from './components/TeamsSetting';
-import UserCalendar from './components/UserCalendar';
+import Calendar from './components/UserCalendar';
 import {Wrap} from '../../public_component/globalStyle' ;
 
 const Member = ({isSigned, user, userToken, userEmail, userTeam, userTour, userBirth}) => {
@@ -15,7 +14,7 @@ const Member = ({isSigned, user, userToken, userEmail, userTeam, userTour, userB
         <Router>
             <Wrap>
                 {
-                    !isSigned ? <div>請先登入會員</div>:
+                    // !isSigned ? <div>請先登入會員</div>:
                     <>
                         <div style={{marginBottom:"40px"}}>
                             <Link to="/member">Account</Link>
@@ -32,7 +31,7 @@ const Member = ({isSigned, user, userToken, userEmail, userTeam, userTour, userB
                             </Route>
 
                             <Route>
-                                <UserCalendar path="/member/calendar" userToken={userTour}/>
+                                <Calendar path="/member/calendar" userToken={userToken} userTour={userTour}/>
                             </Route>
                         </Switch>
                     </>
