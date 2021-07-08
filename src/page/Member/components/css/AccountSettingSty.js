@@ -4,7 +4,7 @@ import {primary, secondary, fontGrey, fontWhite, fontWaring, fontYellow} from '.
 export const AccountWrap = styled.div`
     width:952px;
     border:1px solid ${primary};
-    border-radius:5px;
+    border-radius:16px;
     background:#1F1D33;
 `
 
@@ -40,7 +40,7 @@ export const H1 = styled.h1`
     background:#464B86;
     text-align:center;
     line-height:60px;
-    border-radius:5px 5px 0 0;
+    border-radius:16px 16px 0 0;
     margin-bottom:30px;
 `
 

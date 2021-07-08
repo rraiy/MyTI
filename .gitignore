@@ -3,3 +3,4 @@ firebase.config.js
 datas
 
 .DS_Store
+.eslintrc

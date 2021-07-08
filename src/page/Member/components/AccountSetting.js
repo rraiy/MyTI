@@ -6,6 +6,7 @@ import MiniI from '../../../images/icon/minimize.png'
 
 
 const AccountSetting = ({user, userToken}) => {
+    console.log('AS最頂')
     const [username, setUsername] = useState('ye');
     const [email, setEmail] = useState('raiy@gmail');
     const [password, setPassword] = useState('5566');
@@ -47,6 +48,7 @@ const AccountSetting = ({user, userToken}) => {
 
 
     const renderItem = AccountSettingItems.map((item,index)=>{
+        console.log('AS內容')
         const active = activeItem.includes(item.title) ? 'active':'';
         return(<Li key={item.title} >
             {
@@ -100,8 +102,20 @@ const AccountSetting = ({user, userToken}) => {
         }
     }
 
+    console.log(userToken)
+
+    useEffect(()=>{ // 一開始沒吃到userToken（為null） 所以[]的狀況執行不了
+        if(userToken !== null){
+            db.collection('member').doc(userToken).get()
+            .then(res=>{
+                console.log(res.data())
+            })
+        }
+        
+    },[])
+
     return(
-        <AccountWrap>
+        <AccountWrap>{console.log('AS return')}
             <H1>Account Settings</H1>
             <UL>
                 {

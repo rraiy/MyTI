@@ -15,6 +15,7 @@ import {ResetStyle, GlobalStyle} from '../src/public_component/globalStyle';
 
 
 const App = () =>{
+    console.log('App最頂')
     const [isSigned, setIsSigned] = useState(false);
     const [user, setUser] = useState(null);
     const [loginPopup, setLoginPopup] = useState(false);
@@ -82,7 +83,7 @@ const App = () =>{
                 {
                     loginPopup ?
                     <LoginPopup clickBlur={clickBlur} checkLogin={checkLogin} signOut={signOut} switchPopup={switchPopup}/>
-                    :null
+                    :console.log('App return')
                 }
                 {
                     registerPopup ?
