@@ -7,12 +7,12 @@ import MiniI from '../../../images/icon/minimize.png';
 
 
 
-const AccountSetting = ({user, userToken}) => {
-    console.log('AS最頂')
-    const [username, setUsername] = useState(user);
-    const [email, setEmail] = useState('raiy@gmail');
-    const [password, setPassword] = useState('5566');
-    const [birthday, setBirthday] =useState('2020-01-01');
+const AccountSetting = ({user, userToken, userEmail, userBirth}) => {
+    
+    // const [username, setUsername] = useState(user);
+    // const [email, setEmail] = useState('raiy@gmail'); // not allow user to change
+    // const [password, setPassword] = useState('5566');
+    // const [birthday, setBirthday] =useState('2020-01-01');
 
     const [activeItem, setActiveItem] = useState([]);
 
@@ -27,15 +27,15 @@ const AccountSetting = ({user, userToken}) => {
         },
         {
             title:'Email Address',
-            value:email
+            value:userEmail
         },
         {
             title:'Password',
-            value:password
+            value:'****'
         },
         {
             title:'Birthday',
-            value:birthday
+            value:userBirth
         },
     ]
 
@@ -51,7 +51,7 @@ const AccountSetting = ({user, userToken}) => {
     
 
     const renderItem = AccountSettingItems.map((item,index)=>{
-        console.log('AS內容')
+        
         const active = activeItem.includes(item.title) ? 'active':'';
         return(<Li key={item.title} >
             {
@@ -64,50 +64,49 @@ const AccountSetting = ({user, userToken}) => {
             </TitleDiv>
             <EditDiv className={`edit ${active}`}>
                 <p>Update your {item.title}:</p>
-                <Input type="text"
-                    onChange={e => handleInputChange(e.target.value, index)}
+                <Input type="text" id={item.title}
+                    onChange={e => handleInputChange(e.target.value, e.target.id)}
                     value={item.title === 'Username' ? newUsername: item.title === 'Password' ? newPassword:newBirthday}
                 />
-                <Button className='save' onClick={()=>onSaveValue(index)}>Save</Button>
-                <Button className='cancel' onClick={()=>onCancelValue(index)}>Cancel</Button>
+                <Button className='save' id={item.title} onClick={(e)=>onSaveValue(e.target.id)}>Save</Button>
+                <Button className='cancel' id={item.title} onClick={(e)=>onCancelValue(e.target.id)}>Cancel</Button>
             </EditDiv>
             
         </Li>)
     });
 
-    const handleInputChange = (newValue, index) => {
-        switch(index){
-            case 0: setNewUsername(newValue);
+    const handleInputChange = (newValue, title) => {
+        switch(title){
+            case 'Username': setNewUsername(newValue);
             break;
-            case 2: setNewPassword(newValue);
+            case 'Password': setNewPassword(newValue);
             break;
-            case 3: setNewBirthday(newValue);
+            case 'Birthday': setNewBirthday(newValue);
+        }
+        console.log(newUsername)
+    }
+
+    const onSaveValue = (title) => {
+        switch(title){
+            case 'Username': setNewUsername(newUsername);
+            break;
+            case 'Password': setNewPassword(newPassword);
+            break;
+            case 'Birthday': setNewBirthday(newBirthday);
         }
     }
 
-    const onSaveValue = (index) => {
-        switch(index){
-            case 0: setUsername(newUsername);
+    const onCancelValue = (title) => {
+        switch(title){
+            case 'Username': setNewUsername('');
             break;
-            case 2: setPassword(newPassword);
+            case 'Password': setNewPassword('');
             break;
-            case 3: setBirthday(newBirthday);
+            case 'Birthday': setNewBirthday('');
         }
     }
 
-    const onCancelValue = (index) => {
-        switch(index){
-            case 0: setNewUsername('');
-            break;
-            case 2: setNewPassword('');
-            break;
-            case 3: setNewBirthday('');
-        }
-    }
-
-    console.log(userToken)
-
-    useEffect(()=>{ // 一開始沒吃到userToken（為null） 所以[]的狀況執行不了
+    useEffect(()=>{ 
         if(userToken !== null){
             db.collection('member').doc(userToken).get()
             .then(res=>{
@@ -118,7 +117,7 @@ const AccountSetting = ({user, userToken}) => {
     },[])
 
     return(
-        <AccountWrap>{console.log('AS return')}
+        <AccountWrap>
             <H1>Account Settings</H1>
             <UL>
                 {   

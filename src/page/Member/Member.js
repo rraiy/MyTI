@@ -17,10 +17,10 @@ const Member = ({isSigned, user, userToken, userEmail, userTeam, userTour, userB
                 {
                     !isSigned ? <div>請先登入會員</div>:
                     <>
-                        <div>
+                        <div style={{marginBottom:"40px"}}>
                             <Link to="/member">Account</Link>
                             <Link to="/member/userteam">Team</Link>
-                            <Link href="/member/calendar">Tour Calendar</Link>
+                            <Link to="/member/calendar">Tour Calendar</Link>
                         </div>
                         <Switch>
                             <Route exact path="/member">

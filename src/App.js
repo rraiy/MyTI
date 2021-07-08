@@ -25,6 +25,7 @@ const App = () =>{
     const [userTour, setUserTour] = useState(null);
     const [userBirth, setUserBirth] = useState(null);
 
+    // open login register popup
     const [loginPopup, setLoginPopup] = useState(false);
     const [registerPopup, setRegisterPopup] = useState(false);
     
@@ -62,21 +63,60 @@ const App = () =>{
         setUser(null);
     }
 
-    useEffect(()=>{
+    const fetchUserData = (data) => {
+        setIsSigned(true);
+        setUser(data.username);
+        setUserToken(data.uid);
+        setUserEmail(data.email);
+        setUserTeam(data.user_team);
+        setUserTour(data.user_tour);
+        setUserBirth(data.user_birth)
+        return data.uid
+    }
+
+    // async function handlerUserState (){
+    //     firebase.auth().onAuthStateChanged(user=>{
+    //         if(user){
+    //             db.collection('member').doc(user.uid).get()
+    //             .then(member => fetchUserData(member.data()))
+    //         }
+    //     })
+    // }
+
+    // async function listenUserUpdate(uid){
+    //     db.collection('member').doc(uid).onSnapshot(update=>{
+    //         fetchUserData(update.data())
+    //     })
+    // }
+
+    // useEffect(()=>{
+
+    //     const listenUserUpdate = async () =>{
+    //         const uid = await handlerUserState();
+    //         console.log('effect 拿到' ,uid)
+    //     };
+
+
+    //     listenUserUpdate();
+
+    // },[])
+
+
+
+    useEffect(()=>{  // bug 監聽寫裡面不知道怎麼取消
         firebase.auth().onAuthStateChanged(user=>{
             if(user){
                 db.collection('member').doc(user.uid).get()
-                .then(member => {
-                    setIsSigned(true);
-                    setUser(member.data().username);
-                    setUserToken(member.data().uid);
-                    setUserEmail(member.data().email);
-                    setUserTeam(member.data().user_team);
-                    setUserTour(member.data().user_tour);
-                    setUserBirth(member.data().user_birth)
+                .then(member => fetchUserData(member.data()))
+                .then((uid)=>{
+                    db.collection('member').doc(uid).onSnapshot(update=>{
+                        fetchUserData(update.data())
+                    })
                 })
+                .catch(err => console.log(err))
             }
         })
+
     },[])
 
 
