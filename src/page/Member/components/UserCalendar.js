@@ -42,19 +42,34 @@ const Calendar = ({userToken, userTour}) => {
 
     useEffect(()=>{
 
-        if(tours){ // bug if direct to the component cant render tour event
-            let datas=[]
+        // if(tours){ // bug if direct to the component cant render tour event
+        //     let datas=[]
             
-            tours.forEach(tour=>{
-                let arr = getAllTourDates(tour.tourStart, tour.tourEnd);
-                datas.push({
+        //     tours.forEach(tour=>{
+        //         let arr = getAllTourDates(tour.tourStart, tour.tourEnd);
+        //         datas.push({
+        //             title:tour.tourTitle,
+        //             tour_date:arr
+        //         })
+        //     })
+        //     setTourDatas(datas);
+        //     setLoading(false);
+        // }
+
+
+        if(tours){
+            const datas2 = tours.map(tour=>{
+                return {
                     title:tour.tourTitle,
-                    tour_date:arr
-                })
+                    tour_date:getAllTourDates(tour.tourStart, tour.tourEnd)
+                }
             })
-            setTourDatas(datas);
+            
+            console.log(datas2)
+            setTourDatas(datas2);
             setLoading(false);
         }
+
         
     },[])
 
@@ -90,7 +105,8 @@ const Calendar = ({userToken, userTour}) => {
                                     col.date === todayFormat ?
                                     <li key={col.date} className={`${col.classes} today ${col.date}`} onClick={()=>dateClickHandler(col.date)}>
                                         <p>{col.value}</p>
-                                        {   tourDatas ?
+                                        {   
+                                            tourDatas ?
                                             tourDatas.filter(tour => {
                                                 return tour.tour_date.includes(col.date)
                                             }).map(item=>(<EventDiv >{item.title}</EventDiv>))
