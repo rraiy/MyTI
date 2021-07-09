@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {db} from '../../../firebase/firestore';
+import {db, storage} from '../../../firebase/firestore';
 import useCalendar from '../../../hooks/useCalendar';
-import {Button, DayUl, Ul, RowsWrap} from './css/UserCalendarSty';
+import {UserCalendarWrap, DayUl, AllRowsUl, RowsWrap, SelectMonthDiv, MonthBtn, TodayBtn} from './css/UserCalendarSty';
 
 const Calendar = ({userToken, userTour}) => {
     const { daysName,
@@ -12,13 +12,15 @@ const Calendar = ({userToken, userTour}) => {
         getPrevMonth,
         getNextMonth} = useCalendar();
 
-
         // tourEnd: "2021-06-25"
         // tourStart: "2021-06-20"
         // tourTitle: "ESL One"
     const [isLoading, setLoading] = useState(true);
     const [tours, setTours] = useState(userTour);
     const [tourDatas, setTourDatas] = useState(null);
+
+    
+
 
     useEffect(()=>{
 
@@ -45,15 +47,20 @@ const Calendar = ({userToken, userTour}) => {
         }
     
     return(
-        <>
-            <p>Select Month: {`${monthNames[selectedDate.getMonth()]} - ${selectedDate.getFullYear()}`}</p>
+        <UserCalendarWrap>
+            <SelectMonthDiv>
+                <MonthBtn onClick={getPrevMonth}>Prev</MonthBtn>
+                <TodayBtn>Today</TodayBtn>
+                <MonthBtn onClick={getNextMonth}>Next</MonthBtn>
+                <p>{`${monthNames[selectedDate.getMonth()]} - ${selectedDate.getFullYear()}`}</p>
+            </SelectMonthDiv>
             <DayUl>
                 {daysName.map(day=>(
                     <li key={day}>{day}</li>
                 ))}
             </DayUl>
                 
-            <Ul>
+            <AllRowsUl>
                 
                 {
                     
@@ -62,7 +69,8 @@ const Calendar = ({userToken, userTour}) => {
                             {
                                 cols.map(col => (
                                     col.date === todayFormat ?
-                                    <li key={col.date} className={`${col.classes} today ${col.date}`} onClick={()=>dateClickHandler(col.date)}>{col.value}
+                                    <li key={col.date} className={`${col.classes} today ${col.date}`} onClick={()=>dateClickHandler(col.date)}>
+                                        <p>{col.value}</p>
                                         {   tourDatas ?
                                             tourDatas.filter(e => col.date === e.date).map((x)=>(
                                                 <div style={{background:'pink'}}>{x.title}</div>
@@ -70,7 +78,8 @@ const Calendar = ({userToken, userTour}) => {
                                             :null
                                         }
                                     </li>
-                                    : <li key={col.date} className={`${col.classes} ${col.date}`} onClick={()=>dateClickHandler(col.date)}>{col.value}
+                                    : <li key={col.date} className={`${col.classes} ${col.date}`} onClick={()=>dateClickHandler(col.date)}>
+                                    <p>{col.value}</p>
                                     {
                                         tourDatas?
                                         tourDatas.filter(e => col.date === e.date).map((x)=>(
@@ -86,11 +95,10 @@ const Calendar = ({userToken, userTour}) => {
                 }
                 
                 
-            </Ul>
+            </AllRowsUl>
             
-            <Button onClick={getPrevMonth}>Prev</Button>
-            <Button onClick={getNextMonth}>Next</Button>
-        </>
+            
+        </UserCalendarWrap>
     )
 }
 
