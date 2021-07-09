@@ -11,7 +11,7 @@ const monthNamesArr = [
 
 const useCalendar = (daysName = dayNamesArr, monthNames = monthNamesArr) => {
     const today = new Date();
-    const todayFormat = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
+    const todayFormat = `${today.getFullYear()}-`+`${(today.getMonth()+1)}`.padStart(2, "0")+'-'+`${today.getDate()}`.padStart(2, "0");
 
     const daysInWeek = [0,1,2,3,4,5,6];
 
@@ -33,18 +33,17 @@ const useCalendar = (daysName = dayNamesArr, monthNames = monthNamesArr) => {
 
 
     for (let i = 1; i < rows+1; i++) {
-        for (let j = 0; j < cols; j++) {
+        for (let j = 1; j < cols+1; j++) {
             if(!calendarRows[i]){
                 calendarRows[i] = []; 
             }
-
+// `${today.getFullYear()}-`+`${(today.getMonth()+1)}`.padStart(2, "0")+'-'+`${today.getDate()}`.padStart(2, "0")
             if(i === 1){ 
                 if(j < startingPoint){ 
                     calendarRows[i] = [...calendarRows[i],
                     {
                         classes:`in-prev-month `,
-                        date:`${selectedDate.getMonth() === 0 ? 
-                            selectedDate.getFullYear()-1 :selectedDate.getFullYear()}-${selectedDate.getMonth() === 0 ? 12: selectedDate.getMonth()}-${prevMonthStartingPoint}`,
+                        date:`${selectedDate.getMonth() === 0 ? selectedDate.getFullYear()-1 :selectedDate.getFullYear()}-`+`${selectedDate.getMonth() === 0 ? 12: selectedDate.getMonth()}`.padStart(2, "0")+"-"+`${prevMonthStartingPoint}`.padStart(2, "0"),
                         value:prevMonthStartingPoint
                     }];
                     prevMonthStartingPoint++;
@@ -52,7 +51,7 @@ const useCalendar = (daysName = dayNamesArr, monthNames = monthNamesArr) => {
                 }else{ 
                     calendarRows[i] = [...calendarRows[i],{
                         classes:'in-now-month',
-                        date:`${selectedDate.getFullYear()}-${selectedDate.getMonth()+1}-${currentMonthCounter}`,
+                        date:`${selectedDate.getFullYear()}-`+`${selectedDate.getMonth()+1}`.padStart(2, "0")+'-'+`${currentMonthCounter}`.padStart(2, "0"),
                         value:currentMonthCounter
                     }];
                     currentMonthCounter++;
@@ -60,14 +59,14 @@ const useCalendar = (daysName = dayNamesArr, monthNames = monthNamesArr) => {
             }else if(i>1 && currentMonthCounter < totalDayCountInMonth +1){ 
                 calendarRows[i] = [...calendarRows[i],{
                     classes:'in-now-month',
-                    date:`${selectedDate.getFullYear()}-${selectedDate.getMonth() +1}-${currentMonthCounter}`,
+                    date:`${selectedDate.getFullYear()}-`+`${selectedDate.getMonth() +1}`.padStart(2, "0")+"-"+`${currentMonthCounter}`.padStart(2, "0"),
                     value:currentMonthCounter
                 }];
                 currentMonthCounter++;
             }else{ 
                 calendarRows[i] = [...calendarRows[i],{
                     classes:'in-next-month',
-                    date:`${selectedDate.getMonth()+2 === 13 ? selectedDate.getFullYear()+1:selectedDate.getFullYear()}-${selectedDate.getMonth()+2 === 13 ? 1 : selectedDate.getMonth()+ 2 }-${nextMonthCounter}`,
+                    date:`${selectedDate.getMonth()+2 === 13 ? selectedDate.getFullYear()+1:selectedDate.getFullYear()}-`+`${selectedDate.getMonth()+2 === 13 ? 1 : selectedDate.getMonth()+ 2 }`.padStart(2, "0")+"-"+`${nextMonthCounter}`.padStart(2, "0"),
                     value:nextMonthCounter
                 }];
                 nextMonthCounter++;
@@ -83,6 +82,9 @@ const useCalendar = (daysName = dayNamesArr, monthNames = monthNamesArr) => {
         setSelectedDate(prevValue => new Date(prevValue.getFullYear(), prevValue.getMonth()+1, 1));
     }
 
+    const getToday = () => {
+        setSelectedDate(today)
+    }
 
 
     return {
@@ -92,7 +94,8 @@ const useCalendar = (daysName = dayNamesArr, monthNames = monthNamesArr) => {
         calendarRows,
         selectedDate,
         getPrevMonth,
-        getNextMonth
+        getNextMonth,
+        getToday,
     }
 }
 

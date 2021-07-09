@@ -86,6 +86,15 @@ li:nth-last-child(1){
 
 p{
     text-align:right;
-    padding:4px;
+    padding:8px;
+    margin-bottom:4px;
 }
+`
+
+export const EventDiv = styled.div`
+    width:100%;
+    background:#8681FF;
+    color:${fontWhite};
+    font-size:14px;
+    padding:4px 0;
 `
