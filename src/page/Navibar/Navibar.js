@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {Link} from 'react-router-dom';
-import{NavibarWrap, Blur, LogoDiv, PageUL, SearchRegisterWrap, SearchInput, Button, MenuI, MenuUl} from './css/NavibarSty'
+import{NavibarWrap, Blur, LogoDiv, PageUL, SearchRegisterWrap, SearchInput, Button, MenuI, MenuUl, UserMenuDiv} from './css/NavibarSty'
 // import LoginRegisterPopup from './LoginRegisterPopup'
 import dotaLogo from '../../images/dota2_logo.png';
 import aegis from '../../images/aegis.png';
@@ -11,8 +11,38 @@ import menuI from '../../images/icon/menu.png';
 
 const Navibar = ({showLoginPopup, isSigned, user}) => {
 
-    console.log(isSigned)
+    const [menuActive, setMenuActive] = useState('none');
+    const menuHoverRef = useRef();
 
+    useEffect(() => {
+        document.body.addEventListener('mouseover',e=>{
+            if(menuHoverRef.current.contains(e.target)){
+                console.log(e.target)
+                setMenuActive('block')
+            }
+        });
+        document.body.addEventListener('mouseout',e=>{
+            if(menuHoverRef.current.contains(e.target)){
+                setMenuActive('none')
+            }
+        });
+        
+        return () => {
+            document.body.removeEventListener('mouseover',e=>{
+                if(menuHoverRef.current.contains(e.target)){
+                    console.log(e.target)
+                    setMenuActive('block')
+                }
+            });
+            document.body.removeEventListener('mouseout',e=>{
+                if(menuHoverRef.current.contains(e.target)){
+                    setMenuActive('none')
+                }
+            });
+        }
+        
+
+    },[])
 
     return (
         <NavibarWrap>
@@ -47,14 +77,20 @@ const Navibar = ({showLoginPopup, isSigned, user}) => {
                     !isSigned ?
                     <Button onClick={showLoginPopup}>Sign in</Button>
                     :
-                    <Button className="navibar_user">{user}</Button>
+                    <UserMenuDiv ref={menuHoverRef} className="navibar_user">{user}
+                        {
+                        
+                        <MenuUl className="user_menu" show={menuActive}>
+                            <Link to="/member/accountsetting"><li>Profile</li></Link>
+                            <Link to="/member/userteam"><li>Favorite</li></Link>
+                            <Link to="/member/calendar"><li>Calendar</li></Link>
+                            <li><button>Sign out</button></li>
+                        </MenuUl>
+                        
+                        }
+                    </UserMenuDiv>
                 }
-                <MenuUl className="user_menu">
-                <Link to="/member/accountsetting"><li>Profile</li></Link>
-                <Link to="/member/userteam"><li>Favorite</li></Link>
-                <Link to="/member/calendar"><li>Calendar</li></Link>
-                <li><button>Sign out</button></li>
-                </MenuUl>
+                
             </SearchRegisterWrap>
         </NavibarWrap>
     )

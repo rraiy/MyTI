@@ -49,12 +49,12 @@ const Member = ({isSigned, user, userToken, userEmail, userTeam, userTour, userB
 
         window.addEventListener('popstate', function(){checkArea()})
         window.addEventListener('replaceState', function(){checkArea()})
-        window.addEventListener('pushState', function() {checkArea()})
+        window.addEventListener('pushState', function(){checkArea()})
 
         return function cleanup(){
             window.removeEventListener('popstate', function(){checkArea()})
             window.removeEventListener('replaceState', function(){checkArea()})
-            window.removeEventListener('pushState', function() {checkArea()})
+            window.removeEventListener('pushState', function(){checkArea()})
         }
     },[])
 

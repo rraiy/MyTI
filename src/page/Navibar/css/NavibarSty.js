@@ -82,6 +82,7 @@ export const PageUL = styled.ul`
 `
 
 export const SearchRegisterWrap = styled.div`
+    display:flex;
     position:relative;
     img{
         width:18px;
@@ -135,12 +136,28 @@ export const Button = styled.button`
         margin-right:0;
     }
 `
+export const UserMenuDiv = styled.div`
+    width:80px;
+    font-size:14px;
+    color:${primary};
+    border:2px solid ${primary};
+    border-radius:56px;
+    text-align:center;
+    line-height:30px;
+
+    :hover{
+        color:${fontWhite};
+        background:${primary};
+        cursor:pointer;
+    }
+`
+
 export const MenuUl = styled.ul`
-    
+    display:${props=>props.show};
     position:absolute;
     width:120px;
-    top:50px;
-    right:30px;
+    top:35px;
+    right:10px;
     font-size:14px;
     background:#1F1D33;
     padding:10px 20px;
