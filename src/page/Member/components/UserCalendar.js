@@ -66,7 +66,6 @@ const Calendar = ({userToken, userTour}) => {
                 }
             })
             
-            console.log(datas2)
             setTourDatas(datas2);
             setLoading(false);
         }
