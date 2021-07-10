@@ -30,6 +30,7 @@ const Calendar = ({userToken, userTour}) => {
         console.log(date)
     }
 
+    // deal get one tour's all dates
     const getAllTourDates = (s,e) => {
         let tourDatesArr = []
         for(let dt=new Date(s); dt<=new Date(e) ; dt.setDate(dt.getDate()+1)){
@@ -74,13 +75,15 @@ const Calendar = ({userToken, userTour}) => {
     },[])
 
 
-        if(isLoading){
-            return <div> Loading</div>
-        }
+        
     
     return(
         <UserCalendarWrap>
-            
+            {
+                isLoading ?
+                <div> Loading~~~~ </div>
+                
+            :<>
             <SelectMonthDiv>
                 <MonthBtn onClick={getPrevMonth}>Prev</MonthBtn>
                 <TodayBtn onClick={getToday}>Today</TodayBtn>
@@ -95,7 +98,6 @@ const Calendar = ({userToken, userTour}) => {
             </DayUl>
                 
             <AllRowsUl>
-                
                 {
                     
                     Object.values(calendarRows).map(cols => {  // first map take a whole week data[{},{},....{}]
@@ -113,7 +115,7 @@ const Calendar = ({userToken, userTour}) => {
                                             :null
                                         }
                                     </li>
-                                    : <li key={col.date} className={`${col.classes} ${col.date}`} onClick={()=>dateClickHandler(col.date)}>
+                                    :<li key={col.date} className={`${col.classes} ${col.date}`} onClick={()=>dateClickHandler(col.date)}>
                                     <p>{col.value}</p>
                                     {
                                         tourDatas ?
@@ -129,11 +131,11 @@ const Calendar = ({userToken, userTour}) => {
                     })
                 }
                 
-                
             </AllRowsUl>
-            
-            
+            </>
+        }
         </UserCalendarWrap>
+    
     )
 }
 

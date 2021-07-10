@@ -67,6 +67,17 @@ li{
     
     overflow:hidden;
 }
+
+.today{
+    background:${secondary};
+    
+}
+
+.in-prev-month, .in-next-month{
+    p{
+        opacity:0.3;
+    }
+}
 `
 
 export const RowsWrap = styled.ul`
@@ -97,4 +108,5 @@ export const EventDiv = styled.div`
     color:${fontWhite};
     font-size:14px;
     padding:4px 0;
+    margin-bottom:4px;
 `
