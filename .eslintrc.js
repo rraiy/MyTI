@@ -1,16 +1,10 @@
 module.exports = {
-    env: {
-        browser: true,
-        es2021: true,
-        jest: true,
-    },
     extends: [
         'eslint:recommended',
         'plugin:import/errors',
         'plugin:import/warnings',
         'plugin:jsx-a11y/recommended',
         'plugin:react/recommended',
-        'plugin:react-hooks/recommended',
         'airbnb',
         'plugin:prettier/recommended',
     ],
