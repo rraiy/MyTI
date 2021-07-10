@@ -67,7 +67,7 @@ const Member = ({isSigned, user, userToken, userEmail, userTeam, userTour, userB
         
             <Wrap>
                 {
-                    // !isSigned ? <div>請先登入會員</div>:
+                    !isSigned ? <div>請先登入會員</div>:
                     <>
                         <BtnWrap>
                             <Link to={`${url}/accountsetting`}>
@@ -91,7 +91,7 @@ const Member = ({isSigned, user, userToken, userEmail, userTeam, userTour, userB
                             </Route>
                             
                             <Route>
-                                <Calendar path={`${path}`} userToken={userToken} userTour={userTour}/>
+                                <Calendar path={`${path}`} userToken={userToken} userTour={userTour} isSigned={isSigned}/>
                             </Route>
                         </Switch>
                     

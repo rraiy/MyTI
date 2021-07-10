@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {Link} from 'react-router-dom';
-import{NavibarWrap, Blur, LogoDiv, PageUL, SearchRegisterWrap, SearchInput, Button, MenuI, MenuUl, UserMenuDiv} from './css/NavibarSty'
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import{NavibarWrap, Blur, LogoDiv, PageUL, SearchRegisterWrap, SearchInput, Button, MenuI, MenuUl, UserMenuDiv, SignoutBtn} from './css/NavibarSty'
 // import LoginRegisterPopup from './LoginRegisterPopup'
 import dotaLogo from '../../images/dota2_logo.png';
 import aegis from '../../images/aegis.png';
@@ -9,40 +11,18 @@ import menuI from '../../images/icon/menu.png';
 
 
 
-const Navibar = ({showLoginPopup, isSigned, user}) => {
+const Navibar = ({showLoginPopup, isSigned, user, signOut}) => {
 
     const [menuActive, setMenuActive] = useState('none');
     const menuHoverRef = useRef();
 
-    useEffect(() => {
-        document.body.addEventListener('mouseover',e=>{
-            if(menuHoverRef.current.contains(e.target)){
-                console.log(e.target)
-                setMenuActive('block')
-            }
-        });
-        document.body.addEventListener('mouseout',e=>{
-            if(menuHoverRef.current.contains(e.target)){
-                setMenuActive('none')
-            }
-        });
-        
-        return () => {
-            document.body.removeEventListener('mouseover',e=>{
-                if(menuHoverRef.current.contains(e.target)){
-                    console.log(e.target)
-                    setMenuActive('block')
-                }
-            });
-            document.body.removeEventListener('mouseout',e=>{
-                if(menuHoverRef.current.contains(e.target)){
-                    setMenuActive('none')
-                }
-            });
-        }
-        
+    const onSignOut = () => {
+        firebase.auth().signOut().then(()=>{
+            signOut()
+        })
+    }
 
-    },[])
+    
 
     return (
         <NavibarWrap>
@@ -77,14 +57,17 @@ const Navibar = ({showLoginPopup, isSigned, user}) => {
                     !isSigned ?
                     <Button onClick={showLoginPopup}>Sign in</Button>
                     :
-                    <UserMenuDiv ref={menuHoverRef} className="navibar_user">{user}
+                    <UserMenuDiv 
+                    onMouseOver={()=>setMenuActive('block')} 
+                    onMouseOut={()=>setMenuActive('none')}
+                    className="navibar_user">{user}
                         {
                         
                         <MenuUl className="user_menu" show={menuActive}>
                             <Link to="/member/accountsetting"><li>Profile</li></Link>
                             <Link to="/member/userteam"><li>Favorite</li></Link>
                             <Link to="/member/calendar"><li>Calendar</li></Link>
-                            <li><button>Sign out</button></li>
+                            <li onClick={onSignOut}><SignoutBtn>Sign out</SignoutBtn></li>
                         </MenuUl>
                         
                         }

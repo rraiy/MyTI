@@ -172,3 +172,7 @@ export const MenuUl = styled.ul`
         color:#fff;
     }
 `
+
+export const SignoutBtn = styled.button`
+
+`

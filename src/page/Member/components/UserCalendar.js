@@ -3,7 +3,7 @@ import {db, storage} from '../../../firebase/firestore';
 import useCalendar from '../../../hooks/useCalendar';
 import {UserCalendarWrap, DayUl, AllRowsUl, RowsWrap, SelectMonthDiv, MonthBtn, TodayBtn, EventDiv} from './css/UserCalendarSty';
 
-const Calendar = ({userToken, userTour}) => {
+const Calendar = ({userToken, userTour, isSigned}) => {
     const { daysName,
         monthNames,
         todayFormat,
@@ -42,22 +42,6 @@ const Calendar = ({userToken, userTour}) => {
     }
 
     useEffect(()=>{
-
-        // if(tours){ // bug if direct to the component cant render tour event
-        //     let datas=[]
-            
-        //     tours.forEach(tour=>{
-        //         let arr = getAllTourDates(tour.tourStart, tour.tourEnd);
-        //         datas.push({
-        //             title:tour.tourTitle,
-        //             tour_date:arr
-        //         })
-        //     })
-        //     setTourDatas(datas);
-        //     setLoading(false);
-        // }
-
-
         if(tours){
             const datas2 = tours.map(tour=>{
                 return {
@@ -79,7 +63,7 @@ const Calendar = ({userToken, userTour}) => {
     return(
         <UserCalendarWrap>
             {
-                isLoading ?
+                !isSigned ?
                 <div> Loading~~~~ </div>
                 
             :<>

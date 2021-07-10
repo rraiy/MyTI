@@ -17,7 +17,7 @@ import {ResetStyle, GlobalStyle} from '../src/public_component/globalStyle';
 const App = () =>{
     // console.log('App最頂')
     const [isChecking, setChecking] = useState(true);
-    const [isSigned, setIsSigned] = useState(true);
+    const [isSigned, setIsSigned] = useState(false);
     const [user, setUser] = useState(null);
     const [userToken, setUserToken] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
@@ -65,7 +65,7 @@ const App = () =>{
     }
 
     const fetchUserData = (data) => {
-        setIsSigned(true);
+        
         setUser(data.username);
         setUserToken(data.uid);
         setUserEmail(data.email);
@@ -107,15 +107,19 @@ const App = () =>{
     useEffect(()=>{  // bug 監聽寫裡面不知道怎麼取消
         firebase.auth().onAuthStateChanged(user=>{
             if(user){
+                console.log('run')
                 db.collection('member').doc(user.uid).get()
                 .then(member => fetchUserData(member.data()))
                 .then((uid)=>{
+                    setIsSigned(true)
                     setChecking(false)
                     db.collection('member').doc(uid).onSnapshot(update=>{
                         fetchUserData(update.data())
                     })
                 })
                 .catch(err => console.log(err))
+            }else{
+                setChecking(false)
             }
         })
 
@@ -132,7 +136,7 @@ const App = () =>{
             <ResetStyle />
             <GlobalStyle />
 
-            <Navibar showLoginPopup={showLoginPopup} isSigned={isSigned} user={user}/>
+            <Navibar showLoginPopup={showLoginPopup} isSigned={isSigned} user={user} signOut={signOut}/>
                 {
                     loginPopup ?
                     <LoginPopup clickBlur={clickBlur} checkLogin={checkLogin} signOut={signOut} switchPopup={switchPopup}/>
