@@ -1,1 +1,8 @@
 node_modules
+firebase.config.js
+datas
+
+.DS_Store
+.eslintrc
+
+old
