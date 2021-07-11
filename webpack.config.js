@@ -2,10 +2,10 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const mode_env = process.env.NODE_ENV === 'production' ? 'production' : 'development';
+const modeEnv = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 
 module.exports = {
-    mode: mode_env,
+    mode: modeEnv,
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -13,7 +13,7 @@ module.exports = {
         publicPath: '/',
         // assetModuleFilename:'images/[hash]'
     },
-    devtool: mode_env === 'development' ? 'source-map' : false,
+    devtool: modeEnv === 'development' ? 'source-map' : false,
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
         writeToDisk: true,
@@ -32,7 +32,7 @@ module.exports = {
             {
                 test: /\.(gif|svg|jpg|png)$/,
                 use: [
-                    require.resolve('eslint-loader'),
+                    // require.resolve('eslint-loader'),
                     {
                         loader: 'url-loader',
                         options: {

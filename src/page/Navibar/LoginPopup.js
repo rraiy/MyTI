@@ -1,46 +1,63 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import {db} from '../../firebase/firestore';
-import { Blur, LRPopupWrap,SignInBtn, LoginForm, Label, Input, LoginBtn,SeparateDiv,LoginGoogleBtn } from './css/LoginPopupSty';
+import { db } from '../../firebase/firestore';
+import {
+    Blur,
+    LRPopupWrap,
+    SignInBtn,
+    LoginForm,
+    Label,
+    Input,
+    LoginBtn,
+    SeparateDiv,
+    LoginGoogleBtn,
+} from './css/LoginPopupSty';
 
-const LoginPopup = ({clickBlur, checkLogin, signOut, switchPopup}) => {
-
+const LoginPopup = ({ clickBlur, checkLogin, signOut, switchPopup }) => {
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
     const [loginSuccess, setLoginSuccess] = useState(false);
 
     const onLogin = (e) => {
         e.preventDefault();
-        firebase.auth().signInWithEmailAndPassword(loginEmail, loginPassword)
-        .then(()=>{
-            firebase.auth().onAuthStateChanged(user=>{
-                if(user){
-                    db.collection('member').doc(user.uid).get()
-                    .then(member => {
-                        checkLogin(user.uid, member.data().username)
-                        setLoginSuccess(true)
-                    })
-                }
-            })
-        })
-    }
-    
-    
+        firebase
+            .auth()
+            .signInWithEmailAndPassword(loginEmail, loginPassword)
+            .then(() => {
+                firebase.auth().onAuthStateChanged((user) => {
+                    if (user) {
+                        db.collection('member')
+                            .doc(user.uid)
+                            .get()
+                            .then((member) => {
+                                checkLogin(user.uid, member.data().username);
+                                setLoginSuccess(true);
+                            });
+                    }
+                });
+            });
+    };
 
     const onSignOut = () => {
-        firebase.auth().signOut().then(()=>{
-            console.log('登出惹')
-            signOut()
-        })
-    }
+        firebase
+            .auth()
+            .signOut()
+            .then(() => {
+                console.log('登出惹');
+                signOut();
+            });
+    };
 
-    
-    return(
+    return (
         <>
-        <Blur onClick={clickBlur} ></Blur>
-            { loginSuccess ? <LRPopupWrap success='#fff'> <p>登入成功 請等待稍後跳轉</p> </LRPopupWrap>
-                : <LRPopupWrap>
+            <Blur onClick={clickBlur} />
+            {loginSuccess ? (
+                <LRPopupWrap success="#fff">
+                    <p>登入成功 請等待稍後跳轉</p>
+                </LRPopupWrap>
+            ) : (
+                <LRPopupWrap>
 
                     <SignInBtn onClick={()=>switchPopup('signup')}>Sign up</SignInBtn>
 
@@ -73,10 +90,9 @@ const LoginPopup = ({clickBlur, checkLogin, signOut, switchPopup}) => {
                     <button onClick={onSignOut} style={{marginTop:'20px',color:'#fff'}}>暫時登出鈕</button>
 
                 </LRPopupWrap>
-            }
-
+            )}
         </>
-    )
-}
+    );
+};
 
 export default LoginPopup;
