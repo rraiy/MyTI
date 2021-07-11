@@ -69,7 +69,7 @@ const AccountSetting = ({ user, userToken, userEmail, userBirth }) => {
                 )}
 
                 <TitleDiv>
-                    <h3>{item.title}</h3>
+                    <h3>{item.title.toUpperCase()}</h3>
                     <p>{item.value}</p>
                 </TitleDiv>
                 <EditDiv className={`edit ${active}`}>

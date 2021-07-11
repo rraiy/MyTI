@@ -25,14 +25,11 @@ module.exports = {
             {
                 test: /\.m?js$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                },
+                use: ['babel-loader'],
             },
             {
                 test: /\.(gif|svg|jpg|png)$/,
                 use: [
-                    // require.resolve('eslint-loader'),
                     {
                         loader: 'url-loader',
                         options: {

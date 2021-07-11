@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { primary } from '../../../../public_component/globalStyle';
 
 export const TeamsSettingWrap = styled.div`
     width: 952px;
@@ -32,6 +33,7 @@ export const IconWrap = styled.div`
 
 export const MemberTeamLogo = styled.img`
     width: 120px;
+    margin-bottom: 10px;
 `;
 
 export const SelectTeamWrap = styled.div`
@@ -56,7 +58,7 @@ export const TeamItemWrapLi = styled.li`
     flex-direction: column;
     align-items: center;
     background: #262955;
-    padding: 20px 20px;
+    padding: 10px 10px;
     margin-bottom: 16px;
 
     p {
@@ -72,4 +74,12 @@ export const TeamItemWrapLi = styled.li`
 export const SearchTeamInput = styled.input`
     width: 240px;
     height: 36px;
+`;
+
+export const PickBtn = styled.button`
+    width: 80px;
+    border: 1px solid ${primary};
+    border-radius: 50px;
+    padding: 4px 8px;
+    color: ${primary};
 `;

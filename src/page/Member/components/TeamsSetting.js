@@ -1,6 +1,7 @@
 // TeamsSetting.js
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { db } from '../../../firebase/firestore';
 import {
     TeamsSettingWrap,
     FavoriteWrap,
@@ -11,24 +12,33 @@ import {
     TeamItemWrapLi,
     SearchTeamInput,
     SelectTeamWrap,
+    PickBtn,
 } from './css/TeamsSettingSty';
 import starI from '../../../images/icon/star.png';
 import TeamLogo from '../../../images/team_logo/LGDM.png';
 
 const TeamsSetting = () => {
-    const renderTeamItems = () => {
+    const [teamItems, setTeamItems] = useState(null);
+    /* {
+        team:'',
+        logo:'',
+    } */
+
+    // IIFE get team data from db
+    (() => {
         const arr = [];
-        for (let i = 1; i < 17; i += 1) {
-            arr.push(
-                <TeamItemWrapLi>
-                    <p>PSG.LGD</p>
-                    <hr />
-                    <MemberTeamLogo src={TeamLogo} alt="" />
-                </TeamItemWrapLi>,
-            );
-        }
-        return arr;
-    };
+        db.collection('favorite_team')
+            .get()
+            .then((res) => {
+                res.forEach((doc) => {
+                    arr.push({
+                        team: doc.data().team,
+                        logo: doc.data().team_logo,
+                    });
+                });
+            })
+            .then(() => setTeamItems(arr));
+    })();
 
     return (
         <TeamsSettingWrap>
@@ -45,10 +55,16 @@ const TeamsSetting = () => {
                 <SearchTeamInput type="text" placeholder="Type team..." />
 
                 <AllTeamUL>
-                    {renderTeamItems()}
-                    {/* <p>PSG.LGD</p>
-                        <hr />
-                        <MemberTeamLogo src={TeamLogo} alt="" /> */}
+                    {!teamItems
+                        ? null
+                        : teamItems.map((item) => (
+                              <TeamItemWrapLi>
+                                  <p>{item.team}</p>
+                                  <hr />
+                                  <MemberTeamLogo src={TeamLogo} alt="" />
+                                  <PickBtn type="button">Favorite</PickBtn>
+                              </TeamItemWrapLi>
+                          ))}
                 </AllTeamUL>
             </SelectTeamWrap>
         </TeamsSettingWrap>
