@@ -32,18 +32,18 @@ const App = () => {
     };
 
     const switchPopup = (popup) => {
-        if(popup === 'login'){
-            setLoginPopup(true)
-            setRegisterPopup(false)
-        } else{
-            setLoginPopup(false)
-            setRegisterPopup(true)
+        if (popup === 'login') {
+            setLoginPopup(true);
+            setRegisterPopup(false);
+        } else {
+            setLoginPopup(false);
+            setRegisterPopup(true);
         }
     };
 
     const clickBlur = () => {
-        setLoginPopup(false)
-        setRegisterPopup(false)
+        setLoginPopup(false);
+        setRegisterPopup(false);
     };
 
     const checkLogin = (uid, username) => {
@@ -66,7 +66,7 @@ const App = () => {
         setUserEmail(data.email);
         setUserTeam(data.user_team);
         setUserTour(data.user_tour);
-        setUserBirth(data.user_birth);
+        setUserBirth(data.birthday);
         return data.uid;
     };
 
@@ -157,7 +157,7 @@ const App = () => {
                     <HomePage isSigned={isSigned} user={user} />
                 </Route>
 
-                <Route path="/tournaments" >
+                <Route path="/tournaments">
                     <AllTours isSigned={isSigned} user={user} userTour={userTour} />
                 </Route>
 

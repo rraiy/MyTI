@@ -14,7 +14,6 @@ import {
     UserMenuDiv,
     SignoutBtn,
 } from './css/NavibarSty';
-// import LoginRegisterPopup from './LoginRegisterPopup'
 import aegis from '../../images/aegis.png';
 import searchI from '../../images/icon/search.png';
 import menuI from '../../images/icon/menu.png';
@@ -29,6 +28,16 @@ const Navibar = ({ showLoginPopup, isSigned, user, signOut }) => {
             .then(() => {
                 signOut();
             });
+    };
+
+    const test = (e) => {
+        e.stopPropagation();
+        setMenuActive('block');
+    };
+
+    const test2 = (e) => {
+        e.stopPropagation();
+        setMenuActive('none');
     };
 
     return (
@@ -62,26 +71,28 @@ const Navibar = ({ showLoginPopup, isSigned, user, signOut }) => {
                 {!isSigned ? (
                     <Button onClick={showLoginPopup}>Sign in</Button>
                 ) : (
-                    <UserMenuDiv
-                        onMouseOver={() => setMenuActive('block')}
-                        onMouseOut={() => setMenuActive('none')}
-                        className="navibar_user"
-                    >
+                    <UserMenuDiv onClick={() => setMenuActive('block')} className="navibar_user">
                         {user}
-                        <MenuUl className="user_menu" show={menuActive}>
-                            <Link to="/member/accountsetting">
-                                <li>Profile</li>
-                            </Link>
-                            <Link to="/member/userteam">
-                                <li>Favorite</li>
-                            </Link>
-                            <Link to="/member/calendar">
-                                <li>Calendar</li>
-                            </Link>
-                            <li>
-                                <SignoutBtn onClick={() => onSignOut()}>Sign out</SignoutBtn>
-                            </li>
-                        </MenuUl>
+                        {menuActive === 'none' ? null : (
+                            <MenuUl
+                                className="user_menu"
+                                onMouseOver={(e) => test(e)}
+                                onMouseOut={(e) => test2(e)}
+                            >
+                                <Link to="/member/accountsetting">
+                                    <li>Profile</li>
+                                </Link>
+                                <Link to="/member/userteam">
+                                    <li>Favorite</li>
+                                </Link>
+                                <Link to="/member/calendar">
+                                    <li>Calendar</li>
+                                </Link>
+                                <li>
+                                    <SignoutBtn onClick={() => onSignOut()}>Sign out</SignoutBtn>
+                                </li>
+                            </MenuUl>
+                        )}
                     </UserMenuDiv>
                 )}
             </SearchRegisterWrap>
