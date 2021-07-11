@@ -77,7 +77,7 @@ const Navibar = ({ showLoginPopup, isSigned, user, signOut }) => {
                             <MenuUl
                                 className="user_menu"
                                 onMouseOver={(e) => test(e)}
-                                onMouseOut={(e) => test2(e)}
+                                // onMouseOut={(e) => test2(e)}
                             >
                                 <Link to="/member/accountsetting">
                                     <li>Profile</li>

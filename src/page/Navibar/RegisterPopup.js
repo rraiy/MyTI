@@ -15,7 +15,7 @@ import {
     RegisterGoogleBtn,
 } from './css/RegisterPopupSty';
 
-const RegisterPopup = ({ clickBlur, checkLogin, signOut, switchPopup }) => {
+const RegisterPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -45,7 +45,7 @@ const RegisterPopup = ({ clickBlur, checkLogin, signOut, switchPopup }) => {
             .auth()
             .createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
-                const {user} = userCredential;
+                const { user } = userCredential;
                 insertToMember(user.uid);
                 firebase.auth().onAuthStateChanged((loginUser) => {
                     if (loginUser) {
@@ -55,6 +55,11 @@ const RegisterPopup = ({ clickBlur, checkLogin, signOut, switchPopup }) => {
                             .then((member) => {
                                 checkLogin(user.uid, member.data().username);
                                 setRegSuccess(true);
+                            })
+                            .then(() => {
+                                setTimeout(() => {
+                                    closePopup();
+                                }, 3000);
                             });
                     }
                 });
@@ -68,11 +73,13 @@ const RegisterPopup = ({ clickBlur, checkLogin, signOut, switchPopup }) => {
             .auth()
             .signInWithPopup(provider)
             .then((res) => {
-                // const { credential } = res;
-                // const token = credential.accessToken;
                 const { user } = res; // uid here
-
                 insertToMember(user.uid);
+            })
+            .then(() => {
+                setTimeout(() => {
+                    closePopup();
+                }, 3000);
             })
             .catch((err) => console.log(err));
     };
@@ -89,11 +96,10 @@ const RegisterPopup = ({ clickBlur, checkLogin, signOut, switchPopup }) => {
 
     return (
         <>
-            <Blur onClick={clickBlur} />
+            <Blur onClick={closePopup} />
             {regSuccess ? (
                 <LRPopupWrap success="#fff">
-                    {' '}
-                    <p>註冊並登入成功 請等待稍後跳轉</p>{' '}
+                    <p>註冊並登入成功 請等待稍後跳轉</p>
                 </LRPopupWrap>
             ) : (
                 <LRPopupWrap>
@@ -137,14 +143,6 @@ const RegisterPopup = ({ clickBlur, checkLogin, signOut, switchPopup }) => {
                     <RegisterGoogleBtn onClick={onRegisterWithGoogle}>
                         Sign up with Google
                     </RegisterGoogleBtn>
-
-                    <button
-                        type="button"
-                        onClick={onSignOut}
-                        style={{ marginTop: '20px', color: '#fff' }}
-                    >
-                        暫時登出鈕
-                    </button>
                 </LRPopupWrap>
             )}
         </>

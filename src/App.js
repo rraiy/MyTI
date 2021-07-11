@@ -41,7 +41,7 @@ const App = () => {
         }
     };
 
-    const clickBlur = () => {
+    const closePopup = () => {
         setLoginPopup(false);
         setRegisterPopup(false);
     };
@@ -100,7 +100,6 @@ const App = () => {
         // bug 監聽寫裡面不知道怎麼取消
         firebase.auth().onAuthStateChanged((loginUser) => {
             if (loginUser) {
-                console.log('run');
                 db.collection('member')
                     .doc(loginUser.uid)
                     .get()
@@ -138,7 +137,7 @@ const App = () => {
             />
             {loginPopup ? (
                 <LoginPopup
-                    clickBlur={clickBlur}
+                    closePopup={closePopup}
                     checkLogin={checkLogin}
                     signOut={signOut}
                     switchPopup={switchPopup}
@@ -146,7 +145,7 @@ const App = () => {
             ) : null}
             {registerPopup ? (
                 <RegisterPopup
-                    clickBlur={clickBlur}
+                    closePopup={closePopup}
                     checkLogin={checkLogin}
                     signOut={signOut}
                     switchPopup={switchPopup}

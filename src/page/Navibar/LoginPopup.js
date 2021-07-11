@@ -14,10 +14,28 @@ import {
     LoginGoogleBtn,
 } from './css/LoginPopupSty';
 
-const LoginPopup = ({ clickBlur, checkLogin, signOut, switchPopup }) => {
+const LoginPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
     const [loginSuccess, setLoginSuccess] = useState(false);
+
+    const insertToMember = (useruid, useremail, userDisplayName) => {
+        db.collection('member')
+            .doc(useruid)
+            .set(
+                {
+                    uid: useruid,
+                    email: useremail,
+                    username: userDisplayName,
+                    user_option: {
+                        user_subscribe: false,
+                        user_team: '',
+                        user_tour: [],
+                    },
+                },
+                { merge: true },
+            );
+    };
 
     const onLogin = (e) => {
         e.preventDefault();
@@ -33,10 +51,34 @@ const LoginPopup = ({ clickBlur, checkLogin, signOut, switchPopup }) => {
                             .then((member) => {
                                 checkLogin(user.uid, member.data().username);
                                 setLoginSuccess(true);
+                            })
+                            .then(() => {
+                                setTimeout(() => {
+                                    closePopup();
+                                }, 3000);
                             });
                     }
                 });
             });
+    };
+
+    const onLoginWithGoogle = () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase
+            .auth()
+            .signInWithPopup(provider)
+            .then((res) => {
+                const { user } = res; // uid here
+                console.log(user);
+                insertToMember(user.uid, user.email, user.displayName);
+                setLoginSuccess(true);
+            })
+            .then(() => {
+                setTimeout(() => {
+                    closePopup();
+                }, 3000);
+            })
+            .catch((err) => console.log(err));
     };
 
     const onSignOut = () => {
@@ -51,29 +93,32 @@ const LoginPopup = ({ clickBlur, checkLogin, signOut, switchPopup }) => {
 
     return (
         <>
-            <Blur onClick={clickBlur} />
+            <Blur onClick={closePopup} />
             {loginSuccess ? (
                 <LRPopupWrap success="#fff">
                     <p>登入成功 請等待稍後跳轉</p>
                 </LRPopupWrap>
             ) : (
                 <LRPopupWrap>
-
-                    <SignInBtn onClick={()=>switchPopup('signup')}>Sign up</SignInBtn>
+                    <SignInBtn onClick={() => switchPopup('signup')}>Sign up</SignInBtn>
 
                     <LoginForm onSubmit={onLogin}>
                         <h2>Sign In</h2>
 
                         <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="mail" 
-                        onChange={e=>setLoginEmail(e.target.value)}
+                        <Input
+                            id="email"
+                            type="mail"
+                            onChange={(e) => setLoginEmail(e.target.value)}
                         />
 
                         <Label htmlFor="password">Password</Label>
-                        <Input id="password" type="text" 
-                        onChange={e=>setLoginPassword(e.target.value)}
+                        <Input
+                            id="password"
+                            type="text"
+                            onChange={(e) => setLoginPassword(e.target.value)}
                         />
-                        
+
                         <LoginBtn type="submit">Sign In</LoginBtn>
                     </LoginForm>
 
@@ -82,13 +127,8 @@ const LoginPopup = ({ clickBlur, checkLogin, signOut, switchPopup }) => {
                         <p>or</p>
                         <hr />
                     </SeparateDiv>
-                    
-                    <LoginGoogleBtn >
-                        Sign up with Google
-                    </LoginGoogleBtn>
 
-                    <button onClick={onSignOut} style={{marginTop:'20px',color:'#fff'}}>暫時登出鈕</button>
-
+                    <LoginGoogleBtn onClick={onLoginWithGoogle}>Sign in with Google</LoginGoogleBtn>
                 </LRPopupWrap>
             )}
         </>
