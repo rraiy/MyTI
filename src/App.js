@@ -14,7 +14,7 @@ import { ResetStyle, GlobalStyle } from './public_component/globalStyle';
 
 const App = () => {
   // console.log('App最頂')
-  const [isChecking, setChecking] = useState(true);
+  const [isChecking, setChecking] = useState(false);
   const [isSigned, setIsSigned] = useState(false);
   const [user, setUser] = useState(null);
   const [userToken, setUserToken] = useState(null);
@@ -120,9 +120,9 @@ const App = () => {
     });
   }, []);
 
-  if (isChecking) {
-    return <div> Loading...</div>;
-  }
+  // if (isChecking) {
+  //   return <div> Loading...</div>;
+  // }
 
   return (
     <Router>

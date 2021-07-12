@@ -23,6 +23,11 @@ import {
 } from './css/LiveChatSty';
 
 const dbChatRoomPath = 'chat_room/WePlay_0614_PSGLGD/messages';
+const channelDefault = {
+  youtube: 'none',
+  twitch: 'block',
+  huya: 'none',
+};
 
 const LiveChat = ({ isSigned, user }) => {
   const [allMessages, setAllMessages] = useState([]);
@@ -36,14 +41,10 @@ const LiveChat = ({ isSigned, user }) => {
   const [wordLimitColor, setWordLimitColor] = useState('');
   const [sendIconDisabled, setSendIconDisabled] = useState(true);
   const [chatHide, setChatHide] = useState('flex');
-  const [showStream, setShowStream] = useState({
-    youtube: 'none',
-    twitch: 'block',
-    huya: 'none',
-  });
+  const [showStream, setShowStream] = useState(channelDefault);
 
-  const onChangeStream = (e) => {
-    switch (e.target.id) {
+  const onChangeChannel = (channel) => {
+    switch (channel) {
       case 'twitch':
         setShowStream({ youtube: 'none', twitch: 'block', huya: 'none' });
         break;
@@ -56,6 +57,22 @@ const LiveChat = ({ isSigned, user }) => {
       default:
     }
   };
+
+  // const onChangeStream = (e) => {
+  //   switch (e.target.id) {
+  //     case 'twitch':
+  //       setShowStream({ youtube: 'none', twitch: 'block', huya: 'none' });
+  //       break;
+  //     case 'huya':
+  //       setShowStream({ youtube: 'none', twitch: 'none', huya: 'block' });
+  //       break;
+  //     case 'youtube':
+  //       setShowStream({ youtube: 'block', twitch: 'none', huya: 'none' });
+  //       break;
+  //     default:
+  //   }
+  // };
+
   const updateChatMes = () => {
     const texts = [];
     db.collection(dbChatRoomPath)
@@ -144,7 +161,7 @@ const LiveChat = ({ isSigned, user }) => {
 
   return (
     <LiveChatWrap>
-      <StreamSelectDiv onClick={(e) => onChangeStream(e)}>
+      <StreamSelectDiv onClick={(e) => onChangeChannel(e.target.id)}>
         <StreamSelectBtn id="twitch" className={showStream.twitch} selected={showStream.twitch}>
           English
         </StreamSelectBtn>
