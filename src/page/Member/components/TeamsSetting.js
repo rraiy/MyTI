@@ -24,8 +24,7 @@ const TeamsSetting = () => {
         logo:'',
     } */
 
-  // IIFE get team data from db
-  (() => {
+  useEffect(() => {
     const arr = [];
     db.collection('favorite_team')
       .get()
@@ -38,7 +37,7 @@ const TeamsSetting = () => {
         });
       })
       .then(() => setTeamItems(arr));
-  })();
+  }, []);
 
   return (
     <TeamsSettingWrap>
