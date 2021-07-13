@@ -26,6 +26,7 @@ const TeamsSetting = () => {
 
   useEffect(() => {
     const arr = [];
+    console.log('ts');
     db.collection('favorite_team')
       .get()
       .then((res) => {
@@ -57,7 +58,7 @@ const TeamsSetting = () => {
           {!teamItems
             ? null
             : teamItems.map((item) => (
-                <TeamItemWrapLi>
+                <TeamItemWrapLi key={item.team}>
                   <p>{item.team}</p>
                   <hr />
                   <MemberTeamLogo src={TeamLogo} alt="" />

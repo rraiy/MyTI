@@ -134,18 +134,16 @@ const LiveChat = ({ isSigned, user }) => {
   };
 
   // send new message
-  // eslint-disable-next-line consistent-return
   const onSendNew = (e) => {
     e.preventDefault();
     if (!newMessage.text) {
       // eslint-disable-next-line no-alert
-      // eslint-disable-next-line no-undef
-      return alert('空白個屁');
+      return alert('空白個屁'); // bug fix use alert
     }
-    db.collection('chat_room/WePlay_0614_PSGLGD/messages')
+    return db
+      .collection('chat_room/WePlay_0614_PSGLGD/messages')
       .add(newMessage)
       .then(() => {
-        // chat_input.value = '';
         const allTexts = [...allMessages, newMessage];
         setAllMessages(allTexts);
         setNewMessage({

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { storage } from '../../firebase/firestore';
+import PrizePool from './components/PrizePool';
 
 const Wrap = styled.div`
   min-width: 1200px;
@@ -12,7 +13,7 @@ const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 50px;
+  padding-top: 120px;
 
   @media (max-width: 1199px) {
     min-width: 700px;
@@ -25,18 +26,24 @@ const Wrap = styled.div`
 
 const HomePage = () => {
   const [main, setMain] = useState(null);
-  storage
-    .ref('background')
-    .child('ti10_main.mp4')
-    .getDownloadURL()
-    .then((url) => setMain(url));
+
+  useEffect(() => {
+    storage
+      .ref('background')
+      .child('ti10_main.mp4')
+      .getDownloadURL()
+      .then((url) => setMain(url));
+  }, []);
+
+  // https://firebasestorage.googleapis.com/v0/b/myti-171bb.appspot.com/o/background%2Fti10_main.mp4?alt=media&token=c2ebd13d-ae66-47ed-a7b2-952f28033756
 
   return (
     <Wrap>
-      <div>HP</div>
+      {/* <div>HP</div>
       <video src={main} autoPlay preload="auto" loop style={{ width: '100%' }}>
         <track kind="captions" />
-      </video>
+      </video> */}
+      <PrizePool />
     </Wrap>
   );
 };

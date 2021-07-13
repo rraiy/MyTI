@@ -55,8 +55,6 @@ const AllTours = () => {
     }
   };
 
-  console.log(123);
-
   return (
     <Wrap>
       <StateUL>

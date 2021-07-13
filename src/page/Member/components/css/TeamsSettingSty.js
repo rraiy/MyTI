@@ -49,25 +49,27 @@ export const AllTeamUL = styled.ul`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  // justify-content: space-between;
 `;
 
 export const TeamItemWrapLi = styled.li`
-  width: 176px;
+  width: 160px;
   display: flex;
   flex-direction: column;
   align-items: center;
   background: #262955;
   padding: 10px 10px;
+  margin-right: 24px;
   margin-bottom: 16px;
 
   p {
     margin-bottom: 10px;
   }
   hr {
-    width: 176px;
-    border: 2px solid #07001c;
+    width: 100%;
+    border: 1px solid ${primary};
     margin-bottom: 10px;
+    opacity: 0.5;
   }
 `;
 
