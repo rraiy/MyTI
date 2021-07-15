@@ -1,5 +1,5 @@
 import React from 'react';
-import PrizePoolChart from '../PrizePoolChart';
+import PrizePoolChart from './PrizePoolChart';
 
 const PrizePool = () => {
   console.log('P');

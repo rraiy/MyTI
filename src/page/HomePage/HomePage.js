@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { storage } from '../../firebase/firestore';
+import MainContent from './components/MainContent';
 import PrizePool from './components/PrizePool';
 
 const Wrap = styled.div`
@@ -43,7 +44,8 @@ const HomePage = () => {
       <video src={main} autoPlay preload="auto" loop style={{ width: '100%' }}>
         <track kind="captions" />
       </video> */}
-      <PrizePool />
+      {/* <PrizePool /> */}
+      <MainContent />
     </Wrap>
   );
 };
