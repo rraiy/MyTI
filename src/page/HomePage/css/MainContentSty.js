@@ -91,13 +91,19 @@ export const RankTextUl = styled.ul`
 export const RankRowUl = styled.ul`
   width: 85%;
   display: flex;
-  justify-content: space-around;
-  border-bottom: 1px solid #bc0d65;
+  justify-content: flex-end;
+  border-bottom: 1px solid rgba(188, 13, 101, 0.5);
   padding-bottom: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
 
   li {
+    width: 20%;
     font-size: 14px;
+    margin-bottom: 8px;
     color: ${fontGrey};
+  }
+
+  .team {
+    width: 50%;
   }
 `;

@@ -17,14 +17,20 @@ import Weplay from '../../../images/tours/weplay.png';
 
 const MainContent = () => {
   const [rankData, setRankData] = useState(null);
-  db.collection('dpc_rank')
-    .orderBy('rank', 'asc')
-    .get()
-    .then((res) => {
-      res.forEach((doc) => {
-        console.log(doc.data().rank);
+
+  useEffect(() => {
+    db.collection('dpc_rank')
+      .orderBy('rank', 'asc')
+      .limit(10)
+      .get()
+      .then((res) => {
+        const arr = [];
+        res.forEach((doc) => {
+          arr.push(doc.data());
+        });
+        setRankData(arr);
       });
-    });
+  }, []);
 
   return (
     <>
@@ -58,15 +64,22 @@ const MainContent = () => {
         <Rank>
           <RankTitle>DPC積分排行</RankTitle>
           <RankTextUl>
-            <li>名次</li>
-            <li>隊伍</li>
-            <li>當前積分</li>
+            <li>#P</li>
+            <li>Team</li>
+            <li>Points</li>
           </RankTextUl>
-          <RankRowUl>
-            <li>1</li>
-            <li>LGD</li>
-            <li>1700</li>
-          </RankRowUl>
+
+          {rankData
+            ? rankData.map((item) => {
+                return (
+                  <RankRowUl key={item.team}>
+                    <li>{item.rank}</li>
+                    <li className="team">{item.team}</li>
+                    <li>{item.points}</li>
+                  </RankRowUl>
+                );
+              })
+            : null}
         </Rank>
       </HotTourRankWrap>
     </>
