@@ -1,8 +1,9 @@
 import React from 'react';
-import Header from './components/Header';
 import styled from 'styled-components';
+import Header from './components/Header';
 import Battle from './components/Battle';
 import LiveChat from './components/LiveChat';
+import ExtraContent from './components/ExtraContent';
 
 const Wrap = styled.div`
   min-width: 1200px;
@@ -28,9 +29,10 @@ const Wrap = styled.div`
 const LiveGame = ({ isSigned, user }) => {
   return (
     <Wrap>
-      <Header isSigned={isSigned} user={user} />
-      <Battle isSigned={isSigned} user={user} />
-      <LiveChat isSigned={isSigned} user={user} />
+      {/* <Header isSigned={isSigned} user={user} /> */}
+      {/* <Battle isSigned={isSigned} user={user} /> */}
+      {/* <LiveChat isSigned={isSigned} user={user} /> */}
+      <ExtraContent isSigned={isSigned} user={user} />
     </Wrap>
   );
 };
