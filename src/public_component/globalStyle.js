@@ -72,6 +72,9 @@ export const ResetStyle = createGlobalStyle`
     a {
     text-decoration: none;
     cursor: pointer;
+        :link, :visited{
+            color:inherit;
+        }
     }
     button {
     padding: 0;
@@ -90,28 +93,23 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export const Wrap = styled.div`
-    min-width: 1200px;
-    min-height: 800px;
-    color: ${fontGrey};
-    background: transparent
-        linear-gradient(
-            180deg,
-            rgba(7, 0, 28, 1) 0%,
-            rgba(24, 15, 51, 1) 34%,
-            rgba(58, 45, 96, 1) 100%
-        )
-        0% 0% no-repeat padding-box;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 120px;
+  min-width: 1200px;
+  min-height: 800px;
+  color: ${fontGrey};
+  background: transparent
+    linear-gradient(180deg, rgba(7, 0, 28, 1) 0%, rgba(24, 15, 51, 1) 34%, rgba(58, 45, 96, 1) 100%)
+    0% 0% no-repeat padding-box;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 120px;
 
-    @media (max-width: 1199px) {
-        min-width: 700px;
-    }
+  @media (max-width: 1199px) {
+    min-width: 700px;
+  }
 
-    @media (max-width: 699px) and (min-width: 360px) {
-        min-width: 360px;
-    }
+  @media (max-width: 699px) and (min-width: 360px) {
+    min-width: 360px;
+  }
 `;

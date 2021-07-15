@@ -1,22 +1,33 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { db } from '../../../firebase/firestore';
 import {
   HotTourRankWrap,
-  HotTour,
+  TourAndResult,
+  DateDiv,
+  LiveDiv,
   Rank,
   HotTourTitle,
   RecentBtn,
   ResultBtn,
+  BtnBottomLine,
   HotTourWrap,
   HotTourItem,
   RankTitle,
   RankTextUl,
   RankRowUl,
+  AllTourBtn,
 } from '../css/MainContentSty';
 import Weplay from '../../../images/tours/weplay.png';
+import CrownI from '../../../images/icon/crown.png';
 
 const MainContent = () => {
   const [rankData, setRankData] = useState(null);
+  const [lineShow, setLineShow] = useState('hotEvents');
+
+  const changeLine = (area) => {
+    setLineShow(area);
+  };
 
   useEffect(() => {
     db.collection('dpc_rank')
@@ -35,34 +46,43 @@ const MainContent = () => {
   return (
     <>
       <HotTourRankWrap>
-        <HotTour>
+        <TourAndResult>
           <HotTourTitle>
-            <RecentBtn>近期賽事</RecentBtn>
-            <ResultBtn>最新賽果</ResultBtn>
+            <BtnBottomLine show={lineShow} />
+            <RecentBtn onClick={() => changeLine('hotEvents')}>Hot Events</RecentBtn>
+            <ResultBtn onClick={() => changeLine('results')}>Latest Results</ResultBtn>
           </HotTourTitle>
 
-          <HotTourWrap>
-            <HotTourItem>
-              <img src={Weplay} alt="" />
-              <p>Weplay Major!</p>
-            </HotTourItem>
-            <HotTourItem>
-              <img src={Weplay} alt="" />
-              <p>Weplay Major!</p>
-            </HotTourItem>
-            <HotTourItem>
-              <img src={Weplay} alt="" />
-              <p>Weplay Major!</p>
-            </HotTourItem>
-            <HotTourItem>
-              <img src={Weplay} alt="" />
-              <p>Weplay Major!</p>
-            </HotTourItem>
-          </HotTourWrap>
-        </HotTour>
+          {lineShow === 'hotEvents' ? (
+            <HotTourWrap>
+              <HotTourItem>
+                <DateDiv>07.07-07.20</DateDiv>
+                <LiveDiv className="live">Live</LiveDiv>
+                <img src={Weplay} alt="" />
+                <p>Weplay Major!</p>
+              </HotTourItem>
+              <HotTourItem>
+                <img src={Weplay} alt="" />
+                <p>Weplay Major!</p>
+              </HotTourItem>
+              <HotTourItem>
+                <img src={Weplay} alt="" />
+                <p>Weplay Major!</p>
+              </HotTourItem>
+              <HotTourItem>
+                <img src={Weplay} alt="" />
+                <p>Weplay Major!</p>
+              </HotTourItem>
+            </HotTourWrap>
+          ) : null}
+
+          <AllTourBtn type="button">
+            <Link to="/tournaments">More Tournaments</Link>
+          </AllTourBtn>
+        </TourAndResult>
 
         <Rank>
-          <RankTitle>DPC積分排行</RankTitle>
+          <RankTitle>DPC Ranking</RankTitle>
           <RankTextUl>
             <li>#P</li>
             <li>Team</li>
@@ -71,6 +91,17 @@ const MainContent = () => {
 
           {rankData
             ? rankData.map((item) => {
+                if (item.rank === 1) {
+                  return (
+                    <RankRowUl key={item.team}>
+                      <li>
+                        <img src={CrownI} alt="1" />
+                      </li>
+                      <li className="team">{item.team}</li>
+                      <li>{item.points}</li>
+                    </RankRowUl>
+                  );
+                }
                 return (
                   <RankRowUl key={item.team}>
                     <li>{item.rank}</li>

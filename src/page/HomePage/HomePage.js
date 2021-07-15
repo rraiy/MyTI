@@ -44,8 +44,8 @@ const HomePage = () => {
       <video src={main} autoPlay preload="auto" loop style={{ width: '100%' }}>
         <track kind="captions" />
       </video> */}
-      {/* <PrizePool /> */}
       <MainContent />
+      <PrizePool />
     </Wrap>
   );
 };

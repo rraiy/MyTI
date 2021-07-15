@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { fontGrey } from '../../../public_component/globalStyle';
 
 export const HotTourRankWrap = styled.div`
@@ -6,11 +6,15 @@ export const HotTourRankWrap = styled.div`
   color: #fff;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 100px;
 `;
 
-export const HotTour = styled.div`
+export const TourAndResult = styled.div`
   width: 880px;
   background: #1f1d33;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
 `;
 
 export const HotTourTitle = styled.div`
@@ -18,7 +22,7 @@ export const HotTourTitle = styled.div`
   justify-content: space-around;
   background: linear-gradient(to right, #423a71, #8720a0);
   height: 40px;
-
+  position: relative;
   margin-bottom: 40px;
 
   button {
@@ -30,6 +34,24 @@ export const HotTourTitle = styled.div`
 export const RecentBtn = styled.button``;
 
 export const ResultBtn = styled.button``;
+
+const tourLineTranslate = keyframes`
+  
+  transform: translate(200px,0);
+  
+`;
+
+export const BtnBottomLine = styled.div`
+  width: 100px;
+  height: 4px;
+  background: rgb(206, 22, 79);
+  position: absolute;
+  bottom: 0;
+  left: 18%;
+  transition: all 0.3s ease-in-out;
+
+  transform: ${(props) => (props.show === 'hotEvents' ? '' : 'translateX(450%)')};
+`;
 
 export const HotTourWrap = styled.ul`
   display: flex;
@@ -44,6 +66,8 @@ export const HotTourItem = styled.li`
   align-items: center;
   margin-bottom: 40px;
   border-radius: 16px;
+  position: relative;
+  cursor: pointer;
 
   img {
     width: 100%;
@@ -57,6 +81,34 @@ export const HotTourItem = styled.li`
     text-align: center;
     line-height: 40px;
   }
+
+  .live:before {
+    content: '';
+    display: inline-block;
+    background: #fff;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 4px;
+  }
+`;
+
+export const DateDiv = styled.div`
+  position: absolute;
+  top: 24px;
+  left: 0;
+  padding: 8px 12px;
+  letter-spacing: 1px;
+  background: rgba(198, 198, 198, 0.3);
+`;
+
+export const LiveDiv = styled.div`
+  background: red;
+  position: absolute;
+  top: 24px;
+  right: 0;
+  padding: 4px 8px;
+  opacity: 0.8;
 `;
 
 export const Rank = styled.div`
@@ -65,6 +117,7 @@ export const Rank = styled.div`
   flex-direction: column;
   align-items: center;
   background: #1f1d33;
+  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
 `;
 
 export const RankTitle = styled.div`
@@ -96,6 +149,10 @@ export const RankRowUl = styled.ul`
   padding-bottom: 8px;
   margin-bottom: 20px;
 
+  img {
+    width: 16px;
+  }
+
   li {
     width: 20%;
     font-size: 14px;
@@ -106,4 +163,13 @@ export const RankRowUl = styled.ul`
   .team {
     width: 50%;
   }
+`;
+
+export const AllTourBtn = styled.button`
+  color: ${fontGrey};
+  background: rgba(255, 255, 255, 0.14);
+  padding: 8px 20px;
+  border-radius: 5px;
+  align-self: flex-end;
+  margin-right: 10%;
 `;
