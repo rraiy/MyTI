@@ -68,6 +68,7 @@ export const HotTourItem = styled.li`
   border-radius: 16px;
   position: relative;
   cursor: pointer;
+  overflow: hidden;
 
   img {
     width: 100%;
@@ -90,6 +91,10 @@ export const HotTourItem = styled.li`
     height: 12px;
     border-radius: 50%;
     margin-right: 4px;
+  }
+
+  :hover {
+    transform: scale(1.1);
   }
 `;
 
@@ -173,6 +178,10 @@ export const AllTourBtn = styled.button`
   align-self: flex-end;
   margin-right: 10%;
   margin-bottom: 20px;
+
+  :hover {
+    background: #383455;
+  }
 `;
 
 export const ResultsWrap = styled.ul`

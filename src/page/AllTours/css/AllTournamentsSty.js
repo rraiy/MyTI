@@ -10,7 +10,6 @@ export const infoWidth = '10%';
 
 export const Wrap = styled.div`
   min-width: 1200px;
-  height: 1800px;
   background: transparent
     linear-gradient(180deg, rgba(7, 0, 28, 1) 0%, rgba(24, 15, 51, 1) 34%, rgba(58, 45, 96, 1) 100%)
     0% 0% no-repeat padding-box;
@@ -97,7 +96,6 @@ export const H2 = styled.h2`
 
 export const BoardDiv = styled.div`
   width: 928px;
-  height: 430px;
   background: rgb(43, 51, 96);
   border: 2px solid rgb(168, 73, 237);
   border-radius: 8px;
@@ -136,6 +134,7 @@ export const TourLi = styled.li`
   justify-content: space-evenly;
   align-items: center;
   text-align: center;
+  color: ${fontGrey};
 
   div img {
     width: 30px;

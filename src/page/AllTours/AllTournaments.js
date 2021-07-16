@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter, Route } from 'react-router-dom';
+import { db } from '../../firebase/firestore';
 import {
   Wrap,
   StateUL,
@@ -28,17 +29,11 @@ const defaultShowArea = {
 };
 
 const AllTours = () => {
+  const [allTours, setAllTours] = useState(null);
+  const [ongoingTours, setOngoingTours] = useState(null);
+  const [upcomingTours, setUpcomingTours] = useState(null);
+  const [recentTours, setRecentTours] = useState(null);
   const [showArea, setShowArea] = useState(defaultShowArea);
-  // const text = () => {
-  //     db.collection('member').doc(userToken)
-  //     .update({
-  //         user_tour:firebase.firestore.FieldValue.arrayUnion({
-  //             tourTitle:'DPC GAMES',
-  //             tourStart:'2021-07-09',
-  //             tourEnd:'2021-07-16'
-  //         })
-  //     })
-  // }
 
   const switchArea = (block) => {
     switch (block) {
@@ -54,6 +49,53 @@ const AllTours = () => {
       default:
     }
   };
+
+  const sortTours = () => {
+    const ongoingArr = []; // 開始時間<今天 結束時間>今天
+    const upcomingArr = []; // 開始時間>今天
+    const recentArr = []; // 結束時間<今天
+
+    const today = new Date(+new Date() + 8 * 3600 * 1000).toISOString().split('T')[0]; // 暫時簡單處理時區問題
+
+    allTours.forEach((tour) => {
+      const start = tour.date.tourStart;
+      const end = tour.date.tourEnd;
+
+      if (start < today && end > today) {
+        ongoingArr.push(tour);
+      }
+      if (start > today) {
+        upcomingArr.push(tour);
+      }
+      if (end < today) {
+        recentArr.push(tour);
+      }
+    });
+    setOngoingTours(ongoingArr);
+    setUpcomingTours(upcomingArr);
+    setRecentTours(recentArr);
+  };
+
+  useEffect(() => {
+    db.collection('2021_tours')
+      .orderBy('date.tourEnd', 'desc')
+      .get()
+      .then((res) => {
+        const newArr = [];
+        res.forEach((tour) => newArr.push(tour.data()));
+        return newArr;
+      })
+      .then((all) => {
+        setAllTours(all);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    if (allTours) {
+      sortTours();
+    }
+  }, [allTours]);
 
   return (
     <Wrap>
@@ -83,34 +125,26 @@ const AllTours = () => {
             </ul>
           </TitleDiv>
           <TourListUL>
-            <TourLi>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-              <span>2020.03.15-03.20</span>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-              <span>ESLOne洛杉磯Major</span>
-              <span>美國洛杉磯</span>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-            </TourLi>
-            <TourLi>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-              <span>2020.03.15-03.20</span>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-              <span>Dota Pro Circuit 2021: Season 2 - China Upper Division</span>
-              <span>美國洛杉磯</span>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-            </TourLi>
+            {!ongoingTours
+              ? null
+              : ongoingTours.map((tour) => {
+                  return (
+                    <TourLi key={tour.title_en}>
+                      <div>
+                        <img src={icon} alt="" />
+                      </div>
+                      <span>{tour.date.all}</span>
+                      <div>
+                        <img src={icon} alt="" />
+                      </div>
+                      <span>{tour.title_en}</span>
+                      <span>{tour.location}</span>
+                      <div>
+                        <img src={icon} alt="" />
+                      </div>
+                    </TourLi>
+                  );
+                })}
           </TourListUL>
         </BoardDiv>
       </OngoingWrap>
@@ -129,34 +163,26 @@ const AllTours = () => {
             </ul>
           </TitleDiv>
           <TourListUL>
-            <TourLi>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-              <span>2020.03.15-03.20</span>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-              <span>ESLOne洛杉磯Major</span>
-              <span>美國洛杉磯</span>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-            </TourLi>
-            <TourLi>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-              <span>2020.03.15-03.20</span>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-              <span>Dota Pro Circuit 2021: Season 2 - China Upper Division</span>
-              <span>美國洛杉磯</span>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-            </TourLi>
+            {!upcomingTours
+              ? null
+              : upcomingTours.map((tour) => {
+                  return (
+                    <TourLi key={tour.title_en}>
+                      <div>
+                        <img src={icon} alt="" />
+                      </div>
+                      <span>{tour.date.all}</span>
+                      <div>
+                        <img src={icon} alt="" />
+                      </div>
+                      <span>{tour.title_en}</span>
+                      <span>{tour.location}</span>
+                      <div>
+                        <img src={icon} alt="" />
+                      </div>
+                    </TourLi>
+                  );
+                })}
           </TourListUL>
         </BoardDiv>
       </UpcomingWrap>
@@ -175,34 +201,26 @@ const AllTours = () => {
             </ul>
           </TitleDiv>
           <TourListUL>
-            <TourLi>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-              <span>2020.03.15-03.20</span>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-              <span>ESLOne洛杉磯Major</span>
-              <span>美國洛杉磯</span>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-            </TourLi>
-            <TourLi>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-              <span>2020.03.15-03.20</span>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-              <span>Dota Pro Circuit 2021: Season 2 - China Upper Division</span>
-              <span>美國洛杉磯</span>
-              <div>
-                <img src={icon} alt="" />
-              </div>
-            </TourLi>
+            {!recentTours
+              ? null
+              : recentTours.map((tour) => {
+                  return (
+                    <TourLi key={tour.title_en}>
+                      <div>
+                        <p>{tour.result.one}</p>
+                      </div>
+                      <span>{tour.date.all}</span>
+                      <div>
+                        <img src={icon} alt="" />
+                      </div>
+                      <span>{tour.title_en}</span>
+                      <span>{tour.location}</span>
+                      <div>
+                        <img src={icon} alt="" />
+                      </div>
+                    </TourLi>
+                  );
+                })}
           </TourListUL>
         </BoardDiv>
       </RecentWrap>

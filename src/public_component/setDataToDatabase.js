@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/prefer-default-export
-export const setToDB = () => {
+export const setTourDataToDB = () => {
   tier1.forEach((item) => {
     db.collection('tournaments_2021')
       .doc()

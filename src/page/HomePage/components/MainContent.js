@@ -28,6 +28,7 @@ import CrownI from '../../../images/icon/crown.png';
 import Logo from '../../../images/game/Weplay_animajor_icon.png';
 
 const MainContent = () => {
+  const [hotTourData, setHotTourData] = useState(null);
   const [rankData, setRankData] = useState(null);
   const [lineShow, setLineShow] = useState('hotEvents');
   const mockData = [0, 1, 2, 3, 4, 5, 6];
@@ -37,6 +38,18 @@ const MainContent = () => {
   };
 
   useEffect(() => {
+    db.collection('2021_tours')
+      .orderBy('date.tourEnd', 'desc')
+      .limit(4)
+      .get()
+      .then((res) => {
+        const tourArr = [];
+        res.forEach((tour) => {
+          tourArr.push(tour.data());
+        });
+        setHotTourData(tourArr);
+      });
+
     db.collection('dpc_rank')
       .orderBy('rank', 'asc')
       .limit(10)
@@ -62,24 +75,20 @@ const MainContent = () => {
 
           {lineShow === 'hotEvents' ? (
             <HotTourWrap>
-              <HotTourItem>
-                <DateDiv>07.07-07.20</DateDiv>
-                <LiveDiv className="live">Live</LiveDiv>
-                <img src={Weplay} alt="" />
-                <p>Weplay Major!</p>
-              </HotTourItem>
-              <HotTourItem>
-                <img src={Weplay} alt="" />
-                <p>Weplay Major!</p>
-              </HotTourItem>
-              <HotTourItem>
-                <img src={Weplay} alt="" />
-                <p>Weplay Major!</p>
-              </HotTourItem>
-              <HotTourItem>
-                <img src={Weplay} alt="" />
-                <p>Weplay Major!</p>
-              </HotTourItem>
+              {!hotTourData ? (
+                <div>Loading</div>
+              ) : (
+                hotTourData.map((tour) => {
+                  return (
+                    <HotTourItem key={tour.title_en}>
+                      <DateDiv>{tour.date.all}</DateDiv>
+                      <LiveDiv className="live">Live</LiveDiv>
+                      <img src={Weplay} alt="" />
+                      <p>{tour.title_en}</p>
+                    </HotTourItem>
+                  );
+                })
+              )}
             </HotTourWrap>
           ) : (
             <ResultsWrap>
@@ -110,9 +119,9 @@ const MainContent = () => {
             </ResultsWrap>
           )}
 
-          <AllTourBtn type="button">
-            <Link to="/tournaments">More Tournaments</Link>
-          </AllTourBtn>
+          <Link to="/tournaments" style={{ alignSelf: ' flex-end', marginRight: '40px' }}>
+            <AllTourBtn type="button">More Tournaments</AllTourBtn>
+          </Link>
         </TourAndResult>
 
         <Rank>
