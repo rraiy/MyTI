@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { storage } from '../../firebase/firestore';
+import { db, storage } from '../../firebase/firestore';
 import MainContent from './components/MainContent';
 import PrizePool from './components/PrizePool';
+// import { formatTourDate } from '../../public_component/setDataToDatabase';
 
 const Wrap = styled.div`
   min-width: 1200px;
