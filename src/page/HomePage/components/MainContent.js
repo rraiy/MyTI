@@ -17,13 +17,20 @@ import {
   RankTextUl,
   RankRowUl,
   AllTourBtn,
+  ResultsWrap,
+  ResultItem,
+  ResultDateDiv,
+  ResultTourTitle,
+  ResultBattleData,
 } from '../css/MainContentSty';
 import Weplay from '../../../images/tours/weplay.png';
 import CrownI from '../../../images/icon/crown.png';
+import Logo from '../../../images/game/Weplay_animajor_icon.png';
 
 const MainContent = () => {
   const [rankData, setRankData] = useState(null);
   const [lineShow, setLineShow] = useState('hotEvents');
+  const mockData = [0, 1, 2, 3, 4, 5, 6];
 
   const changeLine = (area) => {
     setLineShow(area);
@@ -74,7 +81,34 @@ const MainContent = () => {
                 <p>Weplay Major!</p>
               </HotTourItem>
             </HotTourWrap>
-          ) : null}
+          ) : (
+            <ResultsWrap>
+              {mockData.map(() => {
+                return (
+                  <ResultItem>
+                    <ResultDateDiv>
+                      <p>2020-01-01</p>
+                      <p>17:00</p>
+                    </ResultDateDiv>
+                    <ResultTourTitle>
+                      <img src={Logo} alt="" />
+                      <p>2021 Weplay Major</p>
+                    </ResultTourTitle>
+                    <ResultBattleData>
+                      <img src={Logo} alt="" />
+                      <p>
+                        1:0
+                        <br />
+                        BO3
+                      </p>
+                      <img src={Logo} alt="" />
+                    </ResultBattleData>
+                    <img src={Logo} alt="" />
+                  </ResultItem>
+                );
+              })}
+            </ResultsWrap>
+          )}
 
           <AllTourBtn type="button">
             <Link to="/tournaments">More Tournaments</Link>
@@ -82,7 +116,7 @@ const MainContent = () => {
         </TourAndResult>
 
         <Rank>
-          <RankTitle>DPC Ranking</RankTitle>
+          <RankTitle>2021 DPC Ranking</RankTitle>
           <RankTextUl>
             <li>#P</li>
             <li>Team</li>

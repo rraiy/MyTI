@@ -172,4 +172,53 @@ export const AllTourBtn = styled.button`
   border-radius: 5px;
   align-self: flex-end;
   margin-right: 10%;
+  margin-bottom: 20px;
+`;
+
+export const ResultsWrap = styled.ul`
+  width: 720px;
+  // height: 56px;
+  margin: 0 auto;
+
+  margin-bottom: 16px;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
+export const ResultItem = styled.li`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: ${fontGrey};
+  height: 56px;
+  line-height: 1.2em;
+  text-align: center;
+  margin-bottom: 12px;
+  background: #383455;
+
+  :hover {
+    background: #464b86;
+  }
+`;
+
+export const ResultDateDiv = styled.div``;
+
+export const ResultTourTitle = styled.div`
+  display: flex;
+  align-items: center;
+
+  img {
+    margin-right: 8px;
+  }
+`;
+
+export const ResultBattleData = styled.div`
+  display: flex;
+  align-items: center;
+  img {
+    margin: 0 20px;
+  }
 `;
