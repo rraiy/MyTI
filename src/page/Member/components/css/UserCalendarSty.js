@@ -101,9 +101,11 @@ export const RowsWrap = styled.ul`
 
 export const EventDiv = styled.div`
   width: 100%;
+  height: 22px;
   background: #8681ff;
   color: ${fontWhite};
   font-size: 14px;
   padding: 4px 0;
   margin-bottom: 4px;
+  white-space: nowrap;
 `;

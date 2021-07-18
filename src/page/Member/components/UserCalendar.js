@@ -13,7 +13,6 @@ import {
 } from './css/UserCalendarSty';
 
 const Calendar = ({ userTour, isSigned }) => {
-  console.log(userTour);
   const {
     daysName,
     monthNames,

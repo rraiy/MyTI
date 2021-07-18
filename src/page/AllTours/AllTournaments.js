@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter, Route } from 'react-router-dom';
+import firebase from 'firebase/app';
 import { db } from '../../firebase/firestore';
 import {
   Wrap,
@@ -19,8 +20,10 @@ import {
   tourTitleWidth,
   locationWidth,
   infoWidth,
+  FavoriteBtn,
 } from './css/AllTournamentsSty';
 import icon from '../../images/icon/tour.png';
+import { render } from 'react-dom';
 
 const defaultShowArea = {
   ongoing: true,
@@ -28,7 +31,20 @@ const defaultShowArea = {
   recent: false,
 };
 
-const AllTours = () => {
+const ongoingAndUpcomingTitle = function () {
+  return (
+    <ul>
+      <li style={{ width: markWidth }}> </li>
+      <li style={{ width: dateWidth }}>Date</li>
+      <li style={{ width: tourLogoWidth }}> </li>
+      <li style={{ width: tourTitleWidth }}>Tournament</li>
+      <li style={{ width: locationWidth }}>Location</li>
+      <li style={{ width: infoWidth }}>Info</li>
+    </ul>
+  );
+};
+
+const AllTours = ({ user, userTour, userToken }) => {
   const [allTours, setAllTours] = useState(null);
   const [ongoingTours, setOngoingTours] = useState(null);
   const [upcomingTours, setUpcomingTours] = useState(null);
@@ -76,7 +92,40 @@ const AllTours = () => {
     setRecentTours(recentArr);
   };
 
-  useEffect(() => {
+  const handleFavoriteTour = (tourName, tourDate) => {
+    db.collection('member')
+      .doc(userToken)
+      .get()
+      .then((res) => res.data().user_tour)
+      .then((hadTours) => hadTours.filter((item) => item.tourTitle === tourName))
+      .then((filterResult) => {
+        if (filterResult.length === 0) {
+          db.collection('member')
+            .doc(userToken)
+            .update({
+              user_tour: firebase.firestore.FieldValue.arrayUnion({
+                tourTitle: tourName,
+                tourStart: tourDate.tourStart,
+                tourEnd: tourDate.tourEnd,
+              }),
+            });
+        }
+        if (filterResult.length !== 0) {
+          db.collection('member')
+            .doc(userToken)
+            .update({
+              user_tour: firebase.firestore.FieldValue.arrayRemove({
+                tourTitle: tourName,
+                tourStart: tourDate.tourStart,
+                tourEnd: tourDate.tourEnd,
+              }),
+            });
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const fetchAllTours = async () => {
     db.collection('2021_tours')
       .orderBy('date.tourEnd', 'desc')
       .get()
@@ -89,6 +138,20 @@ const AllTours = () => {
         setAllTours(all);
       })
       .catch((err) => console.log(err));
+  };
+
+  const checkFavorite = (tourName) => {
+    if (userTour) {
+      const checkFavoriteResult = userTour.find((tour) => tour.tourTitle === tourName);
+      if (checkFavoriteResult) {
+        return 'favorite';
+      }
+    }
+    return '';
+  };
+
+  useEffect(() => {
+    fetchAllTours();
   }, []);
 
   useEffect(() => {
@@ -96,6 +159,12 @@ const AllTours = () => {
       sortTours();
     }
   }, [allTours]);
+
+  useEffect(() => {
+    if (userTour) {
+      fetchAllTours();
+    }
+  }, [userTour]);
 
   return (
     <Wrap>
@@ -114,25 +183,26 @@ const AllTours = () => {
       <OngoingWrap id="ongoing">
         <H2>Ongoing</H2>
         <BoardDiv>
-          <TitleDiv>
-            <ul>
-              <li style={{ width: markWidth }}> </li>
-              <li style={{ width: dateWidth }}>Date</li>
-              <li style={{ width: tourLogoWidth }}> </li>
-              <li style={{ width: tourTitleWidth }}>Tournament</li>
-              <li style={{ width: locationWidth }}>Location</li>
-              <li style={{ width: infoWidth }}>Info</li>
-            </ul>
-          </TitleDiv>
+          <TitleDiv>{ongoingAndUpcomingTitle()}</TitleDiv>
           <TourListUL>
             {!ongoingTours
               ? null
               : ongoingTours.map((tour) => {
                   return (
                     <TourLi key={tour.title_en}>
-                      <div>
-                        <img src={icon} alt="" />
-                      </div>
+                      {!userTour ? (
+                        <FavoriteBtn onClick={() => handleFavoriteTour(tour.title_en, tour.date)}>
+                          <img src={icon} alt="" />
+                        </FavoriteBtn>
+                      ) : (
+                        <FavoriteBtn
+                          onClick={() => handleFavoriteTour(tour.title_en, tour.date)}
+                          className={checkFavorite(tour.title_en)}
+                        >
+                          <img src={icon} alt="" />
+                        </FavoriteBtn>
+                      )}
+
                       <span>{tour.date.all}</span>
                       <div>
                         <img src={icon} alt="" />
@@ -152,16 +222,7 @@ const AllTours = () => {
       <UpcomingWrap id="upcoming">
         <H2>Upcoming</H2>
         <BoardDiv>
-          <TitleDiv>
-            <ul>
-              <li style={{ width: markWidth }}> </li>
-              <li style={{ width: dateWidth }}>Date</li>
-              <li style={{ width: tourLogoWidth }}> </li>
-              <li style={{ width: tourTitleWidth }}>Tournament</li>
-              <li style={{ width: locationWidth }}>Location</li>
-              <li style={{ width: infoWidth }}>Info</li>
-            </ul>
-          </TitleDiv>
+          <TitleDiv>{ongoingAndUpcomingTitle()}</TitleDiv>
           <TourListUL>
             {!upcomingTours
               ? null

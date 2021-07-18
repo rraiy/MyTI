@@ -152,7 +152,7 @@ const App = () => {
         </Route>
 
         <Route path="/tournaments">
-          <AllTours isSigned={isSigned} user={user} userTour={userTour} />
+          <AllTours isSigned={isSigned} user={user} userTour={userTour} userToken={userToken} />
         </Route>
 
         <Route path="/stream">

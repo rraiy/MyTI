@@ -50,7 +50,6 @@ const AccountSetting = ({ user, userToken, userEmail, userBirth }) => {
   };
 
   const onSaveValue = (title) => {
-    console.log(title, newUserData[`${title}`]);
     db.collection('member')
       .doc(userToken)
       .update({ [title]: newUserData[title] })

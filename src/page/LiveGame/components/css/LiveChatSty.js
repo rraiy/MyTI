@@ -82,7 +82,7 @@ export const StreamChatWrap = styled.div`
 export const StreamDiv = styled.div`
   width: 800px;
   height: 468px;
-  border: 1px solid ${primary};
+  // border: 1px solid ${primary};
 
   .mod-small {
     position: fixed;

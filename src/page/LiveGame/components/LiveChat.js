@@ -98,6 +98,7 @@ const LiveChat = ({ isSigned, user }) => {
     }
     if (streamRef.current.getBoundingClientRect().bottom >= 150) {
       setSmallMod(false);
+      setDragPosition(null);
     }
   };
 

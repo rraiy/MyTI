@@ -140,6 +140,10 @@ export const TourLi = styled.li`
     width: 30px;
   }
 
+  .favorite {
+    background: yellow;
+  }
+
   // 收藏
   div:nth-child(1) {
     width: ${markWidth};
@@ -178,4 +182,10 @@ export const RecentWrap = styled.div`
   margin-top: 20px;
   margin-bottom: 80px;
   scroll-margin-top: 100px;
+`;
+
+export const FavoriteBtn = styled.button`
+  img {
+    width: 30px;
+  }
 `;
