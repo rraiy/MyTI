@@ -130,12 +130,14 @@ export const Button = styled.button`
 `;
 export const UserMenuDiv = styled.div`
   width: 80px;
+  height: 30px;
   font-size: 14px;
   color: ${primary};
   border: 2px solid ${primary};
   border-radius: 56px;
   text-align: center;
   line-height: 30px;
+  overflow: hidden;
 
   :hover {
     color: ${fontWhite};

@@ -3,9 +3,6 @@ import { primary } from '../../../../public_component/globalStyle';
 
 export const TeamsSettingWrap = styled.div`
   width: 952px;
-  // display:flex;
-  // justify-content:space-around;
-  // align-items:center;
 `;
 
 export const FavoriteWrap = styled.div`
@@ -47,6 +44,7 @@ export const SelectTeamWrap = styled.div`
 
 export const AllTeamUL = styled.ul`
   width: 100%;
+  min-height: 300px;
   display: flex;
   flex-wrap: wrap;
   // justify-content: space-between;
@@ -61,6 +59,7 @@ export const TeamItemWrapLi = styled.li`
   padding: 10px 10px;
   margin-right: 24px;
   margin-bottom: 16px;
+  max-height: 230px;
 
   p {
     margin-bottom: 10px;
@@ -84,4 +83,9 @@ export const PickBtn = styled.button`
   border-radius: 50px;
   padding: 4px 8px;
   color: ${primary};
+
+  :hover {
+    background: ${primary};
+    color: #fff;
+  }
 `;
