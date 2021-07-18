@@ -6,7 +6,7 @@ export const ExtraContentWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 100px;
+  margin-bottom: 300px;
 `;
 
 export const TiTleDiv = styled.div`

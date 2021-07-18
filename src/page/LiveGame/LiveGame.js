@@ -29,9 +29,9 @@ const Wrap = styled.div`
 const LiveGame = ({ isSigned, user }) => {
   return (
     <Wrap>
-      {/* <Header isSigned={isSigned} user={user} /> */}
-      {/* <Battle isSigned={isSigned} user={user} /> */}
-      {/* <LiveChat isSigned={isSigned} user={user} /> */}
+      <Header isSigned={isSigned} user={user} />
+      <Battle isSigned={isSigned} user={user} />
+      <LiveChat isSigned={isSigned} user={user} />
       <ExtraContent isSigned={isSigned} user={user} />
     </Wrap>
   );

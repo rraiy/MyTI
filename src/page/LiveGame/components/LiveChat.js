@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import iconSend from '../../../images/icon/send.png';
 import { db } from '../../../firebase/firestore';
 import logo from '../../../images/team_logo/LGD.png';
@@ -20,6 +20,8 @@ import {
   LimitP,
   SendBtn,
   SendImg,
+  StreamFrameDiv,
+  StreamDragLayer,
 } from './css/LiveChatSty';
 
 const dbChatRoomPath = 'chat_room/WePlay_0614_PSGLGD/messages';
@@ -42,6 +44,13 @@ const LiveChat = ({ isSigned, user }) => {
   const [sendIconDisabled, setSendIconDisabled] = useState(true);
   const [chatHide, setChatHide] = useState('flex');
   const [showStream, setShowStream] = useState(channelDefault);
+  const [smallMod, setSmallMod] = useState(false);
+
+  const streamRef = useRef();
+
+  const isDragging = useRef(false);
+  const dragRef = useRef();
+  const [dragPosition, setDragPosition] = useState(null);
 
   const onChangeChannel = (channel) => {
     switch (channel) {
@@ -57,21 +66,6 @@ const LiveChat = ({ isSigned, user }) => {
       default:
     }
   };
-
-  // const onChangeStream = (e) => {
-  //   switch (e.target.id) {
-  //     case 'twitch':
-  //       setShowStream({ youtube: 'none', twitch: 'block', huya: 'none' });
-  //       break;
-  //     case 'huya':
-  //       setShowStream({ youtube: 'none', twitch: 'none', huya: 'block' });
-  //       break;
-  //     case 'youtube':
-  //       setShowStream({ youtube: 'block', twitch: 'none', huya: 'none' });
-  //       break;
-  //     default:
-  //   }
-  // };
 
   const updateChatMes = () => {
     const texts = [];
@@ -98,21 +92,46 @@ const LiveChat = ({ isSigned, user }) => {
     return chatHide === 'flex' ? setChatHide('none') : setChatHide('flex');
   };
 
-  // show first entry message board & listener send
-  useEffect(() => {
-    updateChatMes();
+  const switchToMod = () => {
+    if (streamRef.current.getBoundingClientRect().bottom < 150) {
+      setSmallMod(true);
+    }
+    if (streamRef.current.getBoundingClientRect().bottom >= 150) {
+      setSmallMod(false);
+    }
+  };
 
-    const unsubscribe = db.collection(dbChatRoomPath).onSnapshot((snapshot) => {
-      snapshot.docChanges().forEach((item) => {
-        if (item.type === 'added') {
-          updateChatMes();
-        }
+  // deal stream drag
+  const onMouseDown = useCallback((e) => {
+    if (dragRef.current && dragRef.current.contains(e.target)) {
+      console.log('點擊');
+      const arr = [];
+      const { top, left } = dragRef.current.getBoundingClientRect();
+      arr.push(top); // 30
+      arr.push(left);
+      setDragPosition(arr);
+      console.log(dragRef.current.getBoundingClientRect());
+      console.log(dragPosition);
+    }
+  }, []);
+
+  const onMouseUp = useCallback(() => {
+    if (isDragging.current) {
+      isDragging.current = false;
+      console.log('放開');
+    }
+  }, []);
+
+  const onMouseMove = useCallback((e) => {
+    if (isDragging.current) {
+      setDragPosition(() => {
+        const x = e.clientX - 15;
+        const y = e.clientY - 15;
+
+        return [x, y];
       });
-    });
-
-    return () => {
-      unsubscribe();
-    };
+      console.log(dragPosition);
+    }
   }, []);
 
   // listen new message
@@ -157,6 +176,54 @@ const LiveChat = ({ isSigned, user }) => {
       .catch((err) => console.error(err));
   };
 
+  // show first entry message board & listener send
+  useEffect(() => {
+    updateChatMes();
+
+    const unsubscribe = db.collection(dbChatRoomPath).onSnapshot((snapshot) => {
+      snapshot.docChanges().forEach((item) => {
+        if (item.type === 'added') {
+          updateChatMes();
+        }
+      });
+    });
+
+    window.addEventListener('scroll', switchToMod);
+
+    return () => {
+      unsubscribe();
+      window.removeEventListener('scroll', switchToMod);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (dragPosition) {
+      isDragging.current = true;
+    }
+  }, [dragPosition]);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', onMouseDown);
+    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', onMouseMove);
+
+    return () => {
+      document.removeEventListener('mousedown', onMouseDown);
+      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+    };
+  }, [onMouseDown, onMouseUp, onMouseMove]);
+
+  const getStreamFrameDivClass = () => {
+    if (smallMod && dragPosition) {
+      return 'mod-small mod-drag';
+    }
+    if (smallMod) {
+      return 'mod-small';
+    }
+    return '';
+  };
+
   return (
     <LiveChatWrap>
       <StreamSelectDiv onClick={(e) => onChangeChannel(e.target.id)}>
@@ -169,28 +236,26 @@ const LiveChat = ({ isSigned, user }) => {
       </StreamSelectDiv>
 
       <StreamChatWrap>
-        <StreamDiv>
-          {/* youtube */}
-          {/* <iframe width="100%" height="100%"  display={showStream.youtube}
-                    src="https://www.youtube.com/embed/RFHj_vjVxqM" allowfullscreen="true" allow="fullscreen" >
-                    </iframe> */}
+        <StreamDiv ref={streamRef} dragPosition={dragPosition || 0}>
+          <StreamFrameDiv className={getStreamFrameDivClass()} ref={dragRef} mod={smallMod}>
+            <StreamDragLayer mod={smallMod}>拖</StreamDragLayer>
+            {/* twitch */}
+            <iframe
+              title="twitch"
+              style={{ display: `${showStream.twitch}` }}
+              frameBorder="0"
+              allow="fullscreen"
+              scrolling="no"
+              width="100%"
+              height="100%"
+              src="https://player.twitch.tv/?channel=beyondthesummit&amp;parent=localhost&amp;autoplay=false"
+            />
 
-          {/* twitch */}
-          <iframe
-            title="twitch"
-            style={{ display: `${showStream.twitch}` }}
-            frameBorder="0"
-            allow="fullscreen"
-            scrolling="no"
-            width="100%"
-            height="100%"
-            src="https://player.twitch.tv/?channel=beyondthesummit&amp;parent=localhost&amp;autoplay=false"
-          />
-
-          {/* huya */}
-          {/* <Iframe width="100%" height="100%"  frameborder="0" scrolling="no" style={{
+            {/* huya */}
+            {/* <Iframe width="100%" height="100%"  frameborder="0" scrolling="no" style={{
                         display:`${showStream.huya}`}}
                     src="http://liveshare.huya.com/iframe/825801"></Iframe> */}
+          </StreamFrameDiv>
         </StreamDiv>
 
         <ChatDiv>
@@ -210,7 +275,7 @@ const LiveChat = ({ isSigned, user }) => {
                   </Li>
                 ))
               ) : (
-                <li>還沒有人發言呢！趕緊成為第一個留言者！</li>
+                <li>No comment have been left yet, become the first!</li>
               )}
             </ul>
           </ChatSpace>

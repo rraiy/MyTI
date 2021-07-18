@@ -8,7 +8,7 @@ export const LiveChatWrap = styled.div`
   min-width: 100%;
   justify-content: space-around;
   color: #fff;
-  margin-bottom: 100px;
+  margin-bottom: 160px;
 
   @media (max-width: 1199px) {
     height: auto;
@@ -67,6 +67,7 @@ export const StreamSelectBtn = styled.button`
 export const StreamChatWrap = styled.div`
   display: flex;
   justify-content: space-around;
+  position: relative;
 
   @media (max-width: 1199px) {
     flex-direction: column;
@@ -83,6 +84,23 @@ export const StreamDiv = styled.div`
   height: 468px;
   border: 1px solid ${primary};
 
+  .mod-small {
+    position: fixed;
+    width: 515px;
+    height: 290px;
+    bottom: 30px; // 30px
+    right: 60px; // 60px
+    border: 1px solid red;
+    z-index: 30;
+  }
+
+  .mod-drag {
+    bottom: none;
+    right: none;
+    top: ${(props) => props.dragPosition[0]}px;
+    left: ${(props) => props.dragPosition[1]}px;
+  }
+
   @media (max-width: 1199px) and (min-width: 700px) {
     width: 680px;
     height: 360px;
@@ -94,6 +112,23 @@ export const StreamDiv = styled.div`
     height: 240px;
     margin-bottom: 20px;
   }
+`;
+
+export const StreamFrameDiv = styled.div`
+  width: 800px;
+  height: 468px;
+`;
+
+export const StreamDragLayer = styled.div`
+  display: ${(props) => (props.mod ? 'block' : 'none')};
+  background: ${primary};
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: -30px;
+  left: 0;
+  cursor: move;
 `;
 
 export const Iframe = styled.iframe`
