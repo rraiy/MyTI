@@ -139,7 +139,7 @@ const AllTours = ({ user, userTour, userToken }) => {
       })
       .catch((err) => console.log(err));
   };
-
+  // need update icons
   const checkFavorite = (tourName) => {
     if (userTour) {
       const checkFavoriteResult = userTour.find((tour) => tour.tourTitle === tourName);
@@ -229,9 +229,19 @@ const AllTours = ({ user, userTour, userToken }) => {
               : upcomingTours.map((tour) => {
                   return (
                     <TourLi key={tour.title_en}>
-                      <div>
-                        <img src={icon} alt="" />
-                      </div>
+                      {!userTour ? (
+                        <FavoriteBtn onClick={() => handleFavoriteTour(tour.title_en, tour.date)}>
+                          <img src={icon} alt="" />
+                        </FavoriteBtn>
+                      ) : (
+                        <FavoriteBtn
+                          onClick={() => handleFavoriteTour(tour.title_en, tour.date)}
+                          className={checkFavorite(tour.title_en)}
+                        >
+                          <img src={icon} alt="" />
+                        </FavoriteBtn>
+                      )}
+
                       <span>{tour.date.all}</span>
                       <div>
                         <img src={icon} alt="" />

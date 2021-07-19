@@ -1,7 +1,7 @@
 // TeamsSetting.js
 
 import React, { useState, useEffect } from 'react';
-import { db } from '../../../firebase/firestore';
+import { db, storage } from '../../../firebase/firestore';
 import {
   TeamsSettingWrap,
   FavoriteWrap,
@@ -13,21 +13,46 @@ import {
   SearchTeamInput,
   SelectTeamWrap,
   PickBtn,
+  NoSelectP,
+  RemoveLayer,
 } from './css/TeamsSettingSty';
 import starI from '../../../images/icon/star.png';
 import TeamLogo from '../../../images/team_logo/LGDM.png';
 
+const iconPath = storage.ref('icons');
 const TeamsSetting = ({ userToken, userTeam }) => {
   const [teamItems, setTeamItems] = useState(null);
   const [changeInput, setChangeInput] = useState('');
   const [debouncedInputText, setDebouncedInputText] = useState(changeInput);
+  const [iconUrl, setIconUrl] = useState(null);
 
-  /* {
-        team:'',
-        logo:'',
-    } */
+  // big bug
+  // function test(icon) {
+  //   let x = '';
+  //   async function fetchIcon() {
+  //     const resp = await storage
+  //       .ref('icons')
+  //       .child(icon)
+  //       .getDownloadURL()
+  //       .then((url) => {
+  //         setIconUrl(url);
+  //         return url;
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+
+  //     if (resp) {
+  //       console.log(x);
+  //       return x;
+  //     }
+  //     return null;
+  //   }
+  //   fetchIcon();
+  // }
 
   const handleChangeInput = (text) => {
+    console.log(text);
     setChangeInput(text);
   };
 
@@ -37,8 +62,15 @@ const TeamsSetting = ({ userToken, userTeam }) => {
     });
   };
 
+  const handleRemoveFavorite = () => {
+    db.collection('member').doc(userToken).update({
+      user_team: '',
+    });
+  };
+
   useEffect(() => {
     const arr = [];
+    // test();
     db.collection('favorite_team')
       .get()
       .then((res) => {
@@ -80,14 +112,25 @@ const TeamsSetting = ({ userToken, userTeam }) => {
 
   return (
     <TeamsSettingWrap>
-      <FavoriteWrap>
-        <h2>My favorite team</h2>
-        <IconWrap>
-          <StarI src={starI} alt="" />
-          <MemberTeamLogo src={TeamLogo} alt="" />
-          <p>{userTeam}</p>
-        </IconWrap>
-      </FavoriteWrap>
+      {!userTeam ? (
+        <FavoriteWrap>
+          <h2>My favorite team</h2>
+          <IconWrap>
+            <NoSelectP>No team have been select yet.</NoSelectP>
+          </IconWrap>
+        </FavoriteWrap>
+      ) : (
+        <FavoriteWrap>
+          <h2>My favorite team</h2>
+          <IconWrap>
+            <RemoveLayer onClick={() => handleRemoveFavorite(userTeam)}>Delete</RemoveLayer>
+            <StarI src={starI} alt="" />
+            {/* {fetchIcon('remove.png')} */}
+            <MemberTeamLogo src={TeamLogo} alt="" />
+            <p>{userTeam}</p>
+          </IconWrap>
+        </FavoriteWrap>
+      )}
 
       <SelectTeamWrap>
         <p>Pick the ONE team you go to bat for. </p>

@@ -126,8 +126,9 @@ const LiveChat = ({ isSigned, user }) => {
   const onMouseMove = useCallback((e) => {
     if (isDragging.current) {
       setDragPosition(() => {
-        const x = e.clientX - 15;
-        const y = e.clientY - 15;
+        const x = e.clientX;
+        const y = e.clientY;
+        console.log(x, y);
 
         return [x, y];
       });
@@ -177,6 +178,16 @@ const LiveChat = ({ isSigned, user }) => {
       .catch((err) => console.error(err));
   };
 
+  const getStreamFrameDivClass = () => {
+    if (smallMod && dragPosition) {
+      return 'mod-small mod-drag';
+    }
+    if (smallMod) {
+      return 'mod-small';
+    }
+    return '';
+  };
+
   // show first entry message board & listener send
   useEffect(() => {
     updateChatMes();
@@ -214,16 +225,6 @@ const LiveChat = ({ isSigned, user }) => {
       document.removeEventListener('mousemove', onMouseMove);
     };
   }, [onMouseDown, onMouseUp, onMouseMove]);
-
-  const getStreamFrameDivClass = () => {
-    if (smallMod && dragPosition) {
-      return 'mod-small mod-drag';
-    }
-    if (smallMod) {
-      return 'mod-small';
-    }
-    return '';
-  };
 
   return (
     <LiveChatWrap>

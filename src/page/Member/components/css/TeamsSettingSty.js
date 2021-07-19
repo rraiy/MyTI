@@ -26,6 +26,24 @@ export const IconWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+`;
+
+export const RemoveLayer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: grey;
+  opacity: 0;
+  line-height: 100%;
+  color: #fff;
+
+  :hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
 `;
 
 export const MemberTeamLogo = styled.img`
@@ -88,4 +106,8 @@ export const PickBtn = styled.button`
     background: ${primary};
     color: #fff;
   }
+`;
+
+export const NoSelectP = styled.p`
+  margin-bottom: 100px;
 `;

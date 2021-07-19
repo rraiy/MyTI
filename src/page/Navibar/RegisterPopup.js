@@ -22,21 +22,17 @@ const RegisterPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
   const [regSuccess, setRegSuccess] = useState(false);
 
   const insertToMember = (uid) => {
-    db.collection('member')
-      .doc(uid)
-      .set(
-        {
-          uid: uid,
-          email: email,
-          username: username,
-          user_option: {
-            user_subscribe: false,
-            user_team: '',
-            user_tour: [],
-          },
-        },
-        { merge: true },
-      );
+    db.collection('member').doc(uid).set(
+      {
+        uid: uid,
+        email: email,
+        birthday: '',
+        username: username,
+        user_tour: [],
+        user_team: '',
+      },
+      { merge: true },
+    );
   };
 
   const onRegister = (e) => {

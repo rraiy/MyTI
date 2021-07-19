@@ -3,28 +3,41 @@ import styled from 'styled-components';
 import { db, storage } from '../../firebase/firestore';
 import MainContent from './components/MainContent';
 import PrizePool from './components/PrizePool';
+import {
+  Wrap,
+  WebInfoWrap,
+  H1,
+  AegisVideo,
+  WebInfoCardUl,
+  WebInfoCardLi,
+  H3,
+  InfoListUl,
+  InfoListLi,
+} from './css/HomePage';
 // import { formatTourDate } from '../../public_component/setDataToDatabase';
 
-const Wrap = styled.div`
-  min-width: 1200px;
-  height: 1800px;
-  background: transparent
-    linear-gradient(180deg, rgba(7, 0, 28, 1) 0%, rgba(24, 15, 51, 1) 34%, rgba(58, 45, 96, 1) 100%)
-    0% 0% no-repeat padding-box;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 120px;
-
-  @media (max-width: 1199px) {
-    min-width: 700px;
-  }
-
-  @media (max-width: 699px) and (min-width: 360px) {
-    min-width: 360px;
-  }
-`;
+const webInfoData = [
+  {
+    title: 'Tour Calendar',
+    text: 'Custom your own tour date, do not miss any matches.',
+    item: ['Average Minute Audience', 'Peak viewers', 'Unique Viewers', 'Hours Watched'],
+  },
+  {
+    title: 'Reports',
+    text: 'Analyzing around 100 metrics for events, teams, games and more.',
+    item: ['Average Minute Audience', 'Peak viewers', 'Unique Viewers', 'Hours Watched'],
+  },
+  {
+    title: 'Reports',
+    text: 'Analyzing around 100 metrics for events, teams, games and more.',
+    item: ['Average Minute Audience', 'Peak viewers', 'Unique Viewers', 'Hours Watched'],
+  },
+  {
+    title: 'Reports',
+    text: 'Analyzing around 100 metrics for events, teams, games and more.',
+    item: ['Average Minute Audience', 'Peak viewers', 'Unique Viewers', 'Hours Watched'],
+  },
+];
 
 const HomePage = () => {
   const [main, setMain] = useState(null);
@@ -41,10 +54,32 @@ const HomePage = () => {
 
   return (
     <Wrap>
-      {/* <div>HP</div>
-      <video src={main} autoPlay preload="auto" loop style={{ width: '100%' }}>
+      <AegisVideo src={main} autoPlay preload="auto" loop style={{ width: '100%' }}>
         <track kind="captions" />
-      </video> */}
+      </AegisVideo>
+      <WebInfoWrap>
+        <H1>Follow your ONE team, be the big fans to support !</H1>
+        <p>
+          MyTI is a web for collecting information about Dota2 The International tournaments,
+          <br />
+          streaming and recording your team's matches.
+        </p>
+        <WebInfoCardUl>
+          {webInfoData.map((d) => {
+            return (
+              <WebInfoCardLi>
+                <H3>{d.title}</H3>
+                <p>{d.text}</p>
+                <InfoListUl>
+                  {d.item.map((list) => {
+                    return <InfoListLi>{list}</InfoListLi>;
+                  })}
+                </InfoListUl>
+              </WebInfoCardLi>
+            );
+          })}
+        </WebInfoCardUl>
+      </WebInfoWrap>
       <MainContent />
       <PrizePool />
     </Wrap>
