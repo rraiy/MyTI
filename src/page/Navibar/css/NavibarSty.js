@@ -3,7 +3,7 @@ import { primary, fontGrey, fontWhite, fontWaring } from '../../../public_compon
 
 export const NavibarWrap = styled.div`
   width: 100%;
-  height: 80px;
+  height: 68px;
   display: flex;
   justify-content: space-between;
   align-items: center;

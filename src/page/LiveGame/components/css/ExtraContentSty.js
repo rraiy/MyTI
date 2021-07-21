@@ -7,6 +7,7 @@ export const ExtraContentWrap = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 300px;
+  user-select: none;
 `;
 
 export const TiTleDiv = styled.div`

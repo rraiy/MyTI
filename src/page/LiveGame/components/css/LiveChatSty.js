@@ -9,6 +9,7 @@ export const LiveChatWrap = styled.div`
   justify-content: space-around;
   color: #fff;
   margin-bottom: 160px;
+  user-select: none;
 
   @media (max-width: 1199px) {
     height: auto;
@@ -97,11 +98,11 @@ export const StreamDiv = styled.div`
   .mod-drag {
     bottom: none;
     right: none;
-    top: ${(props) => props.dragPosition[0]}px;
-    left: ${(props) => props.dragPosition[1]}px;
+    // top: ${(props) => props.dragPosition[0]}px;
+    // left: ${(props) => props.dragPosition[1]}px;
   }
 
-  @media (max-width: 1199px) and (min-width: 700px) {
+  @media (max-width: 1199px) {
     width: 680px;
     height: 360px;
     margin-bottom: 20px;

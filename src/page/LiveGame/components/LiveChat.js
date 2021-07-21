@@ -50,7 +50,7 @@ const LiveChat = ({ isSigned, user }) => {
 
   const isDragging = useRef(false);
   const dragRef = useRef();
-  const [dragPosition, setDragPosition] = useState(null);
+  const [dragPosition, setDragPosition] = useState(false);
 
   const onChangeChannel = (channel) => {
     switch (channel) {
@@ -98,21 +98,14 @@ const LiveChat = ({ isSigned, user }) => {
     }
     if (streamRef.current.getBoundingClientRect().bottom >= 150) {
       setSmallMod(false);
-      setDragPosition(null);
+      setDragPosition(false);
     }
   };
 
   // deal stream drag
   const onMouseDown = useCallback((e) => {
     if (dragRef.current && dragRef.current.contains(e.target)) {
-      console.log('點擊');
-      const arr = [];
-      const { top, left } = dragRef.current.getBoundingClientRect();
-      arr.push(top); // 30
-      arr.push(left);
-      setDragPosition(arr);
-      console.log(dragRef.current.getBoundingClientRect());
-      console.log(dragPosition);
+      setDragPosition(true);
     }
   }, []);
 
@@ -124,15 +117,11 @@ const LiveChat = ({ isSigned, user }) => {
   }, []);
 
   const onMouseMove = useCallback((e) => {
+    const x = e.clientX;
+    const y = e.clientY;
     if (isDragging.current) {
-      setDragPosition(() => {
-        const x = e.clientX;
-        const y = e.clientY;
-        console.log(x, y);
-
-        return [x, y];
-      });
-      console.log(dragPosition);
+      dragRef.current.style.top = `${y}px`;
+      dragRef.current.style.left = `${x}px`;
     }
   }, []);
 
