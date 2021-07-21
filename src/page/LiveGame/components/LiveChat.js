@@ -105,6 +105,7 @@ const LiveChat = ({ isSigned, user }) => {
   // deal stream drag
   const onMouseDown = useCallback((e) => {
     if (dragRef.current && dragRef.current.contains(e.target)) {
+      isDragging.current = true;
       setDragPosition(true);
     }
   }, []);
