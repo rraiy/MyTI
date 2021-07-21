@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { primary, secondary, fontWhite } from '../../../../public_component/globalStyle';
+import { primary, secondary, fontWhite, fontGrey } from '../../../../public_component/globalStyle';
 
 const borderColor = 'rgba(168,73,237,0.27)';
 
@@ -108,4 +108,55 @@ export const EventDiv = styled.div`
   padding: 4px 0;
   margin-bottom: 4px;
   white-space: nowrap;
+  cursor: pointer;
+`;
+
+export const EventPopupDiv = styled.div`
+  background: rgb(75, 30, 108);
+  padding: 20px 30px;
+  position: fixed;
+  z-index: 200;
+  border-radius: 5px;
+  line-height: 2em;
+  color: #fff;
+  font-weight: bold;
+
+  p {
+    margin-bottom: 20px;
+  }
+
+  p:nth-child(2) {
+    font-size: 20px;
+  }
+
+  img {
+    width: 24px;
+    float: right;
+    cursor: pointer;
+  }
+
+  button {
+    width: 160px;
+    height: 30px;
+    color: ${fontGrey};
+    padding: 8px 12px;
+    background: ${secondary};
+    border-radius: 5px;
+    margin: 0 8px;
+  }
+
+  button:nth-child(4) {
+    width: 160px;
+    height: 30px;
+    color: ${fontGrey};
+    padding: 8px 12px;
+    background: none;
+    border: 1px solid ${fontGrey};
+    border-radius: 5px;
+    margin: 0 4px;
+  }
+
+  button:nth-child(4):hover {
+    background: ${primary};
+  }
 `;

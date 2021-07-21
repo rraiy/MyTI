@@ -96,10 +96,10 @@ const Member = ({
       <>
         <BtnWrap>
           <Link to={`${url}/accountsetting`}>
-            <AreaBtn show={AreaSwitch.account}>Account</AreaBtn>
+            <AreaBtn show={AreaSwitch.account}>Account Setting</AreaBtn>
           </Link>
           <Link to={`${url}/userteam`}>
-            <AreaBtn show={AreaSwitch.teams}>Team</AreaBtn>
+            <AreaBtn show={AreaSwitch.teams}>Favorite Team</AreaBtn>
           </Link>
           <Link to={`${url}/calendar`}>
             <AreaBtn show={AreaSwitch.calendar}>Tour Calendar</AreaBtn>

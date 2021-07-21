@@ -25,12 +25,6 @@ const TeamsSetting = ({ userToken, userTeam, teamLogos }) => {
   const [changeInput, setChangeInput] = useState('');
   const [debouncedInputText, setDebouncedInputText] = useState(changeInput);
 
-  // 'icons', 'crown.png', '8c7ba534-50ad-4e63-b179-a919874d4a84'
-
-  // let x = getAllTeamStorageUrl();
-  // console.log(getAllTeamStorageUrl());
-  console.log(teamLogos);
-
   const handleChangeInput = (text) => {
     setChangeInput(text);
   };
@@ -105,7 +99,7 @@ const TeamsSetting = ({ userToken, userTeam, teamLogos }) => {
             <RemoveLayer onClick={() => handleRemoveFavorite(userTeam)}>Delete</RemoveLayer>
             <StarI src={starI} alt="" />
             {/* {fetchIcon('remove.png')} */}
-            <MemberTeamLogo src={getTeamlogoUrl('PSG.LGD.png')} alt="" />
+            <MemberTeamLogo src={TeamLogo} alt="" />
             <p>{userTeam}</p>
           </IconWrap>
         </FavoriteWrap>
