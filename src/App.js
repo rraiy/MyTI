@@ -11,6 +11,7 @@ import LiveGame from './page/LiveGame/LiveGame';
 import AllTours from './page/AllTours/AllTournaments';
 import Member from './page/Member/Member';
 import { ResetStyle, GlobalStyle } from './public_component/globalStyle';
+import { getAllIconStorageUrl, getAllTeamStorageUrl } from './utils/storageUrl';
 
 const App = () => {
   // console.log('App最頂')
@@ -23,6 +24,10 @@ const App = () => {
   const [userTeam, setUserTeam] = useState(null);
   const [userTour, setUserTour] = useState(null);
   const [userBirth, setUserBirth] = useState(null);
+
+  // storage fetch data
+  const [icons, setIcons] = useState(null);
+  const [teamLogos, setTeamLogos] = useState(null);
 
   // open login register popup
   const [loginPopup, setLoginPopup] = useState(false);
@@ -70,32 +75,6 @@ const App = () => {
     return data.uid;
   };
 
-  // async function handlerUserState (){
-  //     firebase.auth().onAuthStateChanged(user=>{
-  //         if(user){
-  //             db.collection('member').doc(user.uid).get()
-  //             .then(member => fetchUserData(member.data()))
-  //         }
-  //     })
-  // }
-
-  // async function listenUserUpdate(uid){
-  //     db.collection('member').doc(uid).onSnapshot(update=>{
-  //         fetchUserData(update.data())
-  //     })
-  // }
-
-  // useEffect(()=>{
-
-  //     const listenUserUpdate = async () =>{
-  //         const uid = await handlerUserState();
-  //         console.log('effect 拿到' ,uid)
-  //     };
-
-  //     listenUserUpdate();
-
-  // },[])
-
   useEffect(() => {
     // bug 監聽寫裡面不知道怎麼取消
     firebase.auth().onAuthStateChanged((loginUser) => {
@@ -118,6 +97,8 @@ const App = () => {
         setChecking(false);
       }
     });
+    setIcons(getAllIconStorageUrl());
+    setTeamLogos(getAllTeamStorageUrl());
   }, []);
 
   // if (isChecking) {
@@ -168,6 +149,7 @@ const App = () => {
             userTeam={userTeam}
             userTour={userTour}
             userBirth={userBirth}
+            teamLogos={teamLogos}
           />
         </Route>
       </Switch>

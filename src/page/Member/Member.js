@@ -28,7 +28,16 @@ history.pushState = _wurl('pushState');
 // eslint-disable-next-line no-restricted-globals
 history.replaceState = _wurl('replaceState');
 
-const Member = ({ isSigned, user, userToken, userEmail, userTeam, userTour, userBirth }) => {
+const Member = ({
+  isSigned,
+  user,
+  userToken,
+  userEmail,
+  userTeam,
+  userTour,
+  userBirth,
+  teamLogos,
+}) => {
   const { path, url } = useRouteMatch();
   const [isLoading, setLoading] = useState(true);
   const [activeArea, setActiveArea] = useState('calendar');
@@ -108,7 +117,7 @@ const Member = ({ isSigned, user, userToken, userEmail, userTeam, userTour, user
           </Route>
 
           <Route exact path={`${path}/userteam`}>
-            <TeamsSetting userToken={userToken} userTeam={userTeam} />
+            <TeamsSetting userToken={userToken} userTeam={userTeam} teamLogos={teamLogos} />
           </Route>
 
           <Route>

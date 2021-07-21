@@ -17,42 +17,21 @@ import {
   RemoveLayer,
 } from './css/TeamsSettingSty';
 import starI from '../../../images/icon/star.png';
-import TeamLogo from '../../../images/team_logo/LGDM.png';
+import TeamLogo from '../../../images/team_logo/PSG.LGD.png';
+import { connectStorageUrlString } from '../../../utils/storageUrl';
 
-const iconPath = storage.ref('icons');
-const TeamsSetting = ({ userToken, userTeam }) => {
+const TeamsSetting = ({ userToken, userTeam, teamLogos }) => {
   const [teamItems, setTeamItems] = useState(null);
   const [changeInput, setChangeInput] = useState('');
   const [debouncedInputText, setDebouncedInputText] = useState(changeInput);
-  const [iconUrl, setIconUrl] = useState(null);
 
-  // big bug
-  // function test(icon) {
-  //   let x = '';
-  //   async function fetchIcon() {
-  //     const resp = await storage
-  //       .ref('icons')
-  //       .child(icon)
-  //       .getDownloadURL()
-  //       .then((url) => {
-  //         setIconUrl(url);
-  //         return url;
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
+  // 'icons', 'crown.png', '8c7ba534-50ad-4e63-b179-a919874d4a84'
 
-  //     if (resp) {
-  //       console.log(x);
-  //       return x;
-  //     }
-  //     return null;
-  //   }
-  //   fetchIcon();
-  // }
+  // let x = getAllTeamStorageUrl();
+  // console.log(getAllTeamStorageUrl());
+  console.log(teamLogos);
 
   const handleChangeInput = (text) => {
-    console.log(text);
     setChangeInput(text);
   };
 
@@ -126,7 +105,7 @@ const TeamsSetting = ({ userToken, userTeam }) => {
             <RemoveLayer onClick={() => handleRemoveFavorite(userTeam)}>Delete</RemoveLayer>
             <StarI src={starI} alt="" />
             {/* {fetchIcon('remove.png')} */}
-            <MemberTeamLogo src={TeamLogo} alt="" />
+            <MemberTeamLogo src={getTeamlogoUrl('PSG.LGD.png')} alt="" />
             <p>{userTeam}</p>
           </IconWrap>
         </FavoriteWrap>

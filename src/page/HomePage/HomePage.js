@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { db, storage } from '../../firebase/firestore';
 import MainContent from './components/MainContent';
 import PrizePool from './components/PrizePool';
@@ -14,7 +13,6 @@ import {
   InfoListUl,
   InfoListLi,
 } from './css/HomePage';
-// import { formatTourDate } from '../../public_component/setDataToDatabase';
 
 const webInfoData = [
   {
