@@ -52,7 +52,7 @@ const HomePage = () => {
 
   return (
     <Wrap>
-      <AegisVideo src={main} autoPlay preload="auto" loop style={{ width: '100%' }}>
+      {/* <AegisVideo src={main} autoPlay preload="auto" loop style={{ width: '100%' }}>
         <track kind="captions" />
       </AegisVideo>
       <WebInfoWrap>
@@ -78,7 +78,7 @@ const HomePage = () => {
           })}
         </WebInfoCardUl>
       </WebInfoWrap>
-      <MainContent />
+      <MainContent /> */}
       <PrizePool />
     </Wrap>
   );

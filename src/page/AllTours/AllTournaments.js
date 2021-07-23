@@ -21,6 +21,8 @@ import {
   locationWidth,
   infoWidth,
   FavoriteBtn,
+  AllTourInfoDiv,
+  InfoTextDiv,
 } from './css/AllTournamentsSty';
 import icon from '../../images/icon/tour.png';
 import { render } from 'react-dom';
@@ -168,14 +170,28 @@ const AllTours = ({ user, userTour, userToken }) => {
 
   return (
     <Wrap>
+      <AllTourInfoDiv>
+        <h3>Dota2 TI Tournaments Statistics</h3>
+        <InfoTextDiv>
+          <p>
+            This section provides access to all the international and related events static
+            collected.
+          </p>
+          <p>
+            The special event pages make you dismissing your favorite tours. You can add tour's
+            dates to your own custom calendar by click the favorite button (at left with every
+            rows), remove it just the same action.
+          </p>
+        </InfoTextDiv>
+      </AllTourInfoDiv>
       <StateUL>
-        <StateLi onClick={(e) => switchArea('ongoing')} show={showArea.ongoing}>
+        <StateLi onClick={() => switchArea('ongoing')} show={showArea.ongoing}>
           <a href="#ongoing">Ongoing</a>
         </StateLi>
-        <StateLi onClick={(e) => switchArea('upcoming')} show={showArea.upcoming}>
+        <StateLi onClick={() => switchArea('upcoming')} show={showArea.upcoming}>
           <a href="#upcoming">Upcoming</a>
         </StateLi>
-        <StateLi onClick={(e) => switchArea('recent')} show={showArea.recent}>
+        <StateLi onClick={() => switchArea('recent')} show={showArea.recent}>
           <a href="#recent">Recent</a>
         </StateLi>
       </StateUL>

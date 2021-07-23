@@ -4,8 +4,12 @@ import styled from 'styled-components';
 
 export const PrizePoolWrap = styled.div`
   width: 92%;
+  height: 500px;
   background: #1f1d33;
   box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
+  margin-top: 120px;
+  text-align: center;
+  padding: 40px;
 `;
 
 export const PrizePoolTitle = styled.div`

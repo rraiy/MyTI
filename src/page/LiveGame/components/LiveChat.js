@@ -38,7 +38,7 @@ const LiveChat = ({ isSigned, user }) => {
     username: user,
     key: '',
     team: logo,
-    timestamp: 0, // Date.now()
+    timestamp: 0,
   });
   const [wordLimitColor, setWordLimitColor] = useState('');
   const [sendIconDisabled, setSendIconDisabled] = useState(true);
@@ -102,6 +102,10 @@ const LiveChat = ({ isSigned, user }) => {
     }
   };
 
+  document.addEventListener('click', (e) => {
+    // console.log(e);
+  });
+
   // deal stream drag
   const onMouseDown = useCallback((e) => {
     if (dragRef.current && dragRef.current.contains(e.target)) {
@@ -121,8 +125,8 @@ const LiveChat = ({ isSigned, user }) => {
     const x = e.clientX;
     const y = e.clientY;
     if (isDragging.current) {
-      dragRef.current.style.top = `${y}px`;
-      dragRef.current.style.left = `${x}px`;
+      dragRef.current.style.top = `${y + 5}px`;
+      dragRef.current.style.left = `${x + 5}px`;
     }
   }, []);
 
@@ -230,7 +234,7 @@ const LiveChat = ({ isSigned, user }) => {
       <StreamChatWrap>
         <StreamDiv ref={streamRef} dragPosition={dragPosition || 0}>
           <StreamFrameDiv className={getStreamFrameDivClass()} ref={dragRef} mod={smallMod}>
-            <StreamDragLayer mod={smallMod}>拖</StreamDragLayer>
+            <StreamDragLayer mod={smallMod}>drag video here</StreamDragLayer>
             {/* twitch */}
             <iframe
               title="twitch"

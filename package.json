@@ -53,6 +53,7 @@
     "@vx/scale": "0.0.199",
     "@vx/shape": "0.0.199",
     "@vx/tooltip": "0.0.199",
+    "d3": "^7.0.0",
     "d3-array": "^3.0.1",
     "d3-time-format": "^4.0.0",
     "eslint-loader": "^4.0.2",

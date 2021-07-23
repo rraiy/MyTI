@@ -91,7 +91,6 @@ export const StreamDiv = styled.div`
     height: 290px;
     bottom: 30px; // 30px
     right: 60px; // 60px
-    border: 1px solid red;
     z-index: 30;
   }
 
@@ -124,12 +123,15 @@ export const StreamDragLayer = styled.div`
   display: ${(props) => (props.mod ? 'block' : 'none')};
   background: ${primary};
   color: #fff;
-  width: 30px;
+  text-align: center;
+  line-height: 30px;
+  width: 100%;
   height: 30px;
   position: absolute;
   top: -30px;
   left: 0;
   cursor: move;
+  opacity: 0.8;
 `;
 
 export const Iframe = styled.iframe`

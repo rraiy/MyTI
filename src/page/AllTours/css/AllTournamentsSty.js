@@ -33,10 +33,10 @@ export const StateUL = styled.ul`
   flex-direction: column;
   justify-content: space-around;
   position: fixed;
-  top: 20%;
+  top: 48%;
   left: 8%;
   width: 160px;
-  height: 320px;
+  height: 280px;
 
   .noPick {
     font-size: 22px;
@@ -188,4 +188,23 @@ export const FavoriteBtn = styled.button`
   img {
     width: 30px;
   }
+`;
+
+export const AllTourInfoDiv = styled.div`
+  width: 80%;
+  margin-bottom: 80px;
+  h3 {
+    font-size: 28px;
+    color: #fff;
+    margin-bottom: 32px;
+  }
+  p {
+    color: ${fontGrey};
+    padding: 20px 24px;
+    line-height: 1.5em;
+  }
+`;
+
+export const InfoTextDiv = styled.div`
+  border: 1px solid ${primary};
 `;
