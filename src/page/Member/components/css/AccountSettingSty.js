@@ -6,10 +6,22 @@ export const AccountWrap = styled.div`
   border: 1px solid ${primary};
   border-radius: 16px;
   background: #1f1d33;
+
+  @media (max-width: 1199px) {
+    width: 90%;
+  }
+
+  @media (max-width: 700px) {
+    width: 95%;
+  }
 `;
 
 export const UL = styled.ul`
   padding: 0px 80px;
+
+  @media (max-width: 700px) {
+    padding: 0 20px;
+  }
 `;
 
 export const Li = styled.li`
@@ -30,6 +42,12 @@ export const Li = styled.li`
 
   .active {
     display: block;
+  }
+
+  @media (max-width: 700px) {
+    img {
+      right: 0;
+    }
   }
 `;
 
@@ -69,6 +87,10 @@ export const EditDiv = styled.div`
 export const Input = styled.input`
   height: 28px;
   margin-right: 20px;
+
+  @media (max-width: 700px) {
+    margin-bottom: 12px;
+  }
 `;
 
 export const Button = styled.button`

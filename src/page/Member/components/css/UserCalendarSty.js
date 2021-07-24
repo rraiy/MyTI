@@ -7,6 +7,15 @@ export const UserCalendarWrap = styled.div`
   width: 900px;
   background: #231d40;
   padding: 12px;
+
+  @media (max-width: 1199px) {
+    width: 90%;
+  }
+
+  @media (max-width: 600px) {
+    width: 99%;
+    padding: 0;
+  }
 `;
 
 export const SelectMonthDiv = styled.div`
@@ -46,10 +55,19 @@ export const DayUl = styled.ul`
     border-right: none;
     text-align: center;
     padding: 8px 16px;
+
+    @media (max-width: 600px) {
+      padding: 4px 8px;
+    }
   }
 
   li:nth-last-child(1) {
     border-right: 1px solid ${borderColor};
+  }
+
+  @media (max-width: 600px) {
+    font-weight: normal;
+    font-size: 12px;
   }
 `;
 
@@ -120,6 +138,12 @@ export const EventPopupDiv = styled.div`
   line-height: 2em;
   color: #fff;
   font-weight: bold;
+
+  @media (max-width: 600px) {
+    width: 80%;
+    padding: 8px 16px;
+    left: 30px;
+  }
 
   p {
     margin-bottom: 20px;

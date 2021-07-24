@@ -24,4 +24,8 @@ module.exports = {
     'prettier/prettier': 'error',
     // camelcase: [0, { properties: 'always' }],
   },
+  env: {
+    browser: true,
+    node: true,
+  },
 };

@@ -3,6 +3,15 @@ import { primary } from '../../../../public_component/globalStyle';
 
 export const TeamsSettingWrap = styled.div`
   width: 952px;
+
+  @media (max-width: 1199px) {
+    width: 85%;
+  }
+
+  @media (max-width: 700px) {
+    width: 90%;
+    margin: 0 auto;
+  }
 `;
 
 export const FavoriteWrap = styled.div`
@@ -14,6 +23,13 @@ export const FavoriteWrap = styled.div`
 
   h2 {
     font-size: 24px;
+  }
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    h2 {
+      margin-bottom: 20px;
+    }
   }
 `;
 
@@ -58,6 +74,10 @@ export const SelectTeamWrap = styled.div`
   input {
     margin-bottom: 16px;
   }
+
+  @media (max-width: 700px) {
+    width: 95%;
+  }
 `;
 
 export const AllTeamUL = styled.ul`
@@ -65,7 +85,12 @@ export const AllTeamUL = styled.ul`
   min-height: 300px;
   display: flex;
   flex-wrap: wrap;
-  // justify-content: space-between;
+
+  @media (max-width: 700px) {
+    img {
+      width: 40px;
+    }
+  }
 `;
 
 export const TeamItemWrapLi = styled.li`
@@ -87,6 +112,10 @@ export const TeamItemWrapLi = styled.li`
     border: 1px solid ${primary};
     margin-bottom: 10px;
     opacity: 0.5;
+  }
+
+  @media (max-width: 700px) {
+    width: 120px;
   }
 `;
 

@@ -28,7 +28,7 @@ const RegisterPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
         email: email,
         birthday: '',
         username: username,
-        user_tour: [],
+        user_tour: '',
         user_team: '',
       },
       { merge: true },

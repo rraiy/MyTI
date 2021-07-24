@@ -30,7 +30,7 @@ const LoginPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
           user_option: {
             user_subscribe: false,
             user_team: '',
-            user_tour: [],
+            user_tour: '',
           },
         },
         { merge: true },

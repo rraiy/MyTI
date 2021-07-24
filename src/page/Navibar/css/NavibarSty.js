@@ -1,5 +1,11 @@
 import styled from 'styled-components';
-import { primary, fontGrey, fontWhite, fontWaring } from '../../../public_component/globalStyle';
+import {
+  primary,
+  secondary,
+  fontGrey,
+  fontWhite,
+  fontWaring,
+} from '../../../public_component/globalStyle';
 
 export const NavibarWrap = styled.div`
   width: 100%;
@@ -14,9 +20,6 @@ export const NavibarWrap = styled.div`
   position: fixed;
   top: 0;
   z-index: 2;
-
-  @media (max-width: 900px) {
-  }
 
   @media (max-width: 500px) {
   }
@@ -39,7 +42,7 @@ export const LogoDiv = styled.div`
     margin-right: 10px;
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: 800px) {
     width: auto;
     p {
       display: none;
@@ -50,12 +53,34 @@ export const LogoDiv = styled.div`
   }
 `;
 
+export const PhoneMenuUl = styled.ul`
+  position: fixed;
+  top: 68px;
+  right: 0;
+  left: 0;
+  background-color: ${secondary};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+  height: ${(props) => props.height};
+  li {
+    margin-bottom: 40px;
+    color: #fff;
+    font-size: 16px;
+    padding: 20px 0;
+  }
+`;
+
 export const MenuI = styled.img`
   display: none;
 
   @media (max-width: 800px) {
     display: inline-block;
     width: 30px;
+    :hover {
+      background-color: blueviolet;
+    }
   }
 `;
 
