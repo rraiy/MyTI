@@ -9,6 +9,7 @@ import RegisterPopup from './page/Navibar/RegisterPopup';
 import LoginPopup from './page/Navibar/LoginPopup';
 import LiveGame from './page/LiveGame/LiveGame';
 import AllTours from './page/AllTours/AllTournaments';
+import OneTour from './page/OneTour/OneTour';
 import Member from './page/Member/Member';
 import { ResetStyle, GlobalStyle } from './public_component/globalStyle';
 import { getAllIconStorageUrl, getAllTeamStorageUrl } from './utils/storageUrl';
@@ -130,6 +131,10 @@ const App = () => {
       <Switch>
         <Route path="/" exact>
           <HomePage isSigned={isSigned} user={user} />
+        </Route>
+
+        <Route path="/tour" exact>
+          <OneTour isSigned={isSigned} user={user} />
         </Route>
 
         <Route path="/tournaments">

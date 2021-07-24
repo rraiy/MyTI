@@ -1,14 +1,14 @@
 import React, { useRef, useEffect } from 'react';
-import { AreaClosed, Line, LinePath, Bar } from '@vx/shape';
-import { curveMonotoneX } from '@vx/curve';
-import { GridRows, GridColumns } from '@vx/grid';
-import { scaleTime, scaleLinear } from '@vx/scale';
-import { localPoint } from '@vx/event';
-import { LinearGradient } from '@vx/gradient';
-import { Group } from '@vx/group';
-import { Axis, AxisBottom } from '@vx/axis';
+// import { AreaClosed, Line, LinePath, Bar } from '@vx/shape';
+// import { curveMonotoneX } from '@vx/curve';
+// import { GridRows, GridColumns } from '@vx/grid';
+// import { scaleTime, scaleLinear } from '@vx/scale';
+// import { localPoint } from '@vx/event';
+// import { LinearGradient } from '@vx/gradient';
+// import { Group } from '@vx/group';
+// import { Axis, AxisBottom } from '@vx/axis';
 import * as d3 from 'd3';
-import { PrizePoolWrap, PrizePoolTitle } from '../css/PrizePoolSty';
+import { PrizePoolWrap, PrizePoolTitle, H1, ChartWrap } from '../css/PrizePoolSty';
 
 const data = [
   {
@@ -41,9 +41,16 @@ const data = [
   },
 ];
 
+const margin = { top: 20, right: 80, bottom: 20, left: 80 };
 const width = 800;
-const height = 400;
-const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+const height = 500;
+
+/* Format Data */
+const parseDate = d3.timeParse('%Y');
+data.forEach((d) => {
+  d.year = parseDate(d.year);
+  d.total_prize = +d.total_prize;
+});
 
 const PrizePool = () => {
   const chartRef = useRef();
@@ -53,131 +60,122 @@ const PrizePool = () => {
       .select(chartRef.current)
       .attr('width', width)
       .attr('height', height)
-      .style('background-color', 'purple')
       .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
     // scale
     const xScale = d3
-      .scaleBand()
-      .domain(data.map((d) => d.year))
-      .range([0, width - margin.left - margin.right]);
+      .scaleTime()
+      .domain(d3.extent(data, (d) => d.year))
+      .rangeRound([0, width - margin.left - margin.right]);
 
     const yScale = d3
       .scaleLinear()
-      .domain([10000, d3.max(data.map((d) => d.total_prize))])
+      .domain([10000000, d3.max(data.map((d) => d.total_prize))])
       .nice()
-      .range([height, 0]);
+      .range([height - margin.top - margin.bottom, 0]);
 
-    // axis
+    // axis & text
     svg
       .append('g')
       .attr('transform', `translate(0, ${height - margin.bottom - margin.top})`)
+      .attr('class', 'axis axis-x')
       .attr('text-anchor', 'middle')
       .call(d3.axisBottom(xScale));
 
     svg
       .append('g')
-      .attr('transform', `translate(${margin.left},0)`)
-      .call(d3.axisLeft(yScale).ticks(5));
+      .call(d3.axisLeft(yScale).ticks(3))
+      .attr('class', 'axis axis-y')
+      .append('text')
+      .attr('y', 15)
+      .attr('transform', 'rotate(-90)')
+      .attr('fill', 'rgb(168,73,237)')
+      .text('Amount(USD)');
 
     // path
     svg
       .append('path')
       .datum(data)
+      // .attr('transform', 'translate(10,10)')
       .attr('fill', 'none')
-      .attr('stroke', 'white')
-      .attr('stroke-width', 3)
+      .attr('stroke', 'yellow')
+      .attr('stroke-width', 2)
       .attr(
         'd',
         d3
           .line()
-          .curve(d3.curveBasis)
           .x((d) => xScale(d.year))
           .y((d) => yScale(d.total_prize)),
       );
 
-    // console.log(y);
+    // event function
+    const mouseover = function (e, d) {
+      console.log(parseInt(e.target.attributes.cx.value, 10) + 10);
+      svg
+        .append('text')
+        .text(d.total_prize)
+        .attr('x', `${parseInt(e.target.attributes.cx.value, 10) + 10}`)
+        .attr('y', `${parseInt(e.target.attributes.cy.value, 10) + 10}`)
+        .attr('fill', '#fff')
+        .attr('id', 'tooltip');
+    };
 
-    // toRef
-    //   .selectAll('rect')
-    //   .data(data)
-    //   .enter()
-    //   .append('rect')
-    //   .attr('x', (d, i) => i * 70)
-    //   .attr('y', (d) => height - 10 * d)
-    //   .attr('width', 40)
-    //   .attr('height', (d) => d * 10)
-    //   .attr('fill', (d) => (d > 20000000 ? 'tomato' : 'yellow'));
+    const mouseleave = function (e, d) {
+      d3.select('#tooltip').remove();
+    };
+
+    // circle
+    svg
+      .append('g')
+      .selectAll('circle')
+      .data(data)
+      .enter()
+      .append('circle')
+      .attr('class', 'circle')
+      .attr('fill', '#BC4593')
+      .attr('cx', (d) => xScale(d.year))
+      .attr('cy', (d) => yScale(d.total_prize))
+      .attr('r', 4)
+      .on('mouseover', mouseover)
+      .on('mouseout', mouseleave);
   }, []);
 
   return (
     <PrizePoolWrap>
-      <div>
+      <H1>Prize Pool</H1>
+      <ChartWrap>
         <svg ref={chartRef}></svg>
-      </div>
-
-      {/* <svg viewBox={(0, 0, width, height)} fill="red" stroke="yellow">
-        
-      </svg> */}
+      </ChartWrap>
     </PrizePoolWrap>
   );
 };
 
 export default PrizePool;
 
-// const PrizePool = () => {
-//   const margin = { top: 10, right: 35, bottom: 20, left: 40 };
-//   const width = 600;
-//   const height = 400;
-
-//   const xMax = width - margin.left - margin.right;
-//   const yMax = height - margin.top - margin.bottom;
-
-//   const x = (d) => d.year;
-//   const y = (d) => d.total_prize;
-
-//   const scaleX = scaleLinear({
-//     range: [0, 200],
-//     round: true,
-//     domain: [2014, 2017],
-//   });
-
-//   const scaleY = scaleLinear({
-//     range: [yMax, 0],
-//     domain: [0, Math.max(...data.map(y))],
-//   });
-
-//   const compose = (s, a) => (data) => s(a(data));
-
-//   const pointX = compose(scaleX, x);
-//   const pointY = compose(scaleY, y);
-
-//   return (
-//     <PrizePoolWrap>
-//       <PrizePoolTitle>Prize Pool</PrizePoolTitle>
-//       <svg width={width} height={height}>
-//         {data.map((d, i) => {
-//           const barHeight = yMax - pointY(d);
-//           return (
-//             <Group top={margin.top} left={width / 2}>
-//               <Bar x={pointX(d)} y={yMax - barHeight} height={barHeight} width="15px" />
-//             </Group>
-//           );
-//         })}
-//         <AxisBottom
-//           top={yMax + margin.top}
-//           scale={scaleX}
-//           // tickFormat={}
-//           stroke="red"
-//           // tickStroke={purple3}
-//           // tickLabelProps={() => ({
-//           //   fill: purple3,
-//           //   fontSize: 11,
-//           //   textAnchor: 'middle',
-//           // })}
-//         />
-//       </svg>
-//     </PrizePoolWrap>
-//   );
-// };
+// svg
+//       .append('g')
+//       .selectAll('circle')
+//       .data(data)
+//       .enter()
+//       .append('g')
+//       .attr('class', 'circle')
+//       .attr('fill', 'purple')
+//       .on('mouseover', (d) => {
+//         console.log(this);
+//         d3.select(this)
+//           .style('cursor', 'pointer')
+//           .style('fill', 'white')
+//           .append('text')
+//           .attr('class', 'text')
+//           .text(d.total_prize)
+//           .attr('x', (d) => xScale(d.year) + 5)
+//           .attr('y', (d) => yScale(d.total_prize) - 5);
+//       })
+//       .on('mouseout', function (d) {
+//         d3.select(this).style('cursor', 'none').style('fill', 'purple').select('text').remove();
+//       })
+//       .append('circle')
+//       .attr('cx', (d) => xScale(d.year))
+//       .attr('cy', (d) => yScale(d.total_prize))
+//       .attr('r', 4);
