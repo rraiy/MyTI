@@ -185,10 +185,17 @@ export const MenuUl = styled.ul`
   li {
     color: #fff;
     margin-bottom: 20px;
+
+    :hover {
+      color: ${primary};
+    }
   }
 
   button {
     color: #fff;
+    :hover {
+      color: ${primary};
+    }
   }
 `;
 

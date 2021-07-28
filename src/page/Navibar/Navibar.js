@@ -43,16 +43,6 @@ const Navibar = ({ showLoginPopup, isSigned, user, signOut }) => {
     setBrowserHeight(document.body.scrollHeight);
   }, []);
 
-  // const test = (e) => {
-  //   e.stopPropagation();
-  //   setMenuActive('block');
-  // };
-
-  // const test2 = (e) => {
-  //   e.stopPropagation();
-  //   setMenuActive('none');
-  // };
-
   return (
     <NavibarWrap>
       <MenuI src={menuI} alt="" onClick={() => setPhoneNav(!phoneNav)} />

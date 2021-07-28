@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { db, storage } from '../../firebase/firestore';
 import MainContent from './components/MainContent';
 import PrizePool from './components/PrizePool';
+import WorldMap from './components/WorldMap';
 import {
   Wrap,
   WebInfoWrap,
@@ -12,7 +13,7 @@ import {
   H3,
   InfoListUl,
   InfoListLi,
-} from './css/HomePage';
+} from './css/HomePageSty';
 
 const webInfoData = [
   {
@@ -80,6 +81,7 @@ const HomePage = () => {
       </WebInfoWrap>
       <MainContent />
       <PrizePool />
+      <WorldMap />
     </Wrap>
   );
 };

@@ -7,6 +7,8 @@ export const fontWhite = '#fff';
 export const fontWaring = 'red';
 export const fontYellow = 'rgb(255,227,70)';
 
+const innerH = window.innerHeight;
+
 export const ResetStyle = createGlobalStyle`
     html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
     margin: 0;
@@ -94,7 +96,7 @@ export const GlobalStyle = createGlobalStyle`
 
 export const Wrap = styled.div`
   min-width: 1200px;
-  min-height: 800px;
+  min-height: calc(${innerH}px - 56px);
   color: ${fontGrey};
   background: transparent
     linear-gradient(180deg, rgba(7, 0, 28, 1) 0%, rgba(24, 15, 51, 1) 34%, rgba(58, 45, 96, 1) 100%)

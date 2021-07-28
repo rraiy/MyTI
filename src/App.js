@@ -11,6 +11,7 @@ import LiveGame from './page/LiveGame/LiveGame';
 import AllTours from './page/AllTours/AllTournaments';
 import OneTour from './page/OneTour/OneTour';
 import Member from './page/Member/Member';
+import Footer from './page/Footer/Footer';
 import { ResetStyle, GlobalStyle } from './public_component/globalStyle';
 import { getAllIconStorageUrl, getAllTeamStorageUrl } from './utils/storageUrl';
 
@@ -158,6 +159,8 @@ const App = () => {
           />
         </Route>
       </Switch>
+
+      <Footer />
     </Router>
   );
 };

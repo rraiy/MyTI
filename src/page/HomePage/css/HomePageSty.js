@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 import { primary } from '../../../public_component/globalStyle';
 
+const browserH = window.innerHeight;
+
 export const Wrap = styled.div`
   min-width: 1200px;
+  min-height: calc(${browserH}px - 56px);
   position: relative;
   background: transparent
     linear-gradient(180deg, rgba(7, 0, 28, 1) 0%, rgba(24, 15, 51, 1) 34%, rgba(58, 45, 96, 1) 100%)
