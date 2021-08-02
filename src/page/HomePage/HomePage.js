@@ -13,29 +13,32 @@ import {
   H3,
   InfoListUl,
   InfoListLi,
+  lineImgWrap,
 } from './css/HomePageSty';
+import checkI from '../../images/icon/check.png';
+import lineImg from '../../images/background/bg_line.png';
 
 const webInfoData = [
   {
     title: 'Tour Calendar',
     text: 'Custom your own tour date, do not miss any matches.',
-    item: ['Average Minute Audience', 'Peak viewers', 'Unique Viewers', 'Hours Watched'],
+    item: ['Add tours date', 'Delete tours', 'Member Page'],
   },
   {
-    title: 'Reports',
-    text: 'Analyzing around 100 metrics for events, teams, games and more.',
-    item: ['Average Minute Audience', 'Peak viewers', 'Unique Viewers', 'Hours Watched'],
+    title: 'Chat Room',
+    text: 'Chat with other fans while match on a stream, it will show the logo if you set the favorite team.',
+    item: ['Stream Page', 'Register and login to use', 'Support your Team'],
   },
   {
-    title: 'Reports',
-    text: 'Analyzing around 100 metrics for events, teams, games and more.',
-    item: ['Average Minute Audience', 'Peak viewers', 'Unique Viewers', 'Hours Watched'],
+    title: 'Statics',
+    text: 'Show the important information about The International, help you get the latest news',
+    item: ['Prize Pool', 'Qualifier Team', 'DPC Ranking', 'All Tournaments states'],
   },
-  {
-    title: 'Reports',
-    text: 'Analyzing around 100 metrics for events, teams, games and more.',
-    item: ['Average Minute Audience', 'Peak viewers', 'Unique Viewers', 'Hours Watched'],
-  },
+  // {
+  //   title: 'Reports',
+  //   text: 'Analyzing around 100 metrics for events, teams, games and more.',
+  //   item: ['Average Minute Audience', 'Peak viewers', 'Unique Viewers', 'Hours Watched'],
+  // },
 ];
 
 const HomePage = () => {
@@ -49,13 +52,15 @@ const HomePage = () => {
       .then((url) => setMain(url));
   }, []);
 
-  // https://firebasestorage.googleapis.com/v0/b/myti-171bb.appspot.com/o/background%2Fti10_main.mp4?alt=media&token=c2ebd13d-ae66-47ed-a7b2-952f28033756
-
   return (
     <Wrap>
       <AegisVideo src={main} autoPlay preload="auto" loop style={{ width: '100%' }}>
         <track kind="captions" />
       </AegisVideo>
+      {/* <lineImgWrap>
+        <img src={lineImg} alt="background" />
+      </lineImgWrap> */}
+
       <WebInfoWrap>
         <H1>Follow your ONE team, be the big fans to support !</H1>
         <p>
@@ -71,7 +76,12 @@ const HomePage = () => {
                 <p>{d.text}</p>
                 <InfoListUl>
                   {d.item.map((list) => {
-                    return <InfoListLi>{list}</InfoListLi>;
+                    return (
+                      <InfoListLi>
+                        <img src={checkI} alt="check icon" />
+                        <p>{list}</p>
+                      </InfoListLi>
+                    );
                   })}
                 </InfoListUl>
               </WebInfoCardLi>

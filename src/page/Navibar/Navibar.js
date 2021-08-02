@@ -16,10 +16,10 @@ import {
   PhoneMenuUl,
 } from './css/NavibarSty';
 import aegis from '../../images/aegis.png';
-import searchI from '../../images/icon/search.png';
+// import searchI from '../../images/icon/search.png';
 import menuI from '../../images/icon/menu.png';
 
-const Navibar = ({ showLoginPopup, isSigned, user, signOut }) => {
+const Navibar = ({ showLoginPopup, isSigned, user, signOut, userTeamLogo }) => {
   const [menuActive, setMenuActive] = useState(false);
   const [phoneNav, setPhoneNav] = useState(false);
   const [browserHeight, setBrowserHeight] = useState(null);
@@ -41,6 +41,7 @@ const Navibar = ({ showLoginPopup, isSigned, user, signOut }) => {
 
   useEffect(() => {
     setBrowserHeight(document.body.scrollHeight);
+    console.log(userTeamLogo);
   }, []);
 
   return (
@@ -65,11 +66,12 @@ const Navibar = ({ showLoginPopup, isSigned, user, signOut }) => {
           ) : null}
         </PhoneMenuUl>
       )}
-
-      <LogoDiv>
-        <img src={aegis} alt="" />
-        <p>MyTI</p>
-      </LogoDiv>
+      <Link to="/">
+        <LogoDiv>
+          <img src={aegis} alt="MyTI logo" />
+          <p>MyTI</p>
+        </LogoDiv>
+      </Link>
 
       <PageUL>
         <Link to="/">
@@ -89,8 +91,8 @@ const Navibar = ({ showLoginPopup, isSigned, user, signOut }) => {
       </PageUL>
 
       <SearchRegisterWrap>
-        <img src={searchI} alt="search" />
-        <SearchInput type="text" placeholder="Tournaments..." />
+        {/* <img src={searchI} alt="search" />
+        <SearchInput type="text" placeholder="Tournaments..." /> */}
         {!isSigned ? (
           <Button onClick={showLoginPopup}>Sign in</Button>
         ) : (
@@ -99,7 +101,9 @@ const Navibar = ({ showLoginPopup, isSigned, user, signOut }) => {
             onMouseEnter={() => setMenuActive(!menuActive)}
             className="navibar_user"
           >
-            {user}
+            {!userTeamLogo ? null : <img src={userTeamLogo} alt="favorite team" />}
+
+            <p>{user}</p>
             {menuActive && (
               <MenuUl
                 className="user_menu"

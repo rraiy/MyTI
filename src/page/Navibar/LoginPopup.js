@@ -20,21 +20,18 @@ const LoginPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
   const [loginSuccess, setLoginSuccess] = useState(false);
 
   const insertToMember = (useruid, useremail, userDisplayName) => {
-    db.collection('member')
-      .doc(useruid)
-      .set(
-        {
-          uid: useruid,
-          email: useremail,
-          username: userDisplayName,
-          user_option: {
-            user_subscribe: false,
-            user_team: '',
-            user_tour: '',
-          },
-        },
-        { merge: true },
-      );
+    db.collection('member').doc(useruid).set(
+      {
+        uid: useruid,
+        email: useremail,
+        birthday: '',
+        username: userDisplayName,
+        user_tour: '',
+        user_team: '',
+        user_team_logo: '',
+      },
+      { merge: true },
+    );
   };
 
   const onLogin = (e) => {

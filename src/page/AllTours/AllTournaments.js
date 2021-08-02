@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HashRouter, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import firebase from 'firebase/app';
 import { db } from '../../firebase/firestore';
 import {
@@ -25,7 +25,8 @@ import {
   InfoTextDiv,
 } from './css/AllTournamentsSty';
 import icon from '../../images/icon/tour.png';
-import { render } from 'react-dom';
+import addStarI from '../../images/icon/star_add.png';
+import blankStarI from '../../images/icon/star_blank.png';
 
 const defaultShowArea = {
   ongoing: true,
@@ -38,7 +39,7 @@ const ongoingAndUpcomingTitle = function () {
     <ul>
       <li style={{ width: markWidth }}> </li>
       <li style={{ width: dateWidth }}>Date</li>
-      <li style={{ width: tourLogoWidth }}> </li>
+      <li style={{ width: 0 }}> </li>
       <li style={{ width: tourTitleWidth }}>Tournament</li>
       <li style={{ width: locationWidth }}>Location</li>
       <li style={{ width: infoWidth }}>Info</li>
@@ -46,7 +47,7 @@ const ongoingAndUpcomingTitle = function () {
   );
 };
 
-const AllTours = ({ user, userTour, userToken }) => {
+const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
   const [allTours, setAllTours] = useState(null);
   const [ongoingTours, setOngoingTours] = useState(null);
   const [upcomingTours, setUpcomingTours] = useState(null);
@@ -95,12 +96,23 @@ const AllTours = ({ user, userTour, userToken }) => {
   };
 
   const handleFavoriteTour = (tourName, tourDate) => {
+    if (!isSigned) {
+      return showLoginPopup();
+    }
     db.collection('member')
       .doc(userToken)
       .get()
       .then((res) => res.data().user_tour)
-      .then((hadTours) => hadTours.filter((item) => item.tourTitle === tourName))
+      .then((hadTours) => {
+        // console.log(hadTours);
+        if (hadTours === '') {
+          return 0;
+        }
+        const result = hadTours.filter((item) => item.tourTitle === tourName);
+        return result;
+      })
       .then((filterResult) => {
+        console.log(filterResult);
         if (filterResult.length === 0) {
           db.collection('member')
             .doc(userToken)
@@ -146,10 +158,10 @@ const AllTours = ({ user, userTour, userToken }) => {
     if (userTour) {
       const checkFavoriteResult = userTour.find((tour) => tour.tourTitle === tourName);
       if (checkFavoriteResult) {
-        return 'favorite';
+        return true;
       }
     }
-    return '';
+    return false;
   };
 
   useEffect(() => {
@@ -179,8 +191,8 @@ const AllTours = ({ user, userTour, userToken }) => {
           </p>
           <p>
             The special event pages make you dismissing your favorite tours. You can add tour's
-            dates to your own custom calendar by click the favorite button (at left with every
-            rows), remove it just the same action.
+            dates to your own custom calendar by click the favorite button (the star), remove it
+            just by the same action.
           </p>
         </InfoTextDiv>
       </AllTourInfoDiv>
@@ -208,25 +220,26 @@ const AllTours = ({ user, userTour, userToken }) => {
                     <TourLi key={tour.title_en}>
                       {!userTour ? (
                         <FavoriteBtn onClick={() => handleFavoriteTour(tour.title_en, tour.date)}>
-                          <img src={icon} alt="" />
+                          <img src={blankStarI} alt="" />
                         </FavoriteBtn>
                       ) : (
-                        <FavoriteBtn
-                          onClick={() => handleFavoriteTour(tour.title_en, tour.date)}
-                          className={checkFavorite(tour.title_en)}
-                        >
-                          <img src={icon} alt="" />
+                        <FavoriteBtn onClick={() => handleFavoriteTour(tour.title_en, tour.date)}>
+                          <img
+                            src={checkFavorite(tour.title_en) ? addStarI : blankStarI}
+                            alt="favorite button"
+                          />
                         </FavoriteBtn>
                       )}
 
                       <span>{tour.date.all}</span>
-                      <div>
-                        <img src={icon} alt="" />
-                      </div>
+                      <div>{/* <img src={icon} alt="" /> */}</div>
                       <span>{tour.title_en}</span>
                       <span>{tour.location}</span>
+
                       <div>
-                        <img src={icon} alt="" />
+                        <Link to="/tour">
+                          <img src={icon} alt="" />
+                        </Link>
                       </div>
                     </TourLi>
                   );
@@ -247,25 +260,28 @@ const AllTours = ({ user, userTour, userToken }) => {
                     <TourLi key={tour.title_en}>
                       {!userTour ? (
                         <FavoriteBtn onClick={() => handleFavoriteTour(tour.title_en, tour.date)}>
-                          <img src={icon} alt="" />
+                          <img src={blankStarI} alt="" />
                         </FavoriteBtn>
                       ) : (
                         <FavoriteBtn
                           onClick={() => handleFavoriteTour(tour.title_en, tour.date)}
                           className={checkFavorite(tour.title_en)}
                         >
-                          <img src={icon} alt="" />
+                          <img
+                            src={checkFavorite(tour.title_en) ? addStarI : blankStarI}
+                            alt="favorite button"
+                          />
                         </FavoriteBtn>
                       )}
 
                       <span>{tour.date.all}</span>
-                      <div>
-                        <img src={icon} alt="" />
-                      </div>
+                      <div>{/* <img src={icon} alt="" /> */}</div>
                       <span>{tour.title_en}</span>
                       <span>{tour.location}</span>
                       <div>
-                        <img src={icon} alt="" />
+                        <Link to="/tour">
+                          <img src={icon} alt="" />
+                        </Link>
                       </div>
                     </TourLi>
                   );
@@ -297,13 +313,13 @@ const AllTours = ({ user, userTour, userToken }) => {
                         <p>{tour.result.one}</p>
                       </div>
                       <span>{tour.date.all}</span>
-                      <div>
-                        <img src={icon} alt="" />
-                      </div>
+                      <div>{/* <img src={icon} alt="" /> */}</div>
                       <span>{tour.title_en}</span>
                       <span>{tour.location}</span>
                       <div>
-                        <img src={icon} alt="" />
+                        <Link to="/tour">
+                          <img src={icon} alt="" />
+                        </Link>
                       </div>
                     </TourLi>
                   );

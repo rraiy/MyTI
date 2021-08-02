@@ -81,8 +81,8 @@ export const StreamChatWrap = styled.div`
 `;
 
 export const StreamDiv = styled.div`
-  width: 800px;
-  height: 468px;
+  width: ${(props) => (props.bigger ? '1000px' : '800px')};
+  height: ${(props) => (props.bigger ? '585px' : '468px')};
   // border: 1px solid ${primary};
 
   .mod-small {
@@ -115,8 +115,8 @@ export const StreamDiv = styled.div`
 `;
 
 export const StreamFrameDiv = styled.div`
-  width: 800px;
-  height: 468px;
+  width: 100%;
+  height: 100%;
 `;
 
 export const StreamDragLayer = styled.div`
@@ -132,6 +132,18 @@ export const StreamDragLayer = styled.div`
   left: 0;
   cursor: move;
   opacity: 0.8;
+
+  p {
+    display: inline-block;
+  }
+
+  img {
+    width: 16px;
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    cursor: pointer;
+  }
 `;
 
 export const Iframe = styled.iframe`
@@ -139,7 +151,7 @@ export const Iframe = styled.iframe`
 `;
 
 export const ChatDiv = styled.div`
-  width: 380px;
+  width: ${(props) => (props.hide ? '180px' : '380px')};
   height: 468px;
 
   @media (max-width: 699px) {
@@ -184,11 +196,16 @@ export const ChatSpace = styled.div`
   height: 320px;
   border: 4px solid #5c2088;
   border-top: none;
-  padding: 8px 20px;
+  padding: 8px 12px;
   overflow: scroll;
   overflow-x: hidden;
   word-wrap: normal;
   display: ${(props) => props.hide};
+
+  img {
+    width: 20px;
+    margin-right: 4px;
+  }
 
   -webkit-scrollbar-thumb {
     //need fix not working
@@ -201,9 +218,6 @@ export const ChatType = styled.form`
   padding: 8px 16px;
   border: 4px solid #5c2088;
   border-top: none;
-  p {
-    margin-bottom: 8px;
-  }
 
   img {
     width: 20px;
@@ -218,6 +232,8 @@ export const Li = styled.li`
   color: ${fontGrey};
   margin-bottom: 8px;
   line-height: 1.3em;
+  display: flex;
+  align-items: center;
 
   @media (max-width: 699px) {
     font-size: 12px;
@@ -259,4 +275,14 @@ export const SendBtn = styled.button`
 
 export const SendImg = styled.img`
   opacity: ${(props) => (props.disabled ? '0.2' : '1')};
+`;
+
+export const UserLogoNameDiv = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+
+  img {
+    margin-right: 4px;
+  }
 `;

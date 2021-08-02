@@ -25,8 +25,8 @@ export const TeamPlayersWrap = styled.div`
 `;
 
 export const SpaceDiv = styled.div`
-  height: 8px;
-  background: black;
+  height: 4px;
+  background: #542883;
 `;
 
 export const TeamPlayerDiv = styled.div`

@@ -24,6 +24,7 @@ const App = () => {
   const [userEmail, setUserEmail] = useState(null);
   const [userPassword, setUserPassword] = useState(null);
   const [userTeam, setUserTeam] = useState(null);
+  const [userTeamLogo, setUserTeamLogo] = useState(null);
   const [userTour, setUserTour] = useState(null);
   const [userBirth, setUserBirth] = useState(null);
 
@@ -65,6 +66,13 @@ const App = () => {
   const signOut = () => {
     setIsSigned(false);
     setUser(null);
+    setUserToken(null);
+    setUserEmail(null);
+    setUserTeam(null);
+    setUserTeamLogo(null);
+    setUserTour(null);
+    setUserBirth(null);
+    window.location.reload();
   };
 
   const fetchUserData = (data) => {
@@ -72,6 +80,7 @@ const App = () => {
     setUserToken(data.uid);
     setUserEmail(data.email);
     setUserTeam(data.user_team);
+    setUserTeamLogo(data.user_team_logo);
     setUserTour(data.user_tour);
     setUserBirth(data.birthday);
     return data.uid;
@@ -112,7 +121,13 @@ const App = () => {
       <ResetStyle />
       <GlobalStyle />
 
-      <Navibar showLoginPopup={showLoginPopup} isSigned={isSigned} user={user} signOut={signOut} />
+      <Navibar
+        showLoginPopup={showLoginPopup}
+        isSigned={isSigned}
+        user={user}
+        signOut={signOut}
+        userTeamLogo={userTeamLogo}
+      />
       {loginPopup ? (
         <LoginPopup
           closePopup={closePopup}
@@ -139,11 +154,17 @@ const App = () => {
         </Route>
 
         <Route path="/tournaments">
-          <AllTours isSigned={isSigned} user={user} userTour={userTour} userToken={userToken} />
+          <AllTours
+            isSigned={isSigned}
+            user={user}
+            userTour={userTour}
+            userToken={userToken}
+            showLoginPopup={showLoginPopup}
+          />
         </Route>
 
         <Route path="/stream">
-          <LiveGame isSigned={isSigned} user={user} />
+          <LiveGame isSigned={isSigned} user={user} userTeamLogo={userTeamLogo} />
         </Route>
 
         <Route path="/member">
@@ -155,7 +176,8 @@ const App = () => {
             userTeam={userTeam}
             userTour={userTour}
             userBirth={userBirth}
-            teamLogos={teamLogos}
+            // teamLogos={teamLogos}
+            userTeamLogo={userTeamLogo}
           />
         </Route>
       </Switch>

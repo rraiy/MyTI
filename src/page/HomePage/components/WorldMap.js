@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import * as topojson from 'topojson-client';
 import { map } from 'd3';
-import { WorldMapWrap, MapSvg, H1 } from '../css/WorldMapSty';
+import { WorldMapWrap, MapSvg, H1, ContentMapWrap, ContentUl, ContentLi } from '../css/WorldMapSty';
+import listI from '../../../images/icon/shield_bg_sm.png';
 
 const margin = { top: 0, right: 0, bottom: 0, left: 0 };
 const width = 960 - margin.left - margin.right;
@@ -41,6 +42,18 @@ const qualifierTeam = [
   },
 ];
 
+const qualifierContent = [
+  {
+    text: ' Event Date : June 23rd - July 10th, 2021',
+  },
+  {
+    text: "All teams that participated in season 2 of the regional league that aren’t qualified to The International 10 by finishing top 12 in DPC rankings are invited provided that they did not replace more than two players from their last season's team.",
+  },
+  {
+    text: 'The teams are seeded based on their DPC point total followed by their standing in the final season of the regional league',
+  },
+];
+
 const WorldMap = () => {
   const mapRef = useRef();
   // const [landData, setLandData] = useState(null);
@@ -48,7 +61,6 @@ const WorldMap = () => {
   const svg = d3.select(mapRef.current).attr('width', width).attr('height', height);
 
   // Map and projection
-  const path = d3.geoPath();
   const projection = d3
     .geoMercator()
     .scale(100)
@@ -194,25 +206,24 @@ const WorldMap = () => {
       .text('Western Europe');
   });
 
-  // useEffect(() => {}, [landData]);
-
   return (
     <WorldMapWrap>
-      <H1>Regional Qualifiers</H1>
-      <div>
-        <MapSvg ref={mapRef}>
-          {/* {qualifierTeam.map((area) => {
-            console.log(area.regional);
-            return ( */}
-          {/* <g className="qualifier EE">
-            <text x="30%" y={100} fill="white">
-              america
-            </text>
-          </g> */}
-          {/* ); */}
-          {/* })} */}
-        </MapSvg>
-      </div>
+      <H1>TI10 Regional Qualifiers</H1>
+      <ContentMapWrap>
+        <ContentUl>
+          {qualifierContent.map((item) => {
+            return (
+              <ContentLi key={item.text}>
+                <img src={listI} alt="" />
+                <p>{item.text}</p>
+              </ContentLi>
+            );
+          })}
+        </ContentUl>
+        <div>
+          <MapSvg ref={mapRef}></MapSvg>
+        </div>
+      </ContentMapWrap>
     </WorldMapWrap>
   );
 };

@@ -3,6 +3,7 @@ import iconSend from '../../../images/icon/send.png';
 import { db } from '../../../firebase/firestore';
 import logo from '../../../images/team_logo/LGD.png';
 import minimize from '../../../images/icon/minimize.png';
+import closeI from '../../../images/icon/close.png';
 import {
   LiveChatWrap,
   StreamSelectDiv,
@@ -22,6 +23,7 @@ import {
   SendImg,
   StreamFrameDiv,
   StreamDragLayer,
+  UserLogoNameDiv,
 } from './css/LiveChatSty';
 
 const dbChatRoomPath = 'chat_room/WePlay_0614_PSGLGD/messages';
@@ -31,20 +33,21 @@ const channelDefault = {
   huya: 'none',
 };
 
-const LiveChat = ({ isSigned, user }) => {
+const LiveChat = ({ isSigned, user, userTeamLogo }) => {
   const [allMessages, setAllMessages] = useState([]);
   const [newMessage, setNewMessage] = useState({
     text: '',
     username: user,
     key: '',
-    team: logo,
+    team: userTeamLogo,
     timestamp: 0,
   });
   const [wordLimitColor, setWordLimitColor] = useState('');
   const [sendIconDisabled, setSendIconDisabled] = useState(true);
-  const [chatHide, setChatHide] = useState('flex');
+  const [chatHide, setChatHide] = useState(false);
   const [showStream, setShowStream] = useState(channelDefault);
   const [smallMod, setSmallMod] = useState(false);
+  const [stopSmallMod, setStopSmallMod] = useState(false);
 
   const streamRef = useRef();
 
@@ -71,6 +74,7 @@ const LiveChat = ({ isSigned, user }) => {
     const texts = [];
     db.collection(dbChatRoomPath)
       .orderBy('timestamp', 'asc')
+      .limit(30)
       .get()
       .then((res) => {
         res.forEach((message) => {
@@ -79,7 +83,7 @@ const LiveChat = ({ isSigned, user }) => {
               username: message.data().username,
               text: message.data().text,
               key: message.data().timestamp, // need fix uid
-              team: message.data().user_team,
+              team: message.data().team,
             });
           }
         });
@@ -89,22 +93,21 @@ const LiveChat = ({ isSigned, user }) => {
   };
 
   const onMinimize = () => {
-    return chatHide === 'flex' ? setChatHide('none') : setChatHide('flex');
+    setChatHide(!chatHide);
   };
 
   const switchToMod = () => {
-    if (streamRef.current.getBoundingClientRect().bottom < 150) {
-      setSmallMod(true);
-    }
-    if (streamRef.current.getBoundingClientRect().bottom >= 150) {
-      setSmallMod(false);
-      setDragPosition(false);
+    if (streamRef) {
+      if (streamRef.current.getBoundingClientRect().bottom < 150) {
+        setSmallMod(true);
+      }
+      if (streamRef.current.getBoundingClientRect().bottom >= 150) {
+        setSmallMod(false);
+        setDragPosition(false);
+        setStopSmallMod(false);
+      }
     }
   };
-
-  document.addEventListener('click', (e) => {
-    // console.log(e);
-  });
 
   // deal stream drag
   const onMouseDown = useCallback((e) => {
@@ -117,7 +120,6 @@ const LiveChat = ({ isSigned, user }) => {
   const onMouseUp = useCallback(() => {
     if (isDragging.current) {
       isDragging.current = false;
-      console.log('放開');
     }
   }, []);
 
@@ -142,7 +144,7 @@ const LiveChat = ({ isSigned, user }) => {
       username: user,
       text: e.target.value,
       key: user + Date.now(),
-      team: '', // need fix
+      team: userTeamLogo,
       timestamp: parseInt(Date.now(), 10),
     });
     setSendIconDisabled(false);
@@ -153,7 +155,7 @@ const LiveChat = ({ isSigned, user }) => {
     e.preventDefault();
     if (!newMessage.text) {
       // eslint-disable-next-line no-alert
-      return alert('空白個屁'); // bug fix use alert
+      return alert('不可空白'); // bug fix use alert
     }
     return db
       .collection('chat_room/WePlay_0614_PSGLGD/messages')
@@ -165,7 +167,7 @@ const LiveChat = ({ isSigned, user }) => {
           text: '',
           username: user,
           key: '',
-          team: '',
+          team: userTeamLogo,
           timestamp: '',
         });
       })
@@ -173,6 +175,9 @@ const LiveChat = ({ isSigned, user }) => {
   };
 
   const getStreamFrameDivClass = () => {
+    if (stopSmallMod) {
+      return '';
+    }
     if (smallMod && dragPosition) {
       return 'mod-small mod-drag';
     }
@@ -197,8 +202,8 @@ const LiveChat = ({ isSigned, user }) => {
     window.addEventListener('scroll', switchToMod);
 
     return () => {
-      unsubscribe();
       window.removeEventListener('scroll', switchToMod);
+      unsubscribe();
     };
   }, []);
 
@@ -207,6 +212,10 @@ const LiveChat = ({ isSigned, user }) => {
       isDragging.current = true;
     }
   }, [dragPosition]);
+
+  useEffect(() => {
+    switchToMod();
+  }, [stopSmallMod]);
 
   useEffect(() => {
     document.addEventListener('mousedown', onMouseDown);
@@ -232,9 +241,12 @@ const LiveChat = ({ isSigned, user }) => {
       </StreamSelectDiv>
 
       <StreamChatWrap>
-        <StreamDiv ref={streamRef} dragPosition={dragPosition || 0}>
+        <StreamDiv ref={streamRef} dragPosition={dragPosition || 0} bigger={chatHide}>
           <StreamFrameDiv className={getStreamFrameDivClass()} ref={dragRef} mod={smallMod}>
-            <StreamDragLayer mod={smallMod}>drag video here</StreamDragLayer>
+            <StreamDragLayer mod={smallMod}>
+              <p>drag video here</p>
+              <img src={closeI} alt="close" onClick={() => setStopSmallMod(true)} />
+            </StreamDragLayer>
             {/* twitch */}
             <iframe
               title="twitch"
@@ -248,26 +260,26 @@ const LiveChat = ({ isSigned, user }) => {
             />
 
             {/* huya */}
+            <div style={{ display: `${showStream.huya}` }}>Coming Soon</div>
             {/* <Iframe width="100%" height="100%"  frameborder="0" scrolling="no" style={{
                         display:`${showStream.huya}`}}
                     src="http://liveshare.huya.com/iframe/825801"></Iframe> */}
           </StreamFrameDiv>
         </StreamDiv>
 
-        <ChatDiv>
+        <ChatDiv hide={chatHide}>
           <ChatTitle>
             <p>Chat Room</p>
             <MiniI src={minimize} alt="minimize" onClick={onMinimize} />
           </ChatTitle>
 
-          <ChatSpace id="showMessage" hide={chatHide}>
+          <ChatSpace id="showMessage" hide={chatHide ? 'none' : 'flex'}>
             <ul>
               {allMessages ? (
                 allMessages.map((list) => (
                   <Li key={list.key}>
                     <img src={list.team} alt="" />
                     {list.username}：{list.text}
-                    {list.team}
                   </Li>
                 ))
               ) : (
@@ -276,9 +288,12 @@ const LiveChat = ({ isSigned, user }) => {
             </ul>
           </ChatSpace>
 
-          <ChatType onSubmit={onSendNew} hide={chatHide}>
+          <ChatType onSubmit={onSendNew} hide={chatHide ? 'none' : 'flex'}>
             <LeftDiv>
-              <p id="chat_user">{user}</p>
+              <UserLogoNameDiv>
+                {!userTeamLogo ? null : <img src={userTeamLogo} alt="favorite team" />}
+                <p id="chat_user">{user}</p>
+              </UserLogoNameDiv>
 
               {isSigned === false ? (
                 <ChatInput

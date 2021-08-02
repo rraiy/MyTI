@@ -93,6 +93,10 @@ export const PageUL = styled.ul`
     color: ${fontGrey};
   }
 
+  li:hover {
+    color: ${primary};
+  }
+
   @media (max-width: 800px) {
     // order:-1;
     display: none;
@@ -102,6 +106,7 @@ export const PageUL = styled.ul`
 export const SearchRegisterWrap = styled.div`
   display: flex;
   position: relative;
+
   img {
     width: 18px;
     position: absolute;
@@ -109,6 +114,7 @@ export const SearchRegisterWrap = styled.div`
     top: 6px;
     left: 8px;
   }
+
   @media (max-width: 800px) {
     img {
       left: -36px;
@@ -154,15 +160,22 @@ export const Button = styled.button`
   }
 `;
 export const UserMenuDiv = styled.div`
-  width: 80px;
+  width: 120px;
   height: 30px;
+  display: flex;
   font-size: 14px;
   color: ${primary};
   border: 2px solid ${primary};
   border-radius: 56px;
-  text-align: center;
+  justify-content: space-evenly;
+  align-items: center;
   line-height: 30px;
   overflow: hidden;
+
+  img {
+    width: 16px;
+    position: static;
+  }
 
   :hover {
     color: ${fontWhite};

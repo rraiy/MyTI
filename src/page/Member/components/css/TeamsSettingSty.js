@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { primary } from '../../../../public_component/globalStyle';
+import { primary, fontGrey } from '../../../../public_component/globalStyle';
 
 export const TeamsSettingWrap = styled.div`
   width: 952px;
@@ -17,9 +17,9 @@ export const TeamsSettingWrap = styled.div`
 export const FavoriteWrap = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
 
   h2 {
     font-size: 24px;
@@ -53,8 +53,9 @@ export const RemoveLayer = styled.div`
   height: 100%;
   background: grey;
   opacity: 0;
-  line-height: 100%;
   color: #fff;
+  text-align: center;
+  padding-top: 40px;
 
   :hover {
     opacity: 0.8;
@@ -62,8 +63,16 @@ export const RemoveLayer = styled.div`
   }
 `;
 
-export const MemberTeamLogo = styled.img`
-  width: 120px;
+export const UserTeamLogoDiv = styled.div`
+  width: 100px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const UserTeamLogoImg = styled.img`
+  width: 80px;
   margin-bottom: 10px;
 `;
 

@@ -13,7 +13,7 @@ const Header = () => {
           DOTA2
         </P>
 
-        <H1>2021 WePlay AniMajor</H1>
+        <H1>2021 The International</H1>
       </TitleDiv>
       <Link to="/tournaments">
         <TourButton>

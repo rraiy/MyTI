@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { primary } from '../../../public_component/globalStyle';
+import { primary, fontGrey } from '../../../public_component/globalStyle';
 
 const browserH = window.innerHeight;
 
@@ -71,18 +71,48 @@ export const H3 = styled.h3`
 `;
 
 export const WebInfoCardLi = styled.li`
-  width: 300px;
-  height: 300px;
+  width: 280px;
+  // height: 280px;
   background: #1f1d33;
   margin: 0 15px;
 
   p {
-    font-size: 16px;
+    font-size: 14px;
+    height: 70px;
+    color: ${fontGrey};
+    padding: 0 20px;
+    text-shadow: 0 0;
+    text-align: left;
+    margin-bottom: 24px;
   }
 `;
 
-export const InfoListUl = styled.ul``;
+export const InfoListUl = styled.ul`
+  text-align: left;
+  padding: 0 20px;
+  margin-top: 12px;
+
+  li:last-child {
+    margin-bottom: 28px;
+  }
+`;
 
 export const InfoListLi = styled.li`
   font-size: 14px;
+  margin-bottom: 12px;
+  display: flex;
+
+  p {
+    height: 20px;
+    padding: 0 12px;
+  }
+
+  img {
+    width: 12px;
+    height: 12px;
+  }
+`;
+
+export const lineImgWrap = styled.div`
+  position: absolute;
 `;

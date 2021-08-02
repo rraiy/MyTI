@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { primary, fontGrey, fontWhite, fontYellow } from '../../../public_component/globalStyle';
+import addStarI from '../../../images/icon/star_add.png';
+import blankStarI from '../../../images/icon/star_blank.png';
 
-export const markWidth = '9%';
-export const dateWidth = '25%';
-export const tourLogoWidth = '18%';
+export const markWidth = '12%';
+export const dateWidth = '20%';
+export const tourLogoWidth = 0;
 export const tourTitleWidth = '40%';
 export const locationWidth = '18%';
 export const infoWidth = '10%';
@@ -137,11 +139,7 @@ export const TourLi = styled.li`
   color: ${fontGrey};
 
   div img {
-    width: 30px;
-  }
-
-  .favorite {
-    background: yellow;
+    width: 24px;
   }
 
   // 收藏
@@ -155,11 +153,11 @@ export const TourLi = styled.li`
   }
 
   div:nth-child(3) {
-    width: ${tourLogoWidth};
+    width: 0;
   }
 
   span:nth-child(4) {
-    width: ${tourTitleWidth};
+    width: 30%;
     line-height: 1.2em;
   }
 
@@ -186,7 +184,7 @@ export const RecentWrap = styled.div`
 
 export const FavoriteBtn = styled.button`
   img {
-    width: 30px;
+    width: 24px;
   }
 `;
 

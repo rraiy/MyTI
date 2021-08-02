@@ -7,7 +7,8 @@ import {
   FavoriteWrap,
   StarI,
   IconWrap,
-  MemberTeamLogo,
+  UserTeamLogoImg,
+  UserTeamLogoDiv,
   AllTeamUL,
   TeamItemWrapLi,
   SearchTeamInput,
@@ -17,10 +18,8 @@ import {
   RemoveLayer,
 } from './css/TeamsSettingSty';
 import starI from '../../../images/icon/star.png';
-import TeamLogo from '../../../images/team_logo/PSG.LGD.png';
-import { connectStorageUrlString } from '../../../utils/storageUrl';
 
-const TeamsSetting = ({ userToken, userTeam, teamLogos }) => {
+const TeamsSetting = ({ userToken, userTeam, userTeamLogo }) => {
   const [teamItems, setTeamItems] = useState(null);
   const [changeInput, setChangeInput] = useState('');
   const [debouncedInputText, setDebouncedInputText] = useState(changeInput);
@@ -29,21 +28,22 @@ const TeamsSetting = ({ userToken, userTeam, teamLogos }) => {
     setChangeInput(text);
   };
 
-  const changeTeam = (e, newTeam) => {
+  const changeTeam = (e, newTeam, newLogo) => {
     db.collection('member').doc(userToken).update({
       user_team: newTeam,
+      user_team_logo: newLogo,
     });
   };
 
   const handleRemoveFavorite = () => {
     db.collection('member').doc(userToken).update({
       user_team: '',
+      user_team_logo: '',
     });
   };
 
   useEffect(() => {
     const arr = [];
-    // test();
     db.collection('favorite_team')
       .get()
       .then((res) => {
@@ -55,6 +55,7 @@ const TeamsSetting = ({ userToken, userTeam, teamLogos }) => {
         });
       })
       .then(() => setTeamItems(arr));
+    console.log(userTeamLogo);
   }, []);
 
   useEffect(() => {
@@ -97,9 +98,8 @@ const TeamsSetting = ({ userToken, userTeam, teamLogos }) => {
           <h2>My favorite team</h2>
           <IconWrap>
             <RemoveLayer onClick={() => handleRemoveFavorite(userTeam)}>Delete</RemoveLayer>
-            <StarI src={starI} alt="" />
-            {/* {fetchIcon('remove.png')} */}
-            <MemberTeamLogo src={TeamLogo} alt="" />
+            <StarI src={starI} alt="favorite star" />
+            <UserTeamLogoImg src={userTeamLogo} alt="" />
             <p>{userTeam}</p>
           </IconWrap>
         </FavoriteWrap>
@@ -121,8 +121,11 @@ const TeamsSetting = ({ userToken, userTeam, teamLogos }) => {
                 <TeamItemWrapLi key={item.team}>
                   <p>{item.team}</p>
                   <hr />
-                  <MemberTeamLogo src={TeamLogo} alt="" />
-                  <PickBtn type="button" onClick={(e) => changeTeam(e, item.team)}>
+                  <UserTeamLogoDiv>
+                    <UserTeamLogoImg src={item.logo} alt="" />
+                  </UserTeamLogoDiv>
+
+                  <PickBtn type="button" onClick={(e) => changeTeam(e, item.team, item.logo)}>
                     Favorite
                   </PickBtn>
                 </TeamItemWrapLi>

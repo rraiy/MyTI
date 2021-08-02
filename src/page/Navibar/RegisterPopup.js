@@ -30,6 +30,7 @@ const RegisterPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
         username: username,
         user_tour: '',
         user_team: '',
+        user_team_logo: '',
       },
       { merge: true },
     );

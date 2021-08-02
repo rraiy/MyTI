@@ -26,12 +26,12 @@ const Wrap = styled.div`
   }
 `;
 
-const LiveGame = ({ isSigned, user }) => {
+const LiveGame = ({ isSigned, user, userTeamLogo }) => {
   return (
     <Wrap>
       <Header isSigned={isSigned} user={user} />
       <Battle isSigned={isSigned} user={user} />
-      <LiveChat isSigned={isSigned} user={user} />
+      <LiveChat isSigned={isSigned} user={user} userTeamLogo={userTeamLogo} />
       <ExtraContent isSigned={isSigned} user={user} />
     </Wrap>
   );

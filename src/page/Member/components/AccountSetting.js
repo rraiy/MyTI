@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { db } from '../../../firebase/firestore';
 import { AccountWrap, H1, TitleDiv, Li, UL, EditDiv, Input, Button } from './css/AccountSettingSty';
-import MiniI from '../../../images/icon/minimize.png';
+import EditI from '../../../images/icon/edit.png';
 
 const DEFAULT_NEWDATA = {
   username: '',
@@ -54,6 +54,7 @@ const AccountSetting = ({ user, userToken, userEmail, userBirth }) => {
       .doc(userToken)
       .update({ [title]: newUserData[title] })
       .then(() => setUserData({ ...newUserData, [title]: '' }))
+      .then(() => openEdit(title))
       .catch((err) => console.log(err));
   };
 
@@ -63,7 +64,7 @@ const AccountSetting = ({ user, userToken, userEmail, userBirth }) => {
       <Li key={item.title}>
         {item.title === 'email Address' ? null : (
           <button type="button" onClick={() => openEdit(item.title)}>
-            <img src={MiniI} alt="edit" />
+            <img src={EditI} alt="edit" />
           </button>
         )}
 

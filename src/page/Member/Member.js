@@ -34,6 +34,7 @@ const Member = ({
   userToken,
   userEmail,
   userTeam,
+  userTeamLogo,
   userTour,
   userBirth,
   teamLogos,
@@ -90,48 +91,52 @@ const Member = ({
 
   return (
     <Wrap>
-      {/* {!isSigned ? (
+      {!isSigned ? (
         <div>請先登入會員</div>
-      ) : ( */}
-      <>
-        <BtnWrap>
-          <Link to={`${url}/accountsetting`}>
-            <AreaBtn show={AreaSwitch.account}>Account Setting</AreaBtn>
-          </Link>
-          <Link to={`${url}/userteam`}>
-            <AreaBtn show={AreaSwitch.teams}>Favorite Team</AreaBtn>
-          </Link>
-          <Link to={`${url}/calendar`}>
-            <AreaBtn show={AreaSwitch.calendar}>Tour Calendar</AreaBtn>
-          </Link>
-        </BtnWrap>
+      ) : (
+        <>
+          <BtnWrap>
+            <Link to={`${url}/accountsetting`}>
+              <AreaBtn show={AreaSwitch.account}>Account Setting</AreaBtn>
+            </Link>
+            <Link to={`${url}/userteam`}>
+              <AreaBtn show={AreaSwitch.teams}>Favorite Team</AreaBtn>
+            </Link>
+            <Link to={`${url}/calendar`}>
+              <AreaBtn show={AreaSwitch.calendar}>Tour Calendar</AreaBtn>
+            </Link>
+          </BtnWrap>
 
-        <Switch>
-          <Route exact path={`${path}/accountsetting`}>
-            <AccountSetting
-              user={user}
-              userToken={userToken}
-              userEmail={userEmail}
-              userBirth={userBirth}
-            />
-          </Route>
+          <Switch>
+            <Route exact path={`${path}/accountsetting`}>
+              <AccountSetting
+                user={user}
+                userToken={userToken}
+                userEmail={userEmail}
+                userBirth={userBirth}
+              />
+            </Route>
 
-          <Route exact path={`${path}/userteam`}>
-            <TeamsSetting userToken={userToken} userTeam={userTeam} teamLogos={teamLogos} />
-          </Route>
+            <Route exact path={`${path}/userteam`}>
+              <TeamsSetting
+                userToken={userToken}
+                userTeam={userTeam}
+                userTeamLogo={userTeamLogo}
+                teamLogos={teamLogos}
+              />
+            </Route>
 
-          <Route>
-            <Calendar
-              path={`${path}`}
-              userToken={userToken}
-              userTour={userTour}
-              isSigned={isSigned}
-            />
-          </Route>
-        </Switch>
-      </>
-
-      {/* )} */}
+            <Route>
+              <Calendar
+                path={`${path}`}
+                userToken={userToken}
+                userTour={userTour}
+                isSigned={isSigned}
+              />
+            </Route>
+          </Switch>
+        </>
+      )}
     </Wrap>
   );
 };

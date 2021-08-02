@@ -8,7 +8,16 @@ import React, { useRef, useEffect } from 'react';
 // import { Group } from '@vx/group';
 // import { Axis, AxisBottom } from '@vx/axis';
 import * as d3 from 'd3';
-import { PrizePoolWrap, PrizePoolTitle, H1, ChartWrap } from '../css/PrizePoolSty';
+import {
+  PrizePoolWrap,
+  PrizePoolTitle,
+  H1,
+  ChartWrap,
+  ChartContentWrap,
+  ContentUl,
+  ContentLi,
+} from '../css/PrizePoolSty';
+import listI from '../../../images/icon/shield_bg_sm.png';
 
 const data = [
   {
@@ -41,8 +50,20 @@ const data = [
   },
 ];
 
+const content = [
+  {
+    text: 'This chart aims to keep track of the Dota2 TI tournament.',
+  },
+  {
+    text: "Make use of the prize pool funding system that uses sales from the tournament's Dota TV tickets/bundles in order to increase their overall prize pool.",
+  },
+  {
+    text: 'The tournament was originally scheduled to be held from August 18th to 23rd, 2020 in Avicii Arena in Stockholm, Sweden. Due to the COVID-19 pandemic, Valve delayed the event to 2021 tentatively.',
+  },
+];
+
 const margin = { top: 20, right: 80, bottom: 20, left: 80 };
-const width = 800;
+const width = 700;
 const height = 500;
 
 /* Format Data */
@@ -143,39 +164,24 @@ const PrizePool = () => {
 
   return (
     <PrizePoolWrap>
-      <H1>Prize Pool</H1>
-      <ChartWrap>
-        <svg ref={chartRef}></svg>
-      </ChartWrap>
+      <H1>The International Prize Pool</H1>
+      <ChartContentWrap>
+        <ChartWrap>
+          <svg ref={chartRef}></svg>
+        </ChartWrap>
+        <ContentUl>
+          {content.map((item) => {
+            return (
+              <ContentLi key={item.text}>
+                <img src={listI} alt="" />
+                <p>{item.text}</p>
+              </ContentLi>
+            );
+          })}
+        </ContentUl>
+      </ChartContentWrap>
     </PrizePoolWrap>
   );
 };
 
 export default PrizePool;
-
-// svg
-//       .append('g')
-//       .selectAll('circle')
-//       .data(data)
-//       .enter()
-//       .append('g')
-//       .attr('class', 'circle')
-//       .attr('fill', 'purple')
-//       .on('mouseover', (d) => {
-//         console.log(this);
-//         d3.select(this)
-//           .style('cursor', 'pointer')
-//           .style('fill', 'white')
-//           .append('text')
-//           .attr('class', 'text')
-//           .text(d.total_prize)
-//           .attr('x', (d) => xScale(d.year) + 5)
-//           .attr('y', (d) => yScale(d.total_prize) - 5);
-//       })
-//       .on('mouseout', function (d) {
-//         d3.select(this).style('cursor', 'none').style('fill', 'purple').select('text').remove();
-//       })
-//       .append('circle')
-//       .attr('cx', (d) => xScale(d.year))
-//       .attr('cy', (d) => yScale(d.total_prize))
-//       .attr('r', 4);

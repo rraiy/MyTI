@@ -101,8 +101,8 @@ const Battle = ({ isSigned }) => {
         <IntroDiv>
           <IntroUl>
             <li>BO3</li>
-            <li>2020-09-09</li>
-            <li>19:00</li>
+            <li>2021-10-07</li>
+            <li>17:00</li>
             <li className="live">LIVE</li>
           </IntroUl>
         </IntroDiv>

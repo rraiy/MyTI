@@ -22,15 +22,18 @@ import {
   ResultDateDiv,
   ResultTourTitle,
   ResultBattleData,
+  RankInfoPopWrap,
 } from '../css/MainContentSty';
 import Weplay from '../../../images/tours/weplay.png';
 import CrownI from '../../../images/icon/crown.png';
 import Logo from '../../../images/game/Weplay_animajor_icon.png';
+import InformationI from '../../../images/icon/information.png';
 
 const MainContent = () => {
   const [hotTourData, setHotTourData] = useState(null);
   const [rankData, setRankData] = useState(null);
   const [lineShow, setLineShow] = useState('hotEvents');
+  const [rankInfoPop, setRankInfoPop] = useState(false);
   const mockData = [0, 1, 2, 3, 4, 5, 6];
 
   const changeLine = (area) => {
@@ -52,7 +55,7 @@ const MainContent = () => {
 
     db.collection('dpc_rank')
       .orderBy('rank', 'asc')
-      .limit(10)
+      .limit(12)
       .get()
       .then((res) => {
         const arr = [];
@@ -125,7 +128,26 @@ const MainContent = () => {
         </TourAndResult>
 
         <Rank>
-          <RankTitle>2021 DPC Ranking</RankTitle>
+          <RankTitle>
+            <p>2021 DPC Ranking</p>
+            <img
+              src={InformationI}
+              alt="information icon"
+              onMouseOver={() => setRankInfoPop(!rankInfoPop)}
+              onMouseOut={() => setRankInfoPop(!rankInfoPop)}
+            />
+            {!rankInfoPop ? null : (
+              <RankInfoPopWrap>
+                <h3>Dota Pro Circuit 2021</h3>
+                <p>
+                  The 2021 competitive season takes new shape, as teams face off in Regional
+                  Leaguesand Tournaments around the globe on the Dota Pro Circuit, featuring 2
+                  Regional Leagues across 6 different regions as well as 2 majors that all offer DPC
+                  Points to determine <span>the 12 direct invites</span> to The International.
+                </p>
+              </RankInfoPopWrap>
+            )}
+          </RankTitle>
           <RankTextUl>
             <li>#P</li>
             <li>Team</li>

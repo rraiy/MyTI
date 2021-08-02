@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { fontGrey } from '../../../public_component/globalStyle';
+import { primary, fontGrey } from '../../../public_component/globalStyle';
 
 export const HotTourRankWrap = styled.div`
   width: 92%;
@@ -126,12 +126,21 @@ export const Rank = styled.div`
 `;
 
 export const RankTitle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 40px;
   line-height: 40px;
-  text-align: center;
   background: linear-gradient(to right, #423a71, #8720a0);
   margin-bottom: 20px;
+  position: relative;
+
+  img {
+    width: 20px;
+    height: 20px;
+    margin-left: 12px;
+  }
 `;
 
 export const RankTextUl = styled.ul`
@@ -231,3 +240,26 @@ export const ResultBattleData = styled.div`
     margin: 0 20px;
   }
 `;
+
+export const RankInfoPopWrap = styled.div`
+  width: 500px;
+  line-height: 1.5em;
+  position: absolute;
+  bottom: 60px;
+  right: 12px;
+  z-index: 30;
+  background: #423a71;
+  padding: 16px 20px;
+
+  h3 {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  span {
+    background: ${primary};
+  }
+`;
+
+export const ContentLi = styled.li``;
