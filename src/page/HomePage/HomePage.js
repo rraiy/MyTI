@@ -34,15 +34,32 @@ const webInfoData = [
     text: 'Show the important information about The International, help you get the latest news',
     item: ['Prize Pool', 'Qualifier Team', 'DPC Ranking', 'All Tournaments states'],
   },
-  // {
-  //   title: 'Reports',
-  //   text: 'Analyzing around 100 metrics for events, teams, games and more.',
-  //   item: ['Average Minute Audience', 'Peak viewers', 'Unique Viewers', 'Hours Watched'],
-  // },
 ];
 
 const HomePage = () => {
   const [main, setMain] = useState(null);
+  const [hidePrizeChart, setHidePrizeChart] = useState(false);
+  const [hideMap, setHideMap] = useState(false);
+  const [hideRedBottomLine, setHideRedBottomLine] = useState(false);
+
+  function checkBrowserWidth() {
+    if (window.innerWidth <= 1100) {
+      setHideMap(true);
+      setHideRedBottomLine(true);
+    }
+    if (window.innerWidth > 1100) {
+      setHideMap(false);
+      setHideRedBottomLine(false);
+    }
+
+    if (window.innerWidth <= 800) {
+      setHidePrizeChart(true);
+    }
+
+    if (window.innerWidth > 800) {
+      setHidePrizeChart(false);
+    }
+  }
 
   useEffect(() => {
     storage
@@ -50,6 +67,21 @@ const HomePage = () => {
       .child('ti10_main.mp4')
       .getDownloadURL()
       .then((url) => setMain(url));
+
+    if (window.innerWidth <= 1100) {
+      setHideMap(true);
+      setHideRedBottomLine(true);
+    }
+
+    if (window.innerWidth <= 800) {
+      setHidePrizeChart(true);
+    }
+
+    window.addEventListener('resize', checkBrowserWidth);
+
+    return () => {
+      window.removeEventListener('resize', checkBrowserWidth);
+    };
   }, []);
 
   return (
@@ -62,7 +94,11 @@ const HomePage = () => {
       </lineImgWrap> */}
 
       <WebInfoWrap>
-        <H1>Follow your ONE team, be the big fans to support !</H1>
+        <H1>
+          Follow your ONE team,
+          <br />
+          be the big fans to support !
+        </H1>
         <p>
           MyTI is a web for collecting information about Dota2 The International tournaments,
           <br />
@@ -71,13 +107,13 @@ const HomePage = () => {
         <WebInfoCardUl>
           {webInfoData.map((d) => {
             return (
-              <WebInfoCardLi>
+              <WebInfoCardLi key={d.title}>
                 <H3>{d.title}</H3>
                 <p>{d.text}</p>
                 <InfoListUl>
-                  {d.item.map((list) => {
+                  {d.item.map((list, index) => {
                     return (
-                      <InfoListLi>
+                      <InfoListLi key={index}>
                         <img src={checkI} alt="check icon" />
                         <p>{list}</p>
                       </InfoListLi>
@@ -89,9 +125,9 @@ const HomePage = () => {
           })}
         </WebInfoCardUl>
       </WebInfoWrap>
-      <MainContent />
-      <PrizePool />
-      <WorldMap />
+      <MainContent hideRedBottomLine={hideRedBottomLine} />
+      <PrizePool hidePrizeChart={hidePrizeChart} />
+      <WorldMap hideMap={hideMap} />
     </Wrap>
   );
 };

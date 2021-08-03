@@ -165,9 +165,9 @@ export const UserMenuDiv = styled.div`
   display: flex;
   font-size: 14px;
   color: ${primary};
-  border: 2px solid ${primary};
+  // border: 2px solid ${primary};
   border-radius: 56px;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: center;
   line-height: 30px;
   overflow: hidden;
@@ -175,6 +175,11 @@ export const UserMenuDiv = styled.div`
   img {
     width: 16px;
     position: static;
+    margin: 0 4px;
+  }
+
+  p {
+    white-space: nowrap;
   }
 
   :hover {

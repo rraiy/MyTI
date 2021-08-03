@@ -29,7 +29,7 @@ import CrownI from '../../../images/icon/crown.png';
 import Logo from '../../../images/game/Weplay_animajor_icon.png';
 import InformationI from '../../../images/icon/information.png';
 
-const MainContent = () => {
+const MainContent = ({ hideRedBottomLine }) => {
   const [hotTourData, setHotTourData] = useState(null);
   const [rankData, setRankData] = useState(null);
   const [lineShow, setLineShow] = useState('hotEvents');
@@ -71,7 +71,7 @@ const MainContent = () => {
       <HotTourRankWrap>
         <TourAndResult>
           <HotTourTitle>
-            <BtnBottomLine show={lineShow} />
+            <BtnBottomLine show={lineShow} hideRedBottomLine={hideRedBottomLine} />
             <RecentBtn onClick={() => changeLine('hotEvents')}>Hot Events</RecentBtn>
             <ResultBtn onClick={() => changeLine('results')}>Latest Results</ResultBtn>
           </HotTourTitle>
@@ -95,9 +95,9 @@ const MainContent = () => {
             </HotTourWrap>
           ) : (
             <ResultsWrap>
-              {mockData.map(() => {
+              {mockData.map((d, i) => {
                 return (
-                  <ResultItem>
+                  <ResultItem key={i}>
                     <ResultDateDiv>
                       <p>2020-01-01</p>
                       <p>17:00</p>
@@ -115,7 +115,6 @@ const MainContent = () => {
                       </p>
                       <img src={Logo} alt="" />
                     </ResultBattleData>
-                    <img src={Logo} alt="" />
                   </ResultItem>
                 );
               })}

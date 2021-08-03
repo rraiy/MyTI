@@ -15,6 +15,12 @@ export const PrizePoolWrap = styled.div`
   .axis line {
     color: ${primary};
   }
+
+  @media (max-width: 1199px) {
+    width: 90%;
+    padding-top: 0;
+    margin-bottom: 0px;
+  }
 `;
 
 export const ChartWrap = styled.div`
@@ -33,6 +39,11 @@ export const H1 = styled.h1`
 
 export const ChartContentWrap = styled.div`
   display: flex;
+
+  @media (max-width: 1199px) {
+    width: 80%;
+    flex-direction: column;
+  }
 `;
 
 export const ContentUl = styled.ul`
@@ -53,5 +64,22 @@ export const ContentLi = styled.li`
     width: 12px;
     height: 12px;
     margin-right: 12px;
+  }
+`;
+
+export const PrizeTextWrap = styled.ul`
+  color: ${fontGrey};
+  display: flex;
+  flex-flow: wrap row;
+  margin-top: 20px;
+
+  li {
+    border: 1px solid ${primary};
+    padding: 8px 12px;
+    margin: 12px;
+  }
+
+  p {
+    margin-bottom: 8px;
   }
 `;

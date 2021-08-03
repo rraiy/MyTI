@@ -17,11 +17,13 @@ export const Wrap = styled.div`
   padding-top: 20px;
 
   @media (max-width: 1199px) {
-    min-width: 700px;
+    min-width: 100%;
+    padding-top: 80px;
+    padding-bottom: 40px;
   }
 
-  @media (max-width: 699px) and (min-width: 360px) {
-    min-width: 360px;
+  @media (max-width: 600px) and (min-width: 360px) {
+    padding-top: 120px;
   }
 `;
 
@@ -41,11 +43,29 @@ export const WebInfoWrap = styled.div`
   margin-top: 600px;
   margin-bottom: 100px;
   z-index: 1;
+
   p {
     color: #fff;
     font-size: 20px;
     line-height: 1.5em;
     text-shadow: 0px 1px 4px #000000, 0px 0px 6px grey;
+  }
+
+  @media (max-width: 1199px) {
+    margin-top: 450px;
+    margin-bottom: 0;
+
+    p {
+      font-size: 16px;
+    }
+  }
+
+  @media (max-width: 600px) and (min-width: 360px) {
+    margin-top: 120px;
+
+    p {
+      font-size: 14px;
+    }
   }
 `;
 
@@ -55,6 +75,15 @@ export const H1 = styled.h1`
   margin-bottom: 40px;
   color: rgb(236, 221, 255);
   text-shadow: 0px 1px 4px #000000, 0px 0px 6px #d8baff;
+
+  @media (max-width: 1199px) {
+    font-size: 32px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 600px) and (min-width: 360px) {
+    font-size: 20px;
+  }
 `;
 
 export const WebInfoCardUl = styled.ul`
@@ -62,6 +91,19 @@ export const WebInfoCardUl = styled.ul`
   width: 90%;
   justify-content: space-around;
   margin: 120px 0;
+
+  @media (max-width: 1199px) {
+    margin: 60px 0;
+  }
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @media (max-width: 600px) and (min-width: 360px) {
+    margin: 32px 0;
+  }
 `;
 
 export const H3 = styled.h3`
@@ -84,6 +126,13 @@ export const WebInfoCardLi = styled.li`
     text-shadow: 0 0;
     text-align: left;
     margin-bottom: 24px;
+  }
+
+  @media (max-width: 1199px) {
+    margin-bottom: 20px;
+    p {
+      margin-bottom: 40px;
+    }
   }
 `;
 

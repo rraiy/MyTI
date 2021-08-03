@@ -16,10 +16,11 @@ import {
   ChartContentWrap,
   ContentUl,
   ContentLi,
+  PrizeTextWrap,
 } from '../css/PrizePoolSty';
 import listI from '../../../images/icon/shield_bg_sm.png';
 
-const data = [
+const prizeData = [
   {
     year: 2014,
     total_prize: 10931105,
@@ -46,7 +47,7 @@ const data = [
   },
   {
     year: 2021,
-    total_prize: 41787916,
+    total_prize: 40018195,
   },
 ];
 
@@ -68,12 +69,14 @@ const height = 500;
 
 /* Format Data */
 const parseDate = d3.timeParse('%Y');
-data.forEach((d) => {
-  d.year = parseDate(d.year);
-  d.total_prize = +d.total_prize;
+const data = prizeData.map((d) => {
+  return {
+    year: parseDate(d.year),
+    total_prize: +d.total_prize,
+  };
 });
 
-const PrizePool = () => {
+const PrizePool = ({ hidePrizeChart }) => {
   const chartRef = useRef();
 
   useEffect(() => {
@@ -160,20 +163,34 @@ const PrizePool = () => {
       .attr('r', 4)
       .on('mouseover', mouseover)
       .on('mouseout', mouseleave);
-  }, []);
+  }, [hidePrizeChart]);
 
   return (
     <PrizePoolWrap>
       <H1>The International Prize Pool</H1>
       <ChartContentWrap>
-        <ChartWrap>
-          <svg ref={chartRef}></svg>
-        </ChartWrap>
+        {hidePrizeChart ? (
+          <PrizeTextWrap>
+            {prizeData.map((item, index) => {
+              return (
+                <li key={index} className={item.year}>
+                  <p>{item.year}</p>
+                  <p>{`Prize：${item.total_prize}`}</p>
+                </li>
+              );
+            })}
+          </PrizeTextWrap>
+        ) : (
+          <ChartWrap>
+            <svg ref={chartRef}></svg>
+          </ChartWrap>
+        )}
+
         <ContentUl>
           {content.map((item) => {
             return (
               <ContentLi key={item.text}>
-                <img src={listI} alt="" />
+                <img src={listI} alt="prize list" />
                 <p>{item.text}</p>
               </ContentLi>
             );

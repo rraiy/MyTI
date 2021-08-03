@@ -7,6 +7,17 @@ export const HotTourRankWrap = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 100px;
+
+  @media (max-width: 1199px) {
+    width: 95%;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 80px;
+    margin-bottom: 0px;
+  }
+
+  @media (max-width: 700px) {
+  }
 `;
 
 export const TourAndResult = styled.div`
@@ -15,6 +26,11 @@ export const TourAndResult = styled.div`
   display: flex;
   flex-direction: column;
   box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
+
+  @media (max-width: 1199px) {
+    margin-bottom: 20px;
+    width: 90%;
+  }
 `;
 
 export const HotTourTitle = styled.div`
@@ -42,7 +58,7 @@ const tourLineTranslate = keyframes`
 `;
 
 export const BtnBottomLine = styled.div`
-  width: 100px;
+  width: ${(props) => (props.hideRedBottomLine ? '0px' : '100px')};
   height: 4px;
   background: rgb(206, 22, 79);
   position: absolute;
@@ -57,6 +73,11 @@ export const HotTourWrap = styled.ul`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 export const HotTourItem = styled.li`
@@ -96,6 +117,10 @@ export const HotTourItem = styled.li`
   :hover {
     transform: scale(1.1);
   }
+
+  @media (max-width: 900px) {
+    width: 60%;
+  }
 `;
 
 export const DateDiv = styled.div`
@@ -105,6 +130,12 @@ export const DateDiv = styled.div`
   padding: 8px 12px;
   letter-spacing: 1px;
   background: rgba(198, 198, 198, 0.3);
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+    padding: 4px 8px;
+    letter-spacing: 0;
+  }
 `;
 
 export const LiveDiv = styled.div`
@@ -114,6 +145,10 @@ export const LiveDiv = styled.div`
   right: 0;
   padding: 4px 8px;
   opacity: 0.8;
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+  }
 `;
 
 export const Rank = styled.div`
@@ -123,6 +158,10 @@ export const Rank = styled.div`
   align-items: center;
   background: #1f1d33;
   box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
+
+  @media (max-width: 1199px) {
+    margin-bottom: 40px;
+  }
 `;
 
 export const RankTitle = styled.div`
@@ -204,6 +243,10 @@ export const ResultsWrap = styled.ul`
     width: 24px;
     height: 24px;
   }
+
+  @media (max-width: 900px) {
+    width: 90%;
+  }
 `;
 
 export const ResultItem = styled.li`
@@ -219,6 +262,16 @@ export const ResultItem = styled.li`
 
   :hover {
     background: #464b86;
+  }
+
+  @media (max-width: 600px) and (min-width: 360px) {
+    height: auto;
+    flex-direction: column;
+    padding: 12px 0;
+
+    div {
+      margin-bottom: 12px;
+    }
   }
 `;
 

@@ -8,6 +8,12 @@ export const WorldMapWrap = styled.div`
   background: #1f1d33;
   box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
   text-align: center;
+
+  @media (max-width: 1199px) {
+    width: 90%;
+    padding-top: 0;
+    margin-bottom: 0px;
+  }
 `;
 
 export const MapSvg = styled.svg`
@@ -25,6 +31,10 @@ export const H1 = styled.h1`
 
 export const ContentMapWrap = styled.div`
   display: flex;
+
+  @media (max-width: 1199px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 export const ContentUl = styled.ul`
@@ -44,5 +54,38 @@ export const ContentLi = styled.li`
     width: 12px;
     height: 12px;
     margin-right: 12px;
+  }
+`;
+
+export const QualifiersPhoneUl = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 40px;
+  color: #fff;
+
+  li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 10px;
+    padding: 16px;
+    border: 1px solid rgba(188, 13, 101, 0.7);
+  }
+
+  h3 {
+    color: ${fontGrey};
+  }
+`;
+
+export const TeamLogoDiv = styled.div`
+  width: 120px;
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  img {
+    width: 80px;
+    object-fit: contain;
   }
 `;
