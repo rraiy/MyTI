@@ -55,7 +55,6 @@ const TeamsSetting = ({ userToken, userTeam, userTeamLogo }) => {
         });
       })
       .then(() => setTeamItems(arr));
-    console.log(userTeamLogo);
   }, []);
 
   useEffect(() => {
@@ -106,7 +105,10 @@ const TeamsSetting = ({ userToken, userTeam, userTeamLogo }) => {
       )}
 
       <SelectTeamWrap>
-        <p>Pick the ONE team you go to bat for. </p>
+        <p>
+          Pick the ONE team you go to bat for. The team will show when you sending message on Stream
+          Page's Chat room.
+        </p>
         <SearchTeamInput
           type="text"
           placeholder="Type team..."

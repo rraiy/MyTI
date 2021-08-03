@@ -137,7 +137,9 @@ const Calendar = ({ userTour, isSigned, userToken }) => {
                               .map((item) => (
                                 <EventDiv
                                   key={item.title + item.date}
-                                  // onClick={setEventPopup(true)}
+                                  onClick={() =>
+                                    handleEventPopup(item.title, item.tourStart, item.tourEnd)
+                                  }
                                 >
                                   {item.title}
                                 </EventDiv>

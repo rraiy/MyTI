@@ -26,12 +26,12 @@ const webInfoData = [
   },
   {
     title: 'Chat Room',
-    text: 'Chat with other fans while match on a stream, it will show the logo if you set the favorite team.',
+    text: 'Chat with other fans while match on a stream, it will show the team logo if you set the favorite team.',
     item: ['Stream Page', 'Register and login to use', 'Support your Team'],
   },
   {
     title: 'Statics',
-    text: 'Show the important information about The International, help you get the latest news',
+    text: 'Show the important information about The International, help you get the latest news.',
     item: ['Prize Pool', 'Qualifier Team', 'DPC Ranking', 'All Tournaments states'],
   },
 ];

@@ -113,7 +113,6 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
         return result;
       })
       .then((filterResult) => {
-        console.log(filterResult);
         if (filterResult.length === 0) {
           db.collection('member')
             .doc(userToken)

@@ -92,7 +92,7 @@ const Member = ({
   return (
     <Wrap>
       {!isSigned ? (
-        <div>請先登入會員</div>
+        <div>Please login first.</div>
       ) : (
         <>
           <BtnWrap>
