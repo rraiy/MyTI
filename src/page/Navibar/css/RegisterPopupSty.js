@@ -5,6 +5,7 @@ import {
   fontGrey,
   fontWhite,
   fontYellow,
+  fontWaring,
 } from '../../../public_component/globalStyle';
 
 export const Blur = styled.div`
@@ -25,12 +26,13 @@ export const LRPopupWrap = styled.div.attrs((props) => ({
   color: ${(props) => props.color};
   padding: 16px 32px;
   width: 336px;
-  // height:619px;
   border-radius: 10px;
   position: fixed;
   z-index: 5;
-  top: 80px;
-  right: 34%;
+  top: 50%;
+  left: 50%;
+  margin-top: -260px;
+  margin-left: -168px;
 `;
 
 export const SignInBtn = styled.button`
@@ -50,6 +52,11 @@ export const RegisterForm = styled.form`
     font-size: 24px;
     color: ${fontWhite};
     margin-bottom: 40px;
+  }
+
+  .error {
+    color: red;
+    margin-bottom: 12px;
   }
 `;
 

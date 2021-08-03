@@ -53,6 +53,11 @@ export const LoginForm = styled.form`
     color: ${fontWhite};
     margin-bottom: 40px;
   }
+
+  .error {
+    color: red;
+    margin-bottom: 12px;
+  }
 `;
 
 export const Label = styled.label`
@@ -86,7 +91,7 @@ export const LoginBtn = styled.button`
   color: ${fontWhite};
   background: ${primary};
   border-radius: 10px;
-  margin-bottom: 48px;
+  margin-bottom: 30px;
 `;
 
 export const SeparateDiv = styled.div`

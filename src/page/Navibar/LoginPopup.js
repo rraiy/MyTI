@@ -14,10 +14,11 @@ import {
   LoginGoogleBtn,
 } from './css/LoginPopupSty';
 
-const LoginPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
+const LoginPopup = ({ closePopup, checkLogin, switchPopup }) => {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const insertToMember = (useruid, useremail, userDisplayName) => {
     db.collection('member').doc(useruid).set(
@@ -56,7 +57,8 @@ const LoginPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
               });
           }
         });
-      });
+      })
+      .catch((err) => setErrorMessage(err.message));
   };
 
   const onLoginWithGoogle = () => {
@@ -66,9 +68,19 @@ const LoginPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
       .signInWithPopup(provider)
       .then((res) => {
         const { user } = res; // uid here
-        // console.log(user);
-        insertToMember(user.uid, user.email, user.displayName);
-        setLoginSuccess(true);
+
+        db.collection('member')
+          .where('email', '==', user.email)
+          .get()
+          .then((q) => {
+            if (q.empty === true) {
+              insertToMember(user.uid, user.email, user.displayName);
+              setLoginSuccess(true);
+            } else {
+              checkLogin(user.uid);
+              setLoginSuccess(true);
+            }
+          });
       })
       .then(() => {
         setTimeout(() => {
@@ -99,6 +111,7 @@ const LoginPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
             <Input id="password" type="text" onChange={(e) => setLoginPassword(e.target.value)} />
 
             <LoginBtn type="submit">Sign In</LoginBtn>
+            <p className="error">{errorMessage}</p>
           </LoginForm>
 
           <SeparateDiv>

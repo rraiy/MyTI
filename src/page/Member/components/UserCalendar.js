@@ -40,9 +40,6 @@ const Calendar = ({ userTour, isSigned, userToken }) => {
         tour_date:["2021-06-18","2021-06-20"]
     } */
 
-  // const dateClickHandler = (date) => {
-  //   console.log(date);
-  // };
   const [eventPopup, setEventPopup] = useState(false);
 
   // deal get one tour's all dates
@@ -99,8 +96,8 @@ const Calendar = ({ userTour, isSigned, userToken }) => {
       });
 
       setTourDatas(datas2);
-      setLoading(false);
     }
+    setLoading(false);
   }, [userTour]);
 
   return (

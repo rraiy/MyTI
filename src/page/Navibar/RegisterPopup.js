@@ -20,6 +20,7 @@ const RegisterPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [regSuccess, setRegSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const insertToMember = (uid) => {
     db.collection('member').doc(uid).set(
@@ -61,25 +62,25 @@ const RegisterPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
           }
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => setErrorMessage(err.message));
   };
 
-  const onRegisterWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase
-      .auth()
-      .signInWithPopup(provider)
-      .then((res) => {
-        const { user } = res; // uid here
-        insertToMember(user.uid);
-      })
-      .then(() => {
-        setTimeout(() => {
-          closePopup();
-        }, 3000);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const onRegisterWithGoogle = () => {
+  //   const provider = new firebase.auth.GoogleAuthProvider();
+  //   firebase
+  //     .auth()
+  //     .signInWithPopup(provider)
+  //     .then((res) => {
+  //       const { user } = res; // uid here
+  //       insertToMember(user.uid);
+  //     })
+  //     .then(() => {
+  //       setTimeout(() => {
+  //         closePopup();
+  //       }, 3000);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   return (
     <>
@@ -119,15 +120,17 @@ const RegisterPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
             />
 
             <RegisterBtn type="submit">Sign Up</RegisterBtn>
+
+            <p className="error">{errorMessage}</p>
           </RegisterForm>
 
-          <SeparateDiv>
+          {/* <SeparateDiv>
             <hr />
             <p>or</p>
             <hr />
-          </SeparateDiv>
+          </SeparateDiv> */}
 
-          <RegisterGoogleBtn onClick={onRegisterWithGoogle}>Sign up with Google</RegisterGoogleBtn>
+          {/* <RegisterGoogleBtn onClick={onRegisterWithGoogle}>Sign in with Google</RegisterGoogleBtn> */}
         </LRPopupWrap>
       )}
     </>

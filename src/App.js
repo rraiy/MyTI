@@ -54,10 +54,9 @@ const App = () => {
     setRegisterPopup(false);
   };
 
-  const checkLogin = (uid, username) => {
+  const checkLogin = (uid) => {
     if (uid) {
       setIsSigned(true);
-      setUser(username);
       setUserToken(uid);
       // window.location.reload();
     }
@@ -76,6 +75,7 @@ const App = () => {
   };
 
   const fetchUserData = (data) => {
+    console.log(data);
     setUser(data.username);
     setUserToken(data.uid);
     setUserEmail(data.email);
@@ -95,13 +95,15 @@ const App = () => {
           .get()
           .then((member) => fetchUserData(member.data()))
           .then((uid) => {
-            setIsSigned(true);
-            setChecking(false);
             db.collection('member')
               .doc(uid)
               .onSnapshot((update) => {
                 fetchUserData(update.data());
               });
+          })
+          .then(() => {
+            setIsSigned(true);
+            setChecking(false);
           })
           .catch((err) => console.log(err));
       } else {
