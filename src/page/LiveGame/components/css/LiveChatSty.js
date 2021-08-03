@@ -107,10 +107,14 @@ export const StreamDiv = styled.div`
     margin-bottom: 20px;
   }
 
-  @media (max-width: 699px) and (min-width: 360px) {
+  @media (max-width: 700px) and (min-width: 360px) {
     width: 90%;
     height: 240px;
     margin-bottom: 20px;
+
+    .mod-small {
+      display: none;
+    }
   }
 `;
 

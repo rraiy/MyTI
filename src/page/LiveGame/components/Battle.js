@@ -91,7 +91,7 @@ const Battle = ({ isSigned }) => {
             <TeamLogo src={LOGO} alt="" />
           </TeamLogoDiv>
           {isSigned === false ? (
-            <VoteBtn disabled>Sign in first</VoteBtn>
+            <VoteBtn disabled>Sign in</VoteBtn>
           ) : (
             <VoteBtn onClick={onVoteTeam1} team="team_1">
               Voting !
@@ -112,7 +112,7 @@ const Battle = ({ isSigned }) => {
             <TeamLogo src={Elephant} alt="" />
           </TeamLogoDiv>
           {isSigned === false ? ( // bug
-            <VoteBtn disabled>Sign in first</VoteBtn>
+            <VoteBtn disabled>Sign in</VoteBtn>
           ) : (
             <VoteBtn onClick={onVoteTeam2} team="team_2">
               Voting !

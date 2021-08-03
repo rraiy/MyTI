@@ -8,6 +8,10 @@ export const ExtraContentWrap = styled.div`
   align-items: center;
   margin-bottom: 300px;
   user-select: none;
+
+  @media (max-width: 700px) {
+    margin-bottom: 100px;
+  }
 `;
 
 export const TiTleDiv = styled.div`
@@ -22,6 +26,11 @@ export const TeamPlayersWrap = styled.div`
   display: flex;
   justify-content: space-between;
   width: 500px;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    width: 300px;
+  }
 `;
 
 export const SpaceDiv = styled.div`
@@ -45,6 +54,10 @@ export const TeamPlayerDiv = styled.div`
 
   li {
     font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 700px) {
     margin-bottom: 20px;
   }
 `;

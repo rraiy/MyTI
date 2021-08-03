@@ -53,7 +53,12 @@ export const StateUL = styled.ul`
     margin-right: 20px;
     height: 16px;
   }
+
+  @media (max-width: 1199px) {
+    display: none;
+  }
 `;
+
 export const StateLi = styled.li`
   color: ${(props) => (props.show ? fontYellow : fontGrey)};
 
@@ -206,3 +211,5 @@ export const AllTourInfoDiv = styled.div`
 export const InfoTextDiv = styled.div`
   border: 1px solid ${primary};
 `;
+
+export const MobileStateMenuWrap = styled.div``;

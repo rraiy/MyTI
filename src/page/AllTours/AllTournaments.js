@@ -23,6 +23,7 @@ import {
   FavoriteBtn,
   AllTourInfoDiv,
   InfoTextDiv,
+  MobileStateMenuWrap,
 } from './css/AllTournamentsSty';
 import icon from '../../images/icon/tour.png';
 import addStarI from '../../images/icon/star_add.png';
@@ -207,6 +208,8 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
           <a href="#recent">Recent</a>
         </StateLi>
       </StateUL>
+
+      <MobileStateMenuWrap>fix</MobileStateMenuWrap>
 
       <OngoingWrap id="ongoing">
         <H2>Ongoing</H2>

@@ -24,14 +24,14 @@ const ExtraContent = () => {
           </ul>
         </TeamPlayerDiv>
         <TeamPlayerDiv>
-          <p>PSG.LGD</p>
+          <p>Elephant</p>
           <SpaceDiv />
           <ul>
-            <li>AME</li>
-            <li>Maybe</li>
-            <li>Chalice</li>
+            <li>Eurus</li>
+            <li>Somnus丶M</li>
+            <li>Yang</li>
             <li>fy</li>
-            <li>xNova</li>
+            <li>Super</li>
           </ul>
         </TeamPlayerDiv>
       </TeamPlayersWrap>
