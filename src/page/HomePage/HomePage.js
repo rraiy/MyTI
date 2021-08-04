@@ -94,11 +94,7 @@ const HomePage = () => {
       </lineImgWrap> */}
 
       <WebInfoWrap>
-        <H1>
-          Follow your ONE team,
-          <br />
-          be the big fans to support !
-        </H1>
+        <H1>Follow your ONE team, be the big fans to support !</H1>
         <p>
           MyTI is a web for collecting information about Dota2 The International tournaments,
           <br />

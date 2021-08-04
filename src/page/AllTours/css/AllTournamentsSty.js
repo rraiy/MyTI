@@ -212,4 +212,6 @@ export const InfoTextDiv = styled.div`
   border: 1px solid ${primary};
 `;
 
-export const MobileStateMenuWrap = styled.div``;
+export const MobileStateMenuWrap = styled.div`
+  color: #fff;
+`;

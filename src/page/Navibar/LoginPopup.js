@@ -108,7 +108,11 @@ const LoginPopup = ({ closePopup, checkLogin, switchPopup }) => {
             <Input id="email" type="mail" onChange={(e) => setLoginEmail(e.target.value)} />
 
             <Label htmlFor="password">Password</Label>
-            <Input id="password" type="text" onChange={(e) => setLoginPassword(e.target.value)} />
+            <Input
+              id="password"
+              type="password"
+              onChange={(e) => setLoginPassword(e.target.value)}
+            />
 
             <LoginBtn type="submit">Sign In</LoginBtn>
             <p className="error">{errorMessage}</p>

@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import firebase from 'firebase/app';
 import { db } from '../../firebase/firestore';
+import Ongoing from './components/Ongoing';
+import Upcoming from './components/Upcoming';
+import Recent from './components/Recent';
 import {
   Wrap,
   StateUL,
@@ -54,6 +57,7 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
   const [upcomingTours, setUpcomingTours] = useState(null);
   const [recentTours, setRecentTours] = useState(null);
   const [showArea, setShowArea] = useState(defaultShowArea);
+  const [mobileStateSelect, setMobileStateSelect] = useState('all');
 
   const switchArea = (block) => {
     switch (block) {
@@ -96,48 +100,51 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
     setRecentTours(recentArr);
   };
 
-  const handleFavoriteTour = (tourName, tourDate) => {
-    if (!isSigned) {
-      return showLoginPopup();
-    }
-    db.collection('member')
-      .doc(userToken)
-      .get()
-      .then((res) => res.data().user_tour)
-      .then((hadTours) => {
-        // console.log(hadTours);
-        if (hadTours === '') {
-          return 0;
-        }
-        const result = hadTours.filter((item) => item.tourTitle === tourName);
-        return result;
-      })
-      .then((filterResult) => {
-        if (filterResult.length === 0) {
-          db.collection('member')
-            .doc(userToken)
-            .update({
-              user_tour: firebase.firestore.FieldValue.arrayUnion({
-                tourTitle: tourName,
-                tourStart: tourDate.tourStart,
-                tourEnd: tourDate.tourEnd,
-              }),
-            });
-        }
-        if (filterResult.length !== 0) {
-          db.collection('member')
-            .doc(userToken)
-            .update({
-              user_tour: firebase.firestore.FieldValue.arrayRemove({
-                tourTitle: tourName,
-                tourStart: tourDate.tourStart,
-                tourEnd: tourDate.tourEnd,
-              }),
-            });
-        }
-      })
-      .catch((err) => console.log(err));
-  };
+  const handleFavoriteTour = useCallback(
+    (tourName, tourDate) => {
+      if (!isSigned) {
+        return showLoginPopup();
+      }
+      db.collection('member')
+        .doc(userToken)
+        .get()
+        .then((res) => res.data().user_tour)
+        .then((hadTours) => {
+          // console.log(hadTours);
+          if (hadTours === '') {
+            return 0;
+          }
+          const result = hadTours.filter((item) => item.tourTitle === tourName);
+          return result;
+        })
+        .then((filterResult) => {
+          if (filterResult.length === 0) {
+            db.collection('member')
+              .doc(userToken)
+              .update({
+                user_tour: firebase.firestore.FieldValue.arrayUnion({
+                  tourTitle: tourName,
+                  tourStart: tourDate.tourStart,
+                  tourEnd: tourDate.tourEnd,
+                }),
+              });
+          }
+          if (filterResult.length !== 0) {
+            db.collection('member')
+              .doc(userToken)
+              .update({
+                user_tour: firebase.firestore.FieldValue.arrayRemove({
+                  tourTitle: tourName,
+                  tourStart: tourDate.tourStart,
+                  tourEnd: tourDate.tourEnd,
+                }),
+              });
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    [userTour],
+  );
 
   const fetchAllTours = async () => {
     db.collection('2021_tours')
@@ -153,15 +160,22 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
       })
       .catch((err) => console.log(err));
   };
-  // need update icons
-  const checkFavorite = (tourName) => {
-    if (userTour) {
-      const checkFavoriteResult = userTour.find((tour) => tour.tourTitle === tourName);
-      if (checkFavoriteResult) {
-        return true;
+
+  const checkFavorite = useCallback(
+    (tourName) => {
+      if (userTour) {
+        const checkFavoriteResult = userTour.find((tour) => tour.tourTitle === tourName);
+        if (checkFavoriteResult) {
+          return true;
+        }
       }
-    }
-    return false;
+      return false;
+    },
+    [userTour],
+  );
+
+  const handleMobileSelect = (e) => {
+    console.log(e.target.value);
   };
 
   useEffect(() => {
@@ -208,127 +222,39 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
         </StateLi>
       </StateUL>
 
-      <MobileStateMenuWrap>fix</MobileStateMenuWrap>
+      <MobileStateMenuWrap>
+        <label htmlFor="states">Choose a State：</label>
+        <br />
+        <select
+          name="states"
+          id="states"
+          defaultValue="All"
+          onChange={(e) => handleMobileSelect(e)}
+        >
+          <option value="ongoing">Ongoing</option>
+          <option value="upcoming">Upcoming</option>
+          <option value="recent">Recent</option>
+          <option value="all">All</option>
+        </select>
+      </MobileStateMenuWrap>
 
-      <OngoingWrap id="ongoing">
-        <H2>Ongoing</H2>
-        <BoardDiv>
-          <TitleDiv>{ongoingAndUpcomingTitle()}</TitleDiv>
-          <TourListUL>
-            {!ongoingTours
-              ? null
-              : ongoingTours.map((tour) => {
-                  return (
-                    <TourLi key={tour.title_en}>
-                      {!userTour ? (
-                        <FavoriteBtn onClick={() => handleFavoriteTour(tour.title_en, tour.date)}>
-                          <img src={blankStarI} alt="" />
-                        </FavoriteBtn>
-                      ) : (
-                        <FavoriteBtn onClick={() => handleFavoriteTour(tour.title_en, tour.date)}>
-                          <img
-                            src={checkFavorite(tour.title_en) ? addStarI : blankStarI}
-                            alt="favorite button"
-                          />
-                        </FavoriteBtn>
-                      )}
+      <Ongoing
+        ongoingAndUpcomingTitle={ongoingAndUpcomingTitle}
+        ongoingTours={ongoingTours}
+        userTour={userTour}
+        handleFavoriteTour={handleFavoriteTour}
+        checkFavorite={checkFavorite}
+      />
 
-                      <span>{tour.date.all}</span>
-                      <div>{/* <img src={icon} alt="" /> */}</div>
-                      <span>{tour.title_en}</span>
-                      <span>{tour.location}</span>
+      <Upcoming
+        ongoingAndUpcomingTitle={ongoingAndUpcomingTitle}
+        upcomingTours={upcomingTours}
+        userTour={userTour}
+        handleFavoriteTour={handleFavoriteTour}
+        checkFavorite={checkFavorite}
+      />
 
-                      <div>
-                        <Link to="/tour">
-                          <img src={icon} alt="" />
-                        </Link>
-                      </div>
-                    </TourLi>
-                  );
-                })}
-          </TourListUL>
-        </BoardDiv>
-      </OngoingWrap>
-
-      <UpcomingWrap id="upcoming">
-        <H2>Upcoming</H2>
-        <BoardDiv>
-          <TitleDiv>{ongoingAndUpcomingTitle()}</TitleDiv>
-          <TourListUL>
-            {!upcomingTours
-              ? null
-              : upcomingTours.map((tour) => {
-                  return (
-                    <TourLi key={tour.title_en}>
-                      {!userTour ? (
-                        <FavoriteBtn onClick={() => handleFavoriteTour(tour.title_en, tour.date)}>
-                          <img src={blankStarI} alt="" />
-                        </FavoriteBtn>
-                      ) : (
-                        <FavoriteBtn
-                          onClick={() => handleFavoriteTour(tour.title_en, tour.date)}
-                          className={checkFavorite(tour.title_en)}
-                        >
-                          <img
-                            src={checkFavorite(tour.title_en) ? addStarI : blankStarI}
-                            alt="favorite button"
-                          />
-                        </FavoriteBtn>
-                      )}
-
-                      <span>{tour.date.all}</span>
-                      <div>{/* <img src={icon} alt="" /> */}</div>
-                      <span>{tour.title_en}</span>
-                      <span>{tour.location}</span>
-                      <div>
-                        <Link to="/tour">
-                          <img src={icon} alt="" />
-                        </Link>
-                      </div>
-                    </TourLi>
-                  );
-                })}
-          </TourListUL>
-        </BoardDiv>
-      </UpcomingWrap>
-
-      <RecentWrap id="recent">
-        <H2>Recent</H2>
-        <BoardDiv>
-          <TitleDiv>
-            <ul>
-              <li style={{ width: markWidth }}>Champion</li>
-              <li style={{ width: dateWidth }}>Date</li>
-              <li style={{ width: tourLogoWidth }}> </li>
-              <li style={{ width: tourTitleWidth }}>Tournament</li>
-              <li style={{ width: locationWidth }}>Location</li>
-              <li style={{ width: infoWidth }}>Info</li>
-            </ul>
-          </TitleDiv>
-          <TourListUL>
-            {!recentTours
-              ? null
-              : recentTours.map((tour) => {
-                  return (
-                    <TourLi key={tour.title_en}>
-                      <div>
-                        <p>{tour.result.one}</p>
-                      </div>
-                      <span>{tour.date.all}</span>
-                      <div>{/* <img src={icon} alt="" /> */}</div>
-                      <span>{tour.title_en}</span>
-                      <span>{tour.location}</span>
-                      <div>
-                        <Link to="/tour">
-                          <img src={icon} alt="" />
-                        </Link>
-                      </div>
-                    </TourLi>
-                  );
-                })}
-          </TourListUL>
-        </BoardDiv>
-      </RecentWrap>
+      <Recent recentTours={recentTours} />
     </Wrap>
   );
 };

@@ -62,7 +62,7 @@ const AccountSetting = ({ user, userToken, userEmail, userBirth }) => {
     const active = activeItem.includes(item.title) ? 'active' : '';
     return (
       <Li key={item.title}>
-        {item.title === 'email Address' ? null : (
+        {item.title === 'email Address' || item.title === 'password' ? null : (
           <button type="button" onClick={() => openEdit(item.title)}>
             <img src={EditI} alt="edit" />
           </button>

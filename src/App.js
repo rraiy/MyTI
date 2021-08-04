@@ -75,7 +75,6 @@ const App = () => {
   };
 
   const fetchUserData = (data) => {
-    console.log(data);
     setUser(data.username);
     setUserToken(data.uid);
     setUserEmail(data.email);

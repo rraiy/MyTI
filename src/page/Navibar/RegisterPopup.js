@@ -114,7 +114,7 @@ const RegisterPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
             <Label htmlFor="password">Password</Label>
             <Input
               id="password"
-              type="text"
+              type="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
