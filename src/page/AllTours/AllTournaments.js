@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
 import firebase from 'firebase/app';
 import { db } from '../../firebase/firestore';
 import Ongoing from './components/Ongoing';
@@ -9,33 +8,27 @@ import {
   Wrap,
   StateUL,
   StateLi,
-  OngoingWrap,
-  UpcomingWrap,
-  RecentWrap,
-  H2,
-  BoardDiv,
-  TitleDiv,
-  TourListUL,
-  TourLi,
   markWidth,
   dateWidth,
-  tourLogoWidth,
   tourTitleWidth,
   locationWidth,
   infoWidth,
-  FavoriteBtn,
   AllTourInfoDiv,
   InfoTextDiv,
   MobileStateMenuWrap,
+  MobileAllWrap,
 } from './css/AllTournamentsSty';
-import icon from '../../images/icon/tour.png';
-import addStarI from '../../images/icon/star_add.png';
-import blankStarI from '../../images/icon/star_blank.png';
 
 const defaultShowArea = {
   ongoing: true,
   upcoming: false,
   recent: false,
+};
+
+const mobileDefaultShowArea = {
+  ongoing: 'block',
+  upcoming: 'block',
+  recent: 'block',
 };
 
 const ongoingAndUpcomingTitle = function () {
@@ -57,7 +50,8 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
   const [upcomingTours, setUpcomingTours] = useState(null);
   const [recentTours, setRecentTours] = useState(null);
   const [showArea, setShowArea] = useState(defaultShowArea);
-  const [mobileStateSelect, setMobileStateSelect] = useState('all');
+  const [mobileStateSelect, setMobileStateSelect] = useState(mobileDefaultShowArea);
+  const [mobileBrowser, setMobileBrowser] = useState(false);
 
   const switchArea = (block) => {
     switch (block) {
@@ -73,7 +67,6 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
       default:
     }
   };
-
   const sortTours = () => {
     const ongoingArr = []; // 開始時間<今天 結束時間>今天
     const upcomingArr = []; // 開始時間>今天
@@ -175,11 +168,42 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
   );
 
   const handleMobileSelect = (e) => {
-    console.log(e.target.value);
+    switch (e.target.value) {
+      case 'ongoing':
+        setMobileStateSelect({ ongoing: 'block', upcoming: 'none', recent: 'none' });
+        break;
+      case 'upcoming':
+        setMobileStateSelect({ ongoing: 'none', upcoming: 'block', recent: 'none' });
+        break;
+      case 'recent':
+        setMobileStateSelect({ ongoing: 'none', upcoming: 'none', recent: 'block' });
+        break;
+      case 'all':
+        setMobileStateSelect(mobileDefaultShowArea);
+        break;
+      default:
+    }
+  };
+
+  const checkMobileBrowser = () => {
+    if (window.innerWidth < 1200) {
+      setMobileBrowser(true);
+      setMobileStateSelect(mobileDefaultShowArea);
+    }
+    if (window.innerWidth >= 1200) {
+      setMobileBrowser(false);
+    }
   };
 
   useEffect(() => {
     fetchAllTours();
+    checkMobileBrowser();
+
+    window.addEventListener('resize', checkMobileBrowser);
+
+    return () => {
+      window.removeEventListener('resize', checkMobileBrowser);
+    };
   }, []);
 
   useEffect(() => {
@@ -224,11 +248,10 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
 
       <MobileStateMenuWrap>
         <label htmlFor="states">Choose a State：</label>
-        <br />
         <select
           name="states"
           id="states"
-          defaultValue="All"
+          defaultValue="all"
           onChange={(e) => handleMobileSelect(e)}
         >
           <option value="ongoing">Ongoing</option>
@@ -238,23 +261,45 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
         </select>
       </MobileStateMenuWrap>
 
-      <Ongoing
-        ongoingAndUpcomingTitle={ongoingAndUpcomingTitle}
-        ongoingTours={ongoingTours}
-        userTour={userTour}
-        handleFavoriteTour={handleFavoriteTour}
-        checkFavorite={checkFavorite}
-      />
-
-      <Upcoming
-        ongoingAndUpcomingTitle={ongoingAndUpcomingTitle}
-        upcomingTours={upcomingTours}
-        userTour={userTour}
-        handleFavoriteTour={handleFavoriteTour}
-        checkFavorite={checkFavorite}
-      />
-
-      <Recent recentTours={recentTours} />
+      {!mobileBrowser ? (
+        <>
+          <Ongoing
+            ongoingAndUpcomingTitle={ongoingAndUpcomingTitle}
+            ongoingTours={ongoingTours}
+            userTour={userTour}
+            handleFavoriteTour={handleFavoriteTour}
+            checkFavorite={checkFavorite}
+          />
+          <Upcoming
+            ongoingAndUpcomingTitle={ongoingAndUpcomingTitle}
+            upcomingTours={upcomingTours}
+            userTour={userTour}
+            handleFavoriteTour={handleFavoriteTour}
+            checkFavorite={checkFavorite}
+          />
+          <Recent recentTours={recentTours} />
+        </>
+      ) : (
+        <MobileAllWrap>
+          <Ongoing
+            mobileStateSelect={mobileStateSelect}
+            ongoingAndUpcomingTitle={ongoingAndUpcomingTitle}
+            ongoingTours={ongoingTours}
+            userTour={userTour}
+            handleFavoriteTour={handleFavoriteTour}
+            checkFavorite={checkFavorite}
+          />
+          <Upcoming
+            mobileStateSelect={mobileStateSelect}
+            ongoingAndUpcomingTitle={ongoingAndUpcomingTitle}
+            upcomingTours={upcomingTours}
+            userTour={userTour}
+            handleFavoriteTour={handleFavoriteTour}
+            checkFavorite={checkFavorite}
+          />
+          <Recent mobileStateSelect={mobileStateSelect} recentTours={recentTours} />
+        </MobileAllWrap>
+      )}
     </Wrap>
   );
 };

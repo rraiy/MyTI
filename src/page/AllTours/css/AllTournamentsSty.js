@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 import { primary, fontGrey, fontWhite, fontYellow } from '../../../public_component/globalStyle';
-import addStarI from '../../../images/icon/star_add.png';
-import blankStarI from '../../../images/icon/star_blank.png';
 
 export const markWidth = '12%';
 export const dateWidth = '20%';
@@ -22,11 +20,11 @@ export const Wrap = styled.div`
   padding-top: 120px;
 
   @media (max-width: 1199px) {
-    min-width: 700px;
+    min-width: 100%;
   }
 
-  @media (max-width: 699px) and (min-width: 360px) {
-    min-width: 360px;
+  @media (max-width: 600px) and (min-width: 360px) {
+    min-width: 98%;
   }
 `;
 
@@ -46,7 +44,7 @@ export const StateUL = styled.ul`
 
   .noPick:before {
     content: '';
-    display: inline-block; // need debug why use ''
+    display: inline-block;
     width: 16px;
     border-radius: 50%;
     background-color: ${fontGrey};
@@ -99,6 +97,14 @@ export const H2 = styled.h2`
     background-color: ${primary};
     margin-right: 20px;
   }
+
+  @media (max-width: 600px) {
+    font-size: 16px;
+    font-weight: bold;
+    color: ${fontWhite};
+    margin-bottom: 12px;
+    margin-left: 8%;
+  }
 `;
 
 export const BoardDiv = styled.div`
@@ -108,6 +114,17 @@ export const BoardDiv = styled.div`
   border-radius: 8px;
   margin-top: 10px;
   margin-left: 14%;
+
+  @media (max-width: 1199px) {
+    width: 600px;
+    background: none;
+    border: none;
+  }
+
+  @media (max-width: 600px) {
+    width: 360px;
+    margin: 0 auto;
+  }
 `;
 
 export const TitleDiv = styled.div`
@@ -131,6 +148,14 @@ export const TourListUL = styled.ul`
   display: flex;
   flex-direction: column;
   color: #fff;
+
+  @media (max-width: 1199px) {
+    width: 480px;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 export const TourLi = styled.li`
@@ -147,12 +172,10 @@ export const TourLi = styled.li`
     width: 24px;
   }
 
-  // 收藏
   div:nth-child(1) {
     width: ${markWidth};
   }
 
-  // date
   span:nth-child(2) {
     width: ${dateWidth};
   }
@@ -173,6 +196,41 @@ export const TourLi = styled.li`
   div:nth-child(6) {
     width: ${infoWidth};
   }
+
+  @media (max-width: 1199px) {
+    width: 90%;
+    flex-direction: column;
+    background: #211c39;
+    height: 224px;
+    position: relative;
+    margin-bottom: 20px;
+
+    .title {
+      font-size: 20px;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    div:nth-child(1),
+    span:nth-child(2),
+    div:nth-child(3),
+    span:nth-child(4),
+    span:nth-child(5),
+    div:nth-child(6) {
+      width: auto;
+    }
+  }
+
+  @media (max-width: 600px) {
+    width: 95%;
+    font-size: 12px;
+    height: 200px;
+    .title {
+      font-size: 14px;
+      color: #fff;
+      font-weight: bold;
+    }
+  }
 `;
 
 export const UpcomingWrap = styled.div`
@@ -190,6 +248,16 @@ export const RecentWrap = styled.div`
 export const FavoriteBtn = styled.button`
   img {
     width: 24px;
+  }
+
+  @media (max-width: 1199px) {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+
+    img {
+      width: 30px;
+    }
   }
 `;
 
@@ -214,4 +282,30 @@ export const InfoTextDiv = styled.div`
 
 export const MobileStateMenuWrap = styled.div`
   color: #fff;
+  display: none;
+  margin-bottom: 80px;
+
+  label {
+    font-size: 20px;
+    color: ${primary};
+  }
+
+  select {
+    width: 240px;
+    height: 40px;
+    font-size: 16px;
+  }
+  @media (max-width: 1199px) {
+    display: block;
+  }
+
+  @media (max-width: 600px) {
+    margin-left: 20px;
+  }
+`;
+
+export const MobileAllWrap = styled.div`
+  .title-row {
+    display: none;
+  }
 `;

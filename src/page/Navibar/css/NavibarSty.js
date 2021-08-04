@@ -44,6 +44,9 @@ export const LogoDiv = styled.div`
 
   @media (max-width: 800px) {
     width: auto;
+    position: absolute;
+    top: 10px;
+    left: 47%;
     p {
       display: none;
     }

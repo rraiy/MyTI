@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   OngoingWrap,
@@ -19,13 +19,18 @@ const Ongoing = ({
   userTour,
   handleFavoriteTour,
   checkFavorite,
+  mobileStateSelect,
 }) => {
   return (
     <>
-      <OngoingWrap id="ongoing">
+      <OngoingWrap
+        id="ongoing"
+        className="ongoing"
+        style={{ display: mobileStateSelect ? mobileStateSelect.ongoing : 'block' }}
+      >
         <H2>Ongoing</H2>
         <BoardDiv>
-          <TitleDiv>{ongoingAndUpcomingTitle()}</TitleDiv>
+          <TitleDiv className="title-row">{ongoingAndUpcomingTitle()}</TitleDiv>
           <TourListUL>
             {!ongoingTours
               ? null
@@ -47,7 +52,7 @@ const Ongoing = ({
 
                       <span>{tour.date.all}</span>
                       <div>{/* <img src={icon} alt="" /> */}</div>
-                      <span>{tour.title_en}</span>
+                      <span className="title">{tour.title_en}</span>
                       <span>{tour.location}</span>
 
                       <div>

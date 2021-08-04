@@ -83,7 +83,6 @@ export const StreamChatWrap = styled.div`
 export const StreamDiv = styled.div`
   width: ${(props) => (props.bigger ? '1000px' : '800px')};
   height: ${(props) => (props.bigger ? '585px' : '468px')};
-  // border: 1px solid ${primary};
 
   .mod-small {
     position: fixed;
@@ -97,8 +96,6 @@ export const StreamDiv = styled.div`
   .mod-drag {
     bottom: none;
     right: none;
-    // top: ${(props) => props.dragPosition[0]}px;
-    // left: ${(props) => props.dragPosition[1]}px;
   }
 
   @media (max-width: 1199px) {
@@ -227,10 +224,6 @@ export const ChatType = styled.form`
     width: 20px;
   }
 `;
-// export const TeamLogo = styled.img`
-//     width:40px;
-//     margin-right:8px;
-// `
 
 export const Li = styled.li`
   color: ${fontGrey};
@@ -248,9 +241,6 @@ export const LeftDiv = styled.div`
 `;
 
 export const ChatInput = styled.input`
-  // opacity:1;
-  // border:none;
-  // border-bottom:1px solid #ccc;
   width: 300px;
   height: 30px;
   outline: 0;

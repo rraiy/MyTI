@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Link } from 'react-router-dom';
 import {
@@ -17,13 +17,17 @@ import {
 } from '../css/AllTournamentsSty';
 import icon from '../../../images/icon/tour.png';
 
-const Recent = ({ recentTours }) => {
+const Recent = ({ recentTours, mobileStateSelect }) => {
   return (
     <>
-      <RecentWrap id="recent">
+      <RecentWrap
+        id="recent"
+        className="recent"
+        style={{ display: mobileStateSelect ? mobileStateSelect.recent : 'block' }}
+      >
         <H2>Recent</H2>
         <BoardDiv>
-          <TitleDiv>
+          <TitleDiv className="title-row">
             <ul>
               <li style={{ width: markWidth }}>Champion</li>
               <li style={{ width: dateWidth }}>Date</li>
@@ -44,7 +48,7 @@ const Recent = ({ recentTours }) => {
                       </div>
                       <span>{tour.date.all}</span>
                       <div>{/* <img src={icon} alt="" /> */}</div>
-                      <span>{tour.title_en}</span>
+                      <span className="title">{tour.title_en}</span>
                       <span>{tour.location}</span>
                       <div>
                         <Link to="/tour">
