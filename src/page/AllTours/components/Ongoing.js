@@ -13,17 +13,21 @@ import icon from '../../../images/icon/tour.png';
 import addStarI from '../../../images/icon/star_add.png';
 import blankStarI from '../../../images/icon/star_blank.png';
 
-const Ongoing = ({
-  ongoingTours,
-  ongoingAndUpcomingTitle,
-  userTour,
-  handleFavoriteTour,
-  checkFavorite,
-  mobileStateSelect,
-}) => {
-  return (
-    <>
+const Ongoing = React.forwardRef(
+  (
+    {
+      ongoingTours,
+      ongoingAndUpcomingTitle,
+      userTour,
+      handleFavoriteTour,
+      checkFavorite,
+      mobileStateSelect,
+    },
+    ref,
+  ) => {
+    return (
       <OngoingWrap
+        ref={ref}
         id="ongoing"
         className="ongoing"
         style={{ display: mobileStateSelect ? mobileStateSelect.ongoing : 'block' }}
@@ -66,8 +70,8 @@ const Ongoing = ({
           </TourListUL>
         </BoardDiv>
       </OngoingWrap>
-    </>
-  );
-};
+    );
+  },
+);
 
 export default Ongoing;

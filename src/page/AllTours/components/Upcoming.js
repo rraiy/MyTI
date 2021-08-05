@@ -13,17 +13,21 @@ import icon from '../../../images/icon/tour.png';
 import addStarI from '../../../images/icon/star_add.png';
 import blankStarI from '../../../images/icon/star_blank.png';
 
-const Upcoming = ({
-  ongoingAndUpcomingTitle,
-  upcomingTours,
-  userTour,
-  handleFavoriteTour,
-  checkFavorite,
-  mobileStateSelect,
-}) => {
-  return (
-    <>
+const Upcoming = React.forwardRef(
+  (
+    {
+      ongoingAndUpcomingTitle,
+      upcomingTours,
+      userTour,
+      handleFavoriteTour,
+      checkFavorite,
+      mobileStateSelect,
+    },
+    ref,
+  ) => {
+    return (
       <UpcomingWrap
+        ref={ref}
         id="upcoming"
         className="upcoming"
         style={{ display: mobileStateSelect ? mobileStateSelect.upcoming : 'block' }}
@@ -68,8 +72,8 @@ const Upcoming = ({
           </TourListUL>
         </BoardDiv>
       </UpcomingWrap>
-    </>
-  );
-};
+    );
+  },
+);
 
 export default Upcoming;

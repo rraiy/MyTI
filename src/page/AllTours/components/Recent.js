@@ -17,52 +17,51 @@ import {
 } from '../css/AllTournamentsSty';
 import icon from '../../../images/icon/tour.png';
 
-const Recent = ({ recentTours, mobileStateSelect }) => {
+const Recent = React.forwardRef(({ recentTours, mobileStateSelect }, ref) => {
   return (
-    <>
-      <RecentWrap
-        id="recent"
-        className="recent"
-        style={{ display: mobileStateSelect ? mobileStateSelect.recent : 'block' }}
-      >
-        <H2>Recent</H2>
-        <BoardDiv>
-          <TitleDiv className="title-row">
-            <ul>
-              <li style={{ width: markWidth }}>Champion</li>
-              <li style={{ width: dateWidth }}>Date</li>
-              <li style={{ width: tourLogoWidth }}> </li>
-              <li style={{ width: tourTitleWidth }}>Tournament</li>
-              <li style={{ width: locationWidth }}>Location</li>
-              <li style={{ width: infoWidth }}>Info</li>
-            </ul>
-          </TitleDiv>
-          <TourListUL>
-            {!recentTours
-              ? null
-              : recentTours.map((tour) => {
-                  return (
-                    <TourLi key={tour.title_en}>
-                      <div>
-                        <p>{tour.result.one}</p>
-                      </div>
-                      <span>{tour.date.all}</span>
-                      <div>{/* <img src={icon} alt="" /> */}</div>
-                      <span className="title">{tour.title_en}</span>
-                      <span>{tour.location}</span>
-                      <div>
-                        <Link to="/tour">
-                          <img src={icon} alt="" />
-                        </Link>
-                      </div>
-                    </TourLi>
-                  );
-                })}
-          </TourListUL>
-        </BoardDiv>
-      </RecentWrap>
-    </>
+    <RecentWrap
+      ref={ref}
+      id="recent"
+      className="recent"
+      style={{ display: mobileStateSelect ? mobileStateSelect.recent : 'block' }}
+    >
+      <H2>Recent</H2>
+      <BoardDiv>
+        <TitleDiv className="title-row">
+          <ul>
+            <li style={{ width: markWidth }}>Champion</li>
+            <li style={{ width: dateWidth }}>Date</li>
+            <li style={{ width: tourLogoWidth }}> </li>
+            <li style={{ width: tourTitleWidth }}>Tournament</li>
+            <li style={{ width: locationWidth }}>Location</li>
+            <li style={{ width: infoWidth }}>Info</li>
+          </ul>
+        </TitleDiv>
+        <TourListUL>
+          {!recentTours
+            ? null
+            : recentTours.map((tour) => {
+                return (
+                  <TourLi key={tour.title_en}>
+                    <div>
+                      <p>{tour.result.one}</p>
+                    </div>
+                    <span>{tour.date.all}</span>
+                    <div>{/* <img src={icon} alt="" /> */}</div>
+                    <span className="title">{tour.title_en}</span>
+                    <span>{tour.location}</span>
+                    <div>
+                      <Link to="/tour">
+                        <img src={icon} alt="" />
+                      </Link>
+                    </div>
+                  </TourLi>
+                );
+              })}
+        </TourListUL>
+      </BoardDiv>
+    </RecentWrap>
   );
-};
+});
 
 export default Recent;

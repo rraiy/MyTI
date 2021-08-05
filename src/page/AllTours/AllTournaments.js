@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import firebase from 'firebase/app';
 import { db } from '../../firebase/firestore';
 import Ongoing from './components/Ongoing';
@@ -53,6 +53,10 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
   const [mobileStateSelect, setMobileStateSelect] = useState(mobileDefaultShowArea);
   const [mobileBrowser, setMobileBrowser] = useState(false);
 
+  const ongoingRef = useRef();
+  const upcomingRef = useRef();
+  const recentRef = useRef();
+
   const switchArea = (block) => {
     switch (block) {
       case 'ongoing':
@@ -67,6 +71,21 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
       default:
     }
   };
+
+  const checkScrollArea = () => {
+    if (!mobileBrowser) {
+      if (ongoingRef.current.getBoundingClientRect().top < 100) {
+        switchArea('ongoing');
+      }
+      if (upcomingRef.current.getBoundingClientRect().top < 100) {
+        switchArea('upcoming');
+      }
+      if (recentRef.current.getBoundingClientRect().top < 100) {
+        switchArea('recent');
+      }
+    }
+  };
+
   const sortTours = () => {
     const ongoingArr = []; // 開始時間<今天 結束時間>今天
     const upcomingArr = []; // 開始時間>今天
@@ -207,6 +226,14 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
   }, []);
 
   useEffect(() => {
+    window.addEventListener('scroll', checkScrollArea);
+
+    return () => {
+      window.removeEventListener('scroll', checkScrollArea);
+    };
+  }, [mobileBrowser]);
+
+  useEffect(() => {
     if (allTours) {
       sortTours();
     }
@@ -264,6 +291,7 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
       {!mobileBrowser ? (
         <>
           <Ongoing
+            ref={ongoingRef}
             ongoingAndUpcomingTitle={ongoingAndUpcomingTitle}
             ongoingTours={ongoingTours}
             userTour={userTour}
@@ -271,13 +299,14 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
             checkFavorite={checkFavorite}
           />
           <Upcoming
+            ref={upcomingRef}
             ongoingAndUpcomingTitle={ongoingAndUpcomingTitle}
             upcomingTours={upcomingTours}
             userTour={userTour}
             handleFavoriteTour={handleFavoriteTour}
             checkFavorite={checkFavorite}
           />
-          <Recent recentTours={recentTours} />
+          <Recent ref={recentRef} recentTours={recentTours} />
         </>
       ) : (
         <MobileAllWrap>
