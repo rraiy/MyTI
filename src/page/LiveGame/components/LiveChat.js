@@ -256,7 +256,7 @@ const LiveChat = ({ isSigned, user, userTeamLogo }) => {
               scrolling="no"
               width="100%"
               height="100%"
-              src="https://player.twitch.tv/?channel=beyondthesummit&amp;parent=localhost&amp;autoplay=false"
+              src="https://player.twitch.tv/?channel=beyondthesummit&amp;parent=myti-171bb.web.app&amp;autoplay=false"
             />
 
             {/* huya */}

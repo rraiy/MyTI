@@ -14,6 +14,7 @@ import {
   InfoListUl,
   InfoListLi,
   lineImgWrap,
+  BackgroundStone,
 } from './css/HomePageSty';
 import checkI from '../../images/icon/check.png';
 import lineImg from '../../images/background/bg_line.png';
@@ -89,9 +90,7 @@ const HomePage = () => {
       <AegisVideo src={main} autoPlay preload="auto" loop style={{ width: '100%' }}>
         <track kind="captions" />
       </AegisVideo>
-      {/* <lineImgWrap>
-        <img src={lineImg} alt="background" />
-      </lineImgWrap> */}
+      <BackgroundStone src={lineImg} />
 
       <WebInfoWrap>
         <H1>Follow your ONE team, be the big fans to support !</H1>

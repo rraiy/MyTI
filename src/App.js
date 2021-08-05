@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { db, storage } from './firebase/firestore';
+import { Loader } from './public_component/globalStyle';
 import HomePage from './page/HomePage/HomePage';
 import Navibar from './page/Navibar/Navibar';
 import RegisterPopup from './page/Navibar/RegisterPopup';

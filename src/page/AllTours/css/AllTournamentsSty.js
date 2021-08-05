@@ -90,7 +90,7 @@ export const H2 = styled.h2`
   margin-left: 14%;
 
   :before {
-    content: ' 1'; // need debug why need to use word
+    content: ' 1';
     color: ${primary};
     display: inline;
     width: 8px;

@@ -26,6 +26,7 @@ export const LRPopupWrap = styled.div.attrs((props) => ({
   color: ${(props) => props.color};
   padding: 16px 32px;
   width: 336px;
+  height: 520px;
   border-radius: 10px;
   position: fixed;
   z-index: 5;

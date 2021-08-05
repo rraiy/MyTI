@@ -33,6 +33,13 @@ export const AegisVideo = styled.video`
   z-index: 0;
 `;
 
+export const BackgroundStone = styled.img`
+  position: absolute;
+  z-index: 0;
+  width: 100%;
+  margin-top: 1100px;
+`;
+
 export const WebInfoWrap = styled.div`
   width: 80%;
   display: flex;

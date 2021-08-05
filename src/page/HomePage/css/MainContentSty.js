@@ -93,6 +93,7 @@ export const HotTourItem = styled.li`
 
   img {
     width: 100%;
+    height: 160px;
   }
 
   p {

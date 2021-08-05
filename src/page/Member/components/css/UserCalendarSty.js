@@ -184,3 +184,8 @@ export const EventPopupDiv = styled.div`
     background: ${primary};
   }
 `;
+
+export const InfoP = styled.p`
+  margin-bottom: 20px;
+  line-height: 1.5em;
+`;

@@ -13,6 +13,7 @@ import {
   TodayBtn,
   EventDiv,
   EventPopupDiv,
+  InfoP,
 } from './css/UserCalendarSty';
 import RemoveI from '../../../images/icon/remove.png';
 
@@ -101,104 +102,110 @@ const Calendar = ({ userTour, isSigned, userToken }) => {
   }, [userTour]);
 
   return (
-    <UserCalendarWrap>
-      {!isSigned ? <div> Please sign in first. </div> : null}
-      {isLoading ? (
-        <div> Loading.. </div>
-      ) : (
-        <>
-          <SelectMonthDiv>
-            <MonthBtn onClick={getPrevMonth}>Prev</MonthBtn>
-            <TodayBtn onClick={getToday}>Today</TodayBtn>
-            <MonthBtn onClick={getNextMonth}>Next</MonthBtn>
-            <p>{`${monthNames[selectedDate.getMonth()]} - ${selectedDate.getFullYear()}`}</p>
-          </SelectMonthDiv>
+    <>
+      <InfoP>
+        This personal calendar records your favorite event tour dates.
+        <br /> You can add event by click the star on Tournaments page.
+      </InfoP>
+      <UserCalendarWrap>
+        {!isSigned ? <div> Please sign in first. </div> : null}
+        {isLoading ? (
+          <div> Loading.. </div>
+        ) : (
+          <>
+            <SelectMonthDiv>
+              <MonthBtn onClick={getPrevMonth}>Prev</MonthBtn>
+              <TodayBtn onClick={getToday}>Today</TodayBtn>
+              <MonthBtn onClick={getNextMonth}>Next</MonthBtn>
+              <p>{`${monthNames[selectedDate.getMonth()]} - ${selectedDate.getFullYear()}`}</p>
+            </SelectMonthDiv>
 
-          <DayUl>
-            {daysName.map((day) => (
-              <li key={day}>{day}</li>
-            ))}
-          </DayUl>
+            <DayUl>
+              {daysName.map((day) => (
+                <li key={day}>{day}</li>
+              ))}
+            </DayUl>
 
-          <AllRowsUl>
-            {Object.values(calendarRows).map((cols) => {
-              // first map take a whole week data[{},{},....{}]
-              return (
-                <RowsWrap key={cols[0].date}>
-                  {cols.map((col) =>
-                    col.date === todayFormat ? (
-                      <li key={col.date} className={`${col.classes} today ${col.date}`}>
-                        <p>{col.value}</p>
-                        {tourDatas
-                          ? tourDatas
-                              .filter((tour) => {
-                                return tour.tour_date.includes(col.date);
-                              })
-                              .map((item) => (
-                                <EventDiv
-                                  key={item.title + item.date}
-                                  onClick={() =>
-                                    handleEventPopup(item.title, item.tourStart, item.tourEnd)
-                                  }
-                                >
-                                  {item.title}
-                                </EventDiv>
-                              ))
-                          : null}
-                      </li>
-                    ) : (
-                      <li key={col.date} className={`${col.classes} ${col.date}`}>
-                        <p>{col.value}</p>
-                        {tourDatas
-                          ? tourDatas
-                              .filter((tour) => {
-                                return tour.tour_date.includes(col.date);
-                              })
-                              .map((item) => (
-                                <EventDiv
-                                  key={item.title + item.date}
-                                  onClick={() =>
-                                    handleEventPopup(item.title, item.tourStart, item.tourEnd)
-                                  }
-                                >
-                                  {item.title}
-                                </EventDiv>
-                              ))
-                          : null}
-                      </li>
-                    ),
-                  )}
-                </RowsWrap>
-              );
-            })}
-            {!eventPopup ? null : (
-              <EventPopupDiv>
-                <img src={RemoveI} alt="" onClick={() => setEventPopup(false)} />
-                <p>{eventPopup.tourTitle}</p>
-                <p>
-                  {eventPopup.tourStart} ~ {eventPopup.tourEnd}
-                </p>
-                <button
-                  type="button"
-                  onClick={() =>
-                    removeFavoriteTour(
-                      eventPopup.tourTitle,
-                      eventPopup.tourStart,
-                      eventPopup.tourEnd,
-                    )
-                  }
-                >
-                  Delete This Tour
-                </button>
-                <Link to="/tournaments">
-                  <button type="button">Go More Tournaments</button>
-                </Link>
-              </EventPopupDiv>
-            )}
-          </AllRowsUl>
-        </>
-      )}
-    </UserCalendarWrap>
+            <AllRowsUl>
+              {Object.values(calendarRows).map((cols) => {
+                // first map take a whole week data[{},{},....{}]
+                return (
+                  <RowsWrap key={cols[0].date}>
+                    {cols.map((col) =>
+                      col.date === todayFormat ? (
+                        <li key={col.date} className={`${col.classes} today ${col.date}`}>
+                          <p>{col.value}</p>
+                          {tourDatas
+                            ? tourDatas
+                                .filter((tour) => {
+                                  return tour.tour_date.includes(col.date);
+                                })
+                                .map((item) => (
+                                  <EventDiv
+                                    key={item.title + item.date}
+                                    onClick={() =>
+                                      handleEventPopup(item.title, item.tourStart, item.tourEnd)
+                                    }
+                                  >
+                                    {item.title}
+                                  </EventDiv>
+                                ))
+                            : null}
+                        </li>
+                      ) : (
+                        <li key={col.date} className={`${col.classes} ${col.date}`}>
+                          <p>{col.value}</p>
+                          {tourDatas
+                            ? tourDatas
+                                .filter((tour) => {
+                                  return tour.tour_date.includes(col.date);
+                                })
+                                .map((item) => (
+                                  <EventDiv
+                                    key={item.title + item.date}
+                                    onClick={() =>
+                                      handleEventPopup(item.title, item.tourStart, item.tourEnd)
+                                    }
+                                  >
+                                    {item.title}
+                                  </EventDiv>
+                                ))
+                            : null}
+                        </li>
+                      ),
+                    )}
+                  </RowsWrap>
+                );
+              })}
+              {!eventPopup ? null : (
+                <EventPopupDiv>
+                  <img src={RemoveI} alt="" onClick={() => setEventPopup(false)} />
+                  <p>{eventPopup.tourTitle}</p>
+                  <p>
+                    {eventPopup.tourStart} ~ {eventPopup.tourEnd}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      removeFavoriteTour(
+                        eventPopup.tourTitle,
+                        eventPopup.tourStart,
+                        eventPopup.tourEnd,
+                      )
+                    }
+                  >
+                    Delete This Tour
+                  </button>
+                  <Link to="/tournaments">
+                    <button type="button">Go More Tournaments</button>
+                  </Link>
+                </EventPopupDiv>
+              )}
+            </AllRowsUl>
+          </>
+        )}
+      </UserCalendarWrap>
+    </>
   );
 };
 

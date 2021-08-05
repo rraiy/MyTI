@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { db } from '../../firebase/firestore';
+import { Loader } from '../../public_component/globalStyle';
 import {
   Blur,
   LRPopupWrap,
@@ -87,7 +88,11 @@ const RegisterPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
       <Blur onClick={closePopup} />
       {regSuccess ? (
         <LRPopupWrap success="#fff">
-          <p>註冊並登入成功 請等待稍後跳轉</p>
+          <p className="success">
+            Login Success.
+            <br /> Please wait a minute.
+          </p>
+          <Loader />
         </LRPopupWrap>
       ) : (
         <LRPopupWrap>

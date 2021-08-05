@@ -23,6 +23,7 @@ import {
   ResultTourTitle,
   ResultBattleData,
   RankInfoPopWrap,
+  TourImgDiv,
 } from '../css/MainContentSty';
 import Weplay from '../../../images/tours/weplay.png';
 import CrownI from '../../../images/icon/crown.png';
@@ -86,7 +87,7 @@ const MainContent = ({ hideRedBottomLine }) => {
                     <HotTourItem key={tour.title_en}>
                       <DateDiv>{tour.date.all}</DateDiv>
                       <LiveDiv className="live">Live</LiveDiv>
-                      <img src={Weplay} alt="" />
+                      <img src={tour.tour_img} alt="" />
                       <p>{tour.title_en}</p>
                     </HotTourItem>
                   );
@@ -99,7 +100,7 @@ const MainContent = ({ hideRedBottomLine }) => {
                 return (
                   <ResultItem key={i}>
                     <ResultDateDiv>
-                      <p>2020-01-01</p>
+                      <p>2021-01-01</p>
                       <p>17:00</p>
                     </ResultDateDiv>
                     <ResultTourTitle>

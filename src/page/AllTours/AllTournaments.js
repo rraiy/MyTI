@@ -4,6 +4,7 @@ import { db } from '../../firebase/firestore';
 import Ongoing from './components/Ongoing';
 import Upcoming from './components/Upcoming';
 import Recent from './components/Recent';
+import { Loader } from '../../public_component/globalStyle';
 import {
   Wrap,
   StateUL,
@@ -31,10 +32,10 @@ const mobileDefaultShowArea = {
   recent: 'block',
 };
 
-const ongoingAndUpcomingTitle = function () {
+const ongoingAndUpcomingTitle = () => {
   return (
     <ul>
-      <li style={{ width: markWidth }}> </li>
+      <li style={{ width: 0 }}> </li>
       <li style={{ width: dateWidth }}>Date</li>
       <li style={{ width: 0 }}> </li>
       <li style={{ width: tourTitleWidth }}>Tournament</li>
