@@ -50,6 +50,7 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
   const [ongoingTours, setOngoingTours] = useState(null);
   const [upcomingTours, setUpcomingTours] = useState(null);
   const [recentTours, setRecentTours] = useState(null);
+
   const [showArea, setShowArea] = useState(defaultShowArea);
   const [mobileStateSelect, setMobileStateSelect] = useState(mobileDefaultShowArea);
   const [mobileBrowser, setMobileBrowser] = useState(false);
@@ -59,6 +60,7 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
   const recentRef = useRef();
 
   const switchArea = (block) => {
+    console.log(showArea);
     switch (block) {
       case 'ongoing':
         setShowArea({ ongoing: true, upcoming: false, recent: false });
@@ -73,15 +75,19 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
     }
   };
 
+  const handleClickArea = (area) => {
+    area.current.getBoundingClientRect().top = 105;
+  };
+
   const checkScrollArea = () => {
     if (!mobileBrowser) {
-      if (ongoingRef.current.getBoundingClientRect().top < 100) {
+      if (ongoingRef.current.getBoundingClientRect().top < 110) {
         switchArea('ongoing');
       }
-      if (upcomingRef.current.getBoundingClientRect().top < 100) {
+      if (upcomingRef.current.getBoundingClientRect().top < 110) {
         switchArea('upcoming');
       }
-      if (recentRef.current.getBoundingClientRect().top < 100) {
+      if (recentRef.current.getBoundingClientRect().top < 110) {
         switchArea('recent');
       }
     }
@@ -263,13 +269,13 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
         </InfoTextDiv>
       </AllTourInfoDiv>
       <StateUL>
-        <StateLi onClick={() => switchArea('ongoing')} show={showArea.ongoing}>
+        <StateLi onClick={() => handleClickArea('ongoingRef')} show={showArea.ongoing}>
           <a href="#ongoing">Ongoing</a>
         </StateLi>
-        <StateLi onClick={() => switchArea('upcoming')} show={showArea.upcoming}>
+        <StateLi onClick={() => handleClickArea('upcomingRef')} show={showArea.upcoming}>
           <a href="#upcoming">Upcoming</a>
         </StateLi>
-        <StateLi onClick={() => switchArea('recent')} show={showArea.recent}>
+        <StateLi onClick={() => handleClickArea('recentRef')} show={showArea.recent}>
           <a href="#recent">Recent</a>
         </StateLi>
       </StateUL>

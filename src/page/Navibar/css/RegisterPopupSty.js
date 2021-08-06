@@ -34,6 +34,15 @@ export const LRPopupWrap = styled.div.attrs((props) => ({
   left: 50%;
   margin-top: -260px;
   margin-left: -168px;
+
+  align-items: ${(props) => (props.success ? 'center' : 'stretch')};
+
+  .success {
+    padding: 20px 30px;
+    font-size: 20px;
+    margin-bottom: 20px;
+    line-height: 1.5em;
+  }
 `;
 
 export const SignInBtn = styled.button`

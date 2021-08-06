@@ -185,7 +185,6 @@ export const UserMenuDiv = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 0 10px;
   }
 
   :hover {
