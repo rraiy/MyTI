@@ -85,7 +85,7 @@ const Navibar = ({ showLoginPopup, isSigned, user, signOut, userTeamLogo }) => {
         </Link>
         {isSigned ? (
           <Link to="/member">
-            <li>Member</li>
+            <li>Calendar</li>
           </Link>
         ) : null}
       </PageUL>
