@@ -1,261 +1,343 @@
-import React from 'react';
-import styled from 'styled-components';
-import icon from '../../images/icon/tour.png';
-import {primary, fontGrey, fontWhite, fontWaring, fontYellow} from '../../public_component/globalStyle';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import firebase from 'firebase/app';
+import { db } from '../../firebase/firestore';
+import Ongoing from './components/Ongoing';
+import Upcoming from './components/Upcoming';
+import Recent from './components/Recent';
+import { Loader } from '../../public_component/globalStyle';
+import {
+  Wrap,
+  StateUL,
+  StateLi,
+  markWidth,
+  dateWidth,
+  tourTitleWidth,
+  locationWidth,
+  infoWidth,
+  AllTourInfoDiv,
+  InfoTextDiv,
+  MobileStateMenuWrap,
+  MobileAllWrap,
+} from './css/AllTournamentsSty';
 
-let mark_w = '9%';
-let date_w = '25%';
-let tourlogo_w = '18%';
-let tourtitle_w = '40%';
-let location_w = '18%';
-let info_w = '10%';
+const defaultShowArea = {
+  ongoing: true,
+  upcoming: false,
+  recent: false,
+};
 
-const Wrap = styled.div`
-    min-width: 1200px;
-    height: 1800px;
-    background: transparent
-        linear-gradient(180deg, rgba(7, 0, 28, 1) 0%, rgba(24, 15, 51, 1) 34%, rgba(58, 45, 96, 1) 100%) 0% 0% no-repeat
-        padding-box;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top:120px;
+const mobileDefaultShowArea = {
+  ongoing: 'block',
+  upcoming: 'block',
+  recent: 'block',
+};
 
-    @media (max-width: 1199px) {
-        min-width: 700px;
+const ongoingAndUpcomingTitle = () => {
+  return (
+    <ul>
+      <li style={{ width: 0 }}> </li>
+      <li style={{ width: dateWidth }}>Date</li>
+      <li style={{ width: 0 }}> </li>
+      <li style={{ width: tourTitleWidth }}>Tournament</li>
+      <li style={{ width: locationWidth }}>Location</li>
+      <li style={{ width: infoWidth }}>Info</li>
+    </ul>
+  );
+};
+
+const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
+  const [allTours, setAllTours] = useState(null);
+  const [ongoingTours, setOngoingTours] = useState(null);
+  const [upcomingTours, setUpcomingTours] = useState(null);
+  const [recentTours, setRecentTours] = useState(null);
+
+  const [showArea, setShowArea] = useState(defaultShowArea);
+  const [mobileStateSelect, setMobileStateSelect] = useState(mobileDefaultShowArea);
+  const [mobileBrowser, setMobileBrowser] = useState(false);
+
+  const ongoingRef = useRef();
+  const upcomingRef = useRef();
+  const recentRef = useRef();
+
+  const switchArea = (block) => {
+    console.log(showArea);
+    switch (block) {
+      case 'ongoing':
+        setShowArea({ ongoing: true, upcoming: false, recent: false });
+        break;
+      case 'upcoming':
+        setShowArea({ ongoing: false, upcoming: true, recent: false });
+        break;
+      case 'recent':
+        setShowArea({ ongoing: false, upcoming: false, recent: true });
+        break;
+      default:
     }
+  };
 
-    @media (max-width: 699px) and (min-width: 360px) {
-        min-width: 360px;
+  const handleClickArea = (area) => {
+    area.current.getBoundingClientRect().top = 105;
+  };
+
+  const checkScrollArea = () => {
+    if (!mobileBrowser) {
+      if (ongoingRef.current.getBoundingClientRect().top < 110) {
+        switchArea('ongoing');
+      }
+      if (upcomingRef.current.getBoundingClientRect().top < 110) {
+        switchArea('upcoming');
+      }
+      if (recentRef.current.getBoundingClientRect().top < 110) {
+        switchArea('recent');
+      }
     }
-`
+  };
 
-const StateUL = styled.ul`
-    display:flex;
-    flex-direction: column;
-    justify-content:space-around;
-    color:${fontGrey};
-    position:absolute;
-    top:20%;
-    left:8%;
-    width:160px;
-    height:320px;
+  const sortTours = () => {
+    const ongoingArr = []; // 開始時間<今天 結束時間>今天
+    const upcomingArr = []; // 開始時間>今天
+    const recentArr = []; // 結束時間<今天
 
-    .pick{
-        color:${fontYellow};
-        font-size:24px;
+    const today = new Date(+new Date() + 8 * 3600 * 1000).toISOString().split('T')[0]; // 暫時簡單處理時區問題
+
+    allTours.forEach((tour) => {
+      const start = tour.date.tourStart;
+      const end = tour.date.tourEnd;
+
+      if (start < today && end > today) {
+        ongoingArr.push(tour);
+      }
+      if (start > today) {
+        upcomingArr.push(tour);
+      }
+      if (end < today) {
+        recentArr.push(tour);
+      }
+    });
+    setOngoingTours(ongoingArr);
+    setUpcomingTours(upcomingArr);
+    setRecentTours(recentArr);
+  };
+
+  const handleFavoriteTour = useCallback(
+    (tourName, tourDate) => {
+      if (!isSigned) {
+        return showLoginPopup();
+      }
+      db.collection('member')
+        .doc(userToken)
+        .get()
+        .then((res) => res.data().user_tour)
+        .then((hadTours) => {
+          // console.log(hadTours);
+          if (hadTours === '') {
+            return 0;
+          }
+          const result = hadTours.filter((item) => item.tourTitle === tourName);
+          return result;
+        })
+        .then((filterResult) => {
+          if (filterResult.length === 0) {
+            db.collection('member')
+              .doc(userToken)
+              .update({
+                user_tour: firebase.firestore.FieldValue.arrayUnion({
+                  tourTitle: tourName,
+                  tourStart: tourDate.tourStart,
+                  tourEnd: tourDate.tourEnd,
+                }),
+              });
+          }
+          if (filterResult.length !== 0) {
+            db.collection('member')
+              .doc(userToken)
+              .update({
+                user_tour: firebase.firestore.FieldValue.arrayRemove({
+                  tourTitle: tourName,
+                  tourStart: tourDate.tourStart,
+                  tourEnd: tourDate.tourEnd,
+                }),
+              });
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    [userTour],
+  );
+
+  const fetchAllTours = async () => {
+    db.collection('2021_tours')
+      .orderBy('date.tourEnd', 'desc')
+      .get()
+      .then((res) => {
+        const newArr = [];
+        res.forEach((tour) => newArr.push(tour.data()));
+        return newArr;
+      })
+      .then((all) => {
+        setAllTours(all);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const checkFavorite = useCallback(
+    (tourName) => {
+      if (userTour) {
+        const checkFavoriteResult = userTour.find((tour) => tour.tourTitle === tourName);
+        if (checkFavoriteResult) {
+          return true;
+        }
+      }
+      return false;
+    },
+    [userTour],
+  );
+
+  const handleMobileSelect = (e) => {
+    switch (e.target.value) {
+      case 'ongoing':
+        setMobileStateSelect({ ongoing: 'block', upcoming: 'none', recent: 'none' });
+        break;
+      case 'upcoming':
+        setMobileStateSelect({ ongoing: 'none', upcoming: 'block', recent: 'none' });
+        break;
+      case 'recent':
+        setMobileStateSelect({ ongoing: 'none', upcoming: 'none', recent: 'block' });
+        break;
+      case 'all':
+        setMobileStateSelect(mobileDefaultShowArea);
+        break;
+      default:
     }
+  };
 
-    .pick:before{
-        content:'';
-        display:inline-block; // need debug why use ''
-        width:24px;
-        border-radius:12px;
-        background-color:${fontYellow};
-        margin-right:20px;
-        height:24px;
+  const checkMobileBrowser = () => {
+    if (window.innerWidth < 1200) {
+      setMobileBrowser(true);
+      setMobileStateSelect(mobileDefaultShowArea);
     }
-
-    .noPick{
-        font-size:22px;
+    if (window.innerWidth >= 1200) {
+      setMobileBrowser(false);
     }
+  };
 
-    .noPick:before{
-        content:'';
-        display:inline-block; // need debug why use ''
-        width:18px;
-        border-radius:8px;
-        background-color:${fontGrey};
-        margin-right:20px;
-        height:18px;
+  useEffect(() => {
+    fetchAllTours();
+    checkMobileBrowser();
+
+    window.addEventListener('resize', checkMobileBrowser);
+
+    return () => {
+      window.removeEventListener('resize', checkMobileBrowser);
+    };
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('scroll', checkScrollArea);
+
+    return () => {
+      window.removeEventListener('scroll', checkScrollArea);
+    };
+  }, [mobileBrowser]);
+
+  useEffect(() => {
+    if (allTours) {
+      sortTours();
     }
+  }, [allTours]);
 
-`
-const StateLi = styled.li`
-
-
-`
-
-const OngoingWrap = styled.div`
-    margin-top:20px;
-`
-
-const H2 = styled.h2`
-    font-size:24px;
-    font-weight:bold;
-    color:${fontWhite};
-    margin-bottom:20px;
-    margin-left:14%;
-
-    :before{
-        content:' 1'; // need debug why need to use word
-        color:${primary};
-        display:inline;
-        width:8px;
-        background-color:${primary};
-        margin-right:20px;
+  useEffect(() => {
+    if (userTour) {
+      fetchAllTours();
     }
-`
+  }, [userTour]);
 
-const OngoingBoardDiv = styled.div`
-    width: 928px;
-    height: 430px;
-    background: rgb(43, 51, 96);
-    border: 2px solid rgb(168, 73, 237);
-    border-radius: 8px;
-    margin-top: 10px;
-    margin-left:14%;
-`
+  return (
+    <Wrap>
+      <AllTourInfoDiv>
+        <h3>Dota2 TI Tournaments Statistics</h3>
+        <InfoTextDiv>
+          <p>
+            This section provides access to all the international and related events static
+            collected.
+          </p>
+          <p>
+            The special event pages make you dismissing your favorite tours. You can add tour's
+            dates to your own custom calendar by click the favorite button (the star), remove it
+            just by the same action.
+          </p>
+        </InfoTextDiv>
+      </AllTourInfoDiv>
+      <StateUL>
+        <StateLi onClick={() => handleClickArea('ongoingRef')} show={showArea.ongoing}>
+          <a href="#ongoing">Ongoing</a>
+        </StateLi>
+        <StateLi onClick={() => handleClickArea('upcomingRef')} show={showArea.upcoming}>
+          <a href="#upcoming">Upcoming</a>
+        </StateLi>
+        <StateLi onClick={() => handleClickArea('recentRef')} show={showArea.recent}>
+          <a href="#recent">Recent</a>
+        </StateLi>
+      </StateUL>
 
-const TitleDiv = styled.div`
-    height: 60px;
-    background: rgb(70, 75, 134);
-    border-bottom: 2px solid rgb(168, 73, 237);
-    border-radius:8px 8px 0 0;
-    color: #fff;
-    padding: 8px 16px;
+      <MobileStateMenuWrap>
+        <label htmlFor="states">Choose a State：</label>
+        <select
+          name="states"
+          id="states"
+          defaultValue="all"
+          onChange={(e) => handleMobileSelect(e)}
+        >
+          <option value="ongoing">Ongoing</option>
+          <option value="upcoming">Upcoming</option>
+          <option value="recent">Recent</option>
+          <option value="all">All</option>
+        </select>
+      </MobileStateMenuWrap>
 
-    ul:first-child {
-        height: 100%;
-        display: flex;
-        text-align: center;
-        justify-content: space-evenly;
-        align-items: center;
-    }
-`
-
-const TourListUL = styled.ul`
-    display: flex;
-    flex-direction: column;
-    color: #fff;
-`
-
-const TourLi = styled.li`
-    display: flex;
-    flex-direction: row;
-    height: 64px;
-    padding: 8px 16px;
-    justify-content: space-evenly;
-    align-items: center;
-    text-align: center;
-
-    div img {
-        width: 30px;
-    }
-
-    // 收藏
-    div:nth-child(1) {
-        width: ${mark_w};
-    }
-
-    // date
-    span:nth-child(2) {
-        width: ${date_w};
-    }
-
-    div:nth-child(3) {
-        width: ${tourlogo_w};
-    }
-
-    span:nth-child(4) {
-        width: ${tourtitle_w};
-        line-height: 1.2em;
-    }
-
-    span:nth-child(5) {
-        width: ${location_w};
-    }
-
-    div:nth-child(6) {
-        width: ${info_w};
-    }
-`
-
-const AllTours = () => {
-
-    // const text = () => {
-    //     db.collection('member').doc(userToken)
-    //     .update({
-    //         user_tour:firebase.firestore.FieldValue.arrayUnion({
-    //             tourTitle:'DPC GAMES',
-    //             tourStart:'2021-07-09',
-    //             tourEnd:'2021-07-16'
-    //         })
-    //     })
-    // }
-
-    console.log(123)
-
-    return (
-        <Wrap>
-            <StateUL>
-                <StateLi className="pick">Ongoing</StateLi>
-                <StateLi className="noPick">Upcoming</StateLi>
-                <StateLi className="noPick">Finish</StateLi>
-            </StateUL>
-
-            <OngoingWrap>
-                <H2>Ongoing</H2>
-                <OngoingBoardDiv>
-                    <TitleDiv>
-                        <ul>
-                            <li style={{ width: mark_w }}>mark</li>
-                            <li style={{ width: date_w }}>Date</li>
-                            <li style={{ width: tourlogo_w }}>logo</li>
-                            <li style={{ width: tourtitle_w }}>Tournament</li>
-                            <li style={{ width: location_w }}>Location</li>
-                            <li style={{ width: info_w }}>Info</li>
-                        </ul>
-                    </TitleDiv>
-                    <TourListUL>
-                        <TourLi>
-                            <div>
-                                <img src={icon} alt="" />
-                            </div>
-                            <span>2020.03.15-03.20</span>
-                            <div>
-                                <img src={icon} alt="" />
-                            </div>
-                            <span>ESLOne洛杉磯Major</span>
-                            <span>美國洛杉磯</span>
-                            <div>
-                                <img src={icon} alt="" />
-                            </div>
-                        </TourLi>
-                        <TourLi>
-                            <div>
-                                <img src={icon} alt="" />
-                            </div>
-                            <span>2020.03.15-03.20</span>
-                            <div>
-                                <img src={icon} alt="" />
-                            </div>
-                            <span>Dota Pro Circuit 2021: Season 2 - China Upper Division</span>
-                            <span>美國洛杉磯</span>
-                            <div>
-                                <img src={icon} alt="" />
-                            </div>
-                        </TourLi>
-                        <TourLi>
-                            <div>
-                                <img src={icon} alt="" />
-                            </div>
-                            <span>2020.03.15-03.20</span>
-                            <div>
-                                <img src={icon} alt="" />
-                            </div>
-                            <span>ESLOne洛杉磯Major</span>
-                            <span>美國洛杉磯</span>
-                            <div>
-                                <img src={icon} alt="" />
-                            </div>
-                        </TourLi>
-                    </TourListUL>
-                </OngoingBoardDiv>
-            </OngoingWrap>
-        </Wrap>
-    )
-}
+      {!mobileBrowser ? (
+        <>
+          <Ongoing
+            ref={ongoingRef}
+            ongoingAndUpcomingTitle={ongoingAndUpcomingTitle}
+            ongoingTours={ongoingTours}
+            userTour={userTour}
+            handleFavoriteTour={handleFavoriteTour}
+            checkFavorite={checkFavorite}
+          />
+          <Upcoming
+            ref={upcomingRef}
+            ongoingAndUpcomingTitle={ongoingAndUpcomingTitle}
+            upcomingTours={upcomingTours}
+            userTour={userTour}
+            handleFavoriteTour={handleFavoriteTour}
+            checkFavorite={checkFavorite}
+          />
+          <Recent ref={recentRef} recentTours={recentTours} />
+        </>
+      ) : (
+        <MobileAllWrap>
+          <Ongoing
+            mobileStateSelect={mobileStateSelect}
+            ongoingAndUpcomingTitle={ongoingAndUpcomingTitle}
+            ongoingTours={ongoingTours}
+            userTour={userTour}
+            handleFavoriteTour={handleFavoriteTour}
+            checkFavorite={checkFavorite}
+          />
+          <Upcoming
+            mobileStateSelect={mobileStateSelect}
+            ongoingAndUpcomingTitle={ongoingAndUpcomingTitle}
+            upcomingTours={upcomingTours}
+            userTour={userTour}
+            handleFavoriteTour={handleFavoriteTour}
+            checkFavorite={checkFavorite}
+          />
+          <Recent mobileStateSelect={mobileStateSelect} recentTours={recentTours} />
+        </MobileAllWrap>
+      )}
+    </Wrap>
+  );
+};
 
 export default AllTours;

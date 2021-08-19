@@ -1,5 +1,4 @@
-import { createGlobalStyle } from "styled-components";
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 export const primary = 'rgb(168,73,237)';
 export const secondary = 'rgb(34,14,49)';
@@ -7,6 +6,8 @@ export const fontGrey = 'rgb(173,173,173)';
 export const fontWhite = '#fff';
 export const fontWaring = 'red';
 export const fontYellow = 'rgb(255,227,70)';
+
+const innerH = window.innerHeight;
 
 export const ResetStyle = createGlobalStyle`
     html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
@@ -73,6 +74,9 @@ export const ResetStyle = createGlobalStyle`
     a {
     text-decoration: none;
     cursor: pointer;
+        :link, :visited{
+            color:inherit;
+        }
     }
     button {
     padding: 0;
@@ -82,33 +86,52 @@ export const ResetStyle = createGlobalStyle`
     }
 `;
 
-
 export const GlobalStyle = createGlobalStyle`
-    p{
+    p {
         font-size: 16px;
     }
 
     background:rgb(58,45,96);
-
-  
 `;
 
 export const Wrap = styled.div`
-    min-width:1200px;
-    min-height:800px;
-    color:${fontGrey};
-    background:transparent linear-gradient(180deg, rgba(7, 0, 28, 1) 0%, rgba(24, 15, 51, 1) 34%, rgba(58, 45, 96, 1) 100%) 0% 0% no-repeat padding-box;
-    margin:0 auto;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    padding-top:120px;
+  min-width: 1200px;
+  min-height: calc(${innerH}px - 56px);
+  color: ${fontGrey};
+  background: transparent
+    linear-gradient(180deg, rgba(7, 0, 28, 1) 0%, rgba(24, 15, 51, 1) 34%, rgba(58, 45, 96, 1) 100%)
+    0% 0% no-repeat padding-box;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 120px;
+  padding-bottom: 100px;
 
-    @media (max-width:1199px) {
-        min-width:700px;
-    }
+  @media (max-width: 1199px) {
+    min-width: 700px;
+  }
 
-    @media (max-width:699px) and (min-width:360px){
-        min-width:360px;
+  @media (max-width: 699px) and (min-width: 360px) {
+    min-width: 360px;
+  }
+`;
+
+export const Loader = styled.div`
+  border: 12px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 12px solid ${primary};
+  width: 80px;
+  height: 80px;
+
+  animation: spin 2s linear infinite;
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
     }
-`
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
