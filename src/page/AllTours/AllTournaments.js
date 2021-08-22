@@ -60,7 +60,6 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
   const recentRef = useRef();
 
   const switchArea = (block) => {
-    console.log(showArea);
     switch (block) {
       case 'ongoing':
         setShowArea({ ongoing: true, upcoming: false, recent: false });

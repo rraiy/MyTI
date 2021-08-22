@@ -41,7 +41,6 @@ const Navibar = ({ showLoginPopup, isSigned, user, signOut, userTeamLogo }) => {
 
   useEffect(() => {
     setBrowserHeight(document.body.scrollHeight);
-    console.log(userTeamLogo);
   }, []);
 
   return (

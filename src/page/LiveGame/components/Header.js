@@ -4,7 +4,10 @@ import { Wrap, TitleDiv, P, Logo, H1, TourButton, TourI } from './css/HeaderSty'
 import dotaLogo from '../../../images/dota2_logo.png';
 import tourIcon from '../../../images/icon/tour.png';
 
+const test123 = '123';
+
 const Header = () => {
+  console.log(test123);
   return (
     <Wrap>
       <TitleDiv>

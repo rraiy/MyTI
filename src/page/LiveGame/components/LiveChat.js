@@ -33,6 +33,8 @@ const channelDefault = {
   huya: 'none',
 };
 
+const test123 = '456';
+
 const LiveChat = ({ isSigned, user, userTeamLogo }) => {
   const [allMessages, setAllMessages] = useState([]);
   const [newMessage, setNewMessage] = useState({
@@ -70,6 +72,7 @@ const LiveChat = ({ isSigned, user, userTeamLogo }) => {
     }
   };
 
+  console.log(test123);
   const updateChatMes = () => {
     const texts = [];
     db.collection(dbChatRoomPath)
