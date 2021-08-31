@@ -4,12 +4,10 @@ import { db } from '../../firebase/firestore';
 import Ongoing from './components/Ongoing';
 import Upcoming from './components/Upcoming';
 import Recent from './components/Recent';
-import { Loader } from '../../public_component/globalStyle';
 import {
   Wrap,
   StateUL,
   StateLi,
-  markWidth,
   dateWidth,
   tourTitleWidth,
   locationWidth,
@@ -45,7 +43,7 @@ const ongoingAndUpcomingTitle = () => {
   );
 };
 
-const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
+const AllTours = ({ userTour, userToken, isSigned, showLoginPopup }) => {
   const [allTours, setAllTours] = useState(null);
   const [ongoingTours, setOngoingTours] = useState(null);
   const [upcomingTours, setUpcomingTours] = useState(null);
@@ -75,7 +73,8 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
   };
 
   const handleClickArea = (area) => {
-    area.current.getBoundingClientRect().top = 105;
+    const section = area;
+    section.current.getBoundingClientRect().top = 105;
   };
 
   const checkScrollArea = () => {
@@ -128,7 +127,6 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
         .get()
         .then((res) => res.data().user_tour)
         .then((hadTours) => {
-          // console.log(hadTours);
           if (hadTours === '') {
             return 0;
           }
@@ -232,7 +230,9 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener('scroll', checkScrollArea);
+    if (mobileBrowser) {
+      window.addEventListener('scroll', checkScrollArea);
+    }
 
     return () => {
       window.removeEventListener('scroll', checkScrollArea);
@@ -261,7 +261,7 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
             collected.
           </p>
           <p>
-            The special event pages make you dismissing your favorite tours. You can add tour's
+            The special event pages make you dismissing your favorite tours. You can add tour&apos;s
             dates to your own custom calendar by click the favorite button (the star), remove it
             just by the same action.
           </p>
@@ -280,18 +280,20 @@ const AllTours = ({ user, userTour, userToken, isSigned, showLoginPopup }) => {
       </StateUL>
 
       <MobileStateMenuWrap>
-        <label htmlFor="states">Choose a State：</label>
-        <select
-          name="states"
-          id="states"
-          defaultValue="all"
-          onChange={(e) => handleMobileSelect(e)}
-        >
-          <option value="ongoing">Ongoing</option>
-          <option value="upcoming">Upcoming</option>
-          <option value="recent">Recent</option>
-          <option value="all">All</option>
-        </select>
+        <label htmlFor="states">
+          Choose a State：
+          <select
+            name="states"
+            id="states"
+            defaultValue="all"
+            onChange={(e) => handleMobileSelect(e)}
+          >
+            <option value="ongoing">Ongoing</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="recent">Recent</option>
+            <option value="all">All</option>
+          </select>
+        </label>
       </MobileStateMenuWrap>
 
       {!mobileBrowser ? (

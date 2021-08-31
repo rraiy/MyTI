@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { db, storage } from './firebase/firestore';
-import { Loader } from './public_component/globalStyle';
+import { db } from './firebase/firestore';
+import { ResetStyle, GlobalStyle } from './public_component/globalStyle';
 import HomePage from './page/HomePage/HomePage';
 import Navibar from './page/Navibar/Navibar';
 import RegisterPopup from './page/Navibar/RegisterPopup';
@@ -13,25 +13,17 @@ import AllTours from './page/AllTours/AllTournaments';
 import OneTour from './page/OneTour/OneTour';
 import Member from './page/Member/Member';
 import Footer from './page/Footer/Footer';
-import { ResetStyle, GlobalStyle } from './public_component/globalStyle';
-import { getAllIconStorageUrl, getAllTeamStorageUrl } from './utils/storageUrl';
 
 const App = () => {
-  // console.log('App最頂')
   const [isChecking, setChecking] = useState(false);
   const [isSigned, setIsSigned] = useState(false);
   const [user, setUser] = useState(null);
   const [userToken, setUserToken] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
-  const [userPassword, setUserPassword] = useState(null);
   const [userTeam, setUserTeam] = useState(null);
   const [userTeamLogo, setUserTeamLogo] = useState(null);
   const [userTour, setUserTour] = useState(null);
   const [userBirth, setUserBirth] = useState(null);
-
-  // storage fetch data
-  const [icons, setIcons] = useState(null);
-  const [teamLogos, setTeamLogos] = useState(null);
 
   // open login register popup
   const [loginPopup, setLoginPopup] = useState(false);
@@ -87,7 +79,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    // bug 監聽寫裡面不知道怎麼取消
+    // need fix bug cant cancel listen
     firebase.auth().onAuthStateChanged((loginUser) => {
       if (loginUser) {
         db.collection('member')
@@ -110,8 +102,6 @@ const App = () => {
         setChecking(false);
       }
     });
-    setIcons(getAllIconStorageUrl());
-    setTeamLogos(getAllTeamStorageUrl());
   }, []);
 
   // if (isChecking) {

@@ -1,8 +1,6 @@
 import React from 'react';
 import { FooterWrap } from './FooterSty';
 
-const text = {};
-
 const Footer = () => {
   return (
     <FooterWrap>

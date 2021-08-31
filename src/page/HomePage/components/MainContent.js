@@ -23,9 +23,7 @@ import {
   ResultTourTitle,
   ResultBattleData,
   RankInfoPopWrap,
-  TourImgDiv,
 } from '../css/MainContentSty';
-import Weplay from '../../../images/tours/weplay.png';
 import CrownI from '../../../images/icon/crown.png';
 import Logo from '../../../images/game/Weplay_animajor_icon.png';
 import InformationI from '../../../images/icon/information.png';
@@ -96,9 +94,9 @@ const MainContent = ({ hideRedBottomLine }) => {
             </HotTourWrap>
           ) : (
             <ResultsWrap>
-              {mockData.map((d, i) => {
+              {mockData.map((d) => {
                 return (
-                  <ResultItem key={i}>
+                  <ResultItem key={d}>
                     <ResultDateDiv>
                       <p>2021-01-01</p>
                       <p>17:00</p>
