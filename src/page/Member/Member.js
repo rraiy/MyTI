@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, Link, useRouteMatch } from 'react-router-dom';
 import AccountSetting from './components/AccountSetting';
@@ -40,8 +38,6 @@ const Member = ({
   teamLogos,
 }) => {
   const { path, url } = useRouteMatch();
-  const [isLoading, setLoading] = useState(true);
-  const [activeArea, setActiveArea] = useState('calendar');
   const [AreaSwitch, setAreaSwitch] = useState({
     account: false,
     teams: false,
@@ -50,7 +46,6 @@ const Member = ({
 
   const checkArea = () => {
     const currentArea = window.location.pathname.split('/')[2];
-    setActiveArea(currentArea);
     switch (currentArea) {
       case 'accountsetting':
         setAreaSwitch({ account: true, teams: false, calendar: false });
@@ -66,24 +61,24 @@ const Member = ({
   useEffect(() => {
     checkArea();
 
-    window.addEventListener('popstate', function () {
+    window.addEventListener('popstate', () => {
       checkArea();
     });
-    window.addEventListener('replaceState', function () {
+    window.addEventListener('replaceState', () => {
       checkArea();
     });
-    window.addEventListener('pushState', function () {
+    window.addEventListener('pushState', () => {
       checkArea();
     });
 
     return function cleanup() {
-      window.removeEventListener('popstate', function () {
+      window.removeEventListener('popstate', () => {
         checkArea();
       });
-      window.removeEventListener('replaceState', function () {
+      window.removeEventListener('replaceState', () => {
         checkArea();
       });
-      window.removeEventListener('pushState', function () {
+      window.removeEventListener('pushState', () => {
         checkArea();
       });
     };

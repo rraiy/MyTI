@@ -12,11 +12,9 @@ import {
   Label,
   Input,
   RegisterBtn,
-  SeparateDiv,
-  RegisterGoogleBtn,
 } from './css/RegisterPopupSty';
 
-const RegisterPopup = ({ closePopup, checkLogin, signOut, switchPopup }) => {
+const RegisterPopup = ({ closePopup, checkLogin, switchPopup }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

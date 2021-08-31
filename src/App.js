@@ -15,7 +15,7 @@ import Member from './page/Member/Member';
 import Footer from './page/Footer/Footer';
 
 const App = () => {
-  const [isChecking, setChecking] = useState(false);
+  const [isChecking, setChecking] = useState(true);
   const [isSigned, setIsSigned] = useState(false);
   const [user, setUser] = useState(null);
   const [userToken, setUserToken] = useState(null);
@@ -104,77 +104,78 @@ const App = () => {
     });
   }, []);
 
-  // if (isChecking) {
-  //   return <div> Loading...</div>;
-  // }
-
   return (
     <Router>
       <ResetStyle />
       <GlobalStyle />
-
-      <Navibar
-        showLoginPopup={showLoginPopup}
-        isSigned={isSigned}
-        user={user}
-        signOut={signOut}
-        userTeamLogo={userTeamLogo}
-      />
-      {loginPopup ? (
-        <LoginPopup
-          closePopup={closePopup}
-          checkLogin={checkLogin}
-          signOut={signOut}
-          switchPopup={switchPopup}
-        />
-      ) : null}
-      {registerPopup ? (
-        <RegisterPopup
-          closePopup={closePopup}
-          checkLogin={checkLogin}
-          signOut={signOut}
-          switchPopup={switchPopup}
-        />
-      ) : null}
-      <Switch>
-        <Route path="/" exact>
-          <HomePage isSigned={isSigned} user={user} />
-        </Route>
-
-        <Route path="/tour" exact>
-          <OneTour isSigned={isSigned} user={user} />
-        </Route>
-
-        <Route path="/tournaments">
-          <AllTours
-            isSigned={isSigned}
-            user={user}
-            userTour={userTour}
-            userToken={userToken}
+      {isChecking ? (
+        <div> Loading...</div>
+      ) : (
+        <>
+          <Navibar
             showLoginPopup={showLoginPopup}
-          />
-        </Route>
-
-        <Route path="/stream">
-          <LiveGame isSigned={isSigned} user={user} userTeamLogo={userTeamLogo} />
-        </Route>
-
-        <Route path="/member">
-          <Member
             isSigned={isSigned}
             user={user}
-            userToken={userToken}
-            userEmail={userEmail}
-            userTeam={userTeam}
-            userTour={userTour}
-            userBirth={userBirth}
-            // teamLogos={teamLogos}
+            signOut={signOut}
             userTeamLogo={userTeamLogo}
           />
-        </Route>
-      </Switch>
+          {loginPopup ? (
+            <LoginPopup
+              closePopup={closePopup}
+              checkLogin={checkLogin}
+              signOut={signOut}
+              switchPopup={switchPopup}
+            />
+          ) : null}
+          {registerPopup ? (
+            <RegisterPopup
+              closePopup={closePopup}
+              checkLogin={checkLogin}
+              signOut={signOut}
+              switchPopup={switchPopup}
+            />
+          ) : null}
+          <Switch>
+            <Route path="/" exact>
+              <HomePage isSigned={isSigned} user={user} />
+            </Route>
 
-      <Footer />
+            <Route path="/tour" exact>
+              <OneTour isSigned={isSigned} user={user} />
+            </Route>
+
+            <Route path="/tournaments">
+              <AllTours
+                isSigned={isSigned}
+                user={user}
+                userTour={userTour}
+                userToken={userToken}
+                showLoginPopup={showLoginPopup}
+              />
+            </Route>
+
+            <Route path="/stream">
+              <LiveGame isSigned={isSigned} user={user} userTeamLogo={userTeamLogo} />
+            </Route>
+
+            <Route path="/member">
+              <Member
+                isSigned={isSigned}
+                user={user}
+                userToken={userToken}
+                userEmail={userEmail}
+                userTeam={userTeam}
+                userTour={userTour}
+                userBirth={userBirth}
+                // teamLogos={teamLogos}
+                userTeamLogo={userTeamLogo}
+              />
+            </Route>
+          </Switch>
+
+          <Footer />
+        </>
+      )}
     </Router>
   );
 };

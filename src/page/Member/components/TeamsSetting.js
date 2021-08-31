@@ -1,7 +1,7 @@
 // TeamsSetting.js
 
 import React, { useState, useEffect } from 'react';
-import { db, storage } from '../../../firebase/firestore';
+import { db } from '../../../firebase/firestore';
 import {
   TeamsSettingWrap,
   FavoriteWrap,

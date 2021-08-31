@@ -7,7 +7,6 @@ import {
   LogoDiv,
   PageUL,
   SearchRegisterWrap,
-  SearchInput,
   Button,
   MenuI,
   MenuUl,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import firebase from 'firebase/app';
 import { Link } from 'react-router-dom';
-import { db, storage } from '../../../firebase/firestore';
+import { db } from '../../../firebase/firestore';
 import useCalendar from '../../../hooks/useCalendar';
 import {
   UserCalendarWrap,
